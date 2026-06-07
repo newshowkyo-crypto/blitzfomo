@@ -1,0 +1,33 @@
+# docker/Dockerfile.admin
+# Blitz Finale Admin (React + Vite)
+
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+COPY apps/admin/package.json ./apps/admin/
+
+# Create directories for optional packages (actual code is copied later via volume in dev)
+RUN mkdir -p ./apps/admin ./packages/shared
+
+RUN npm install --legacy-peer-deps
+
+COPY . .
+
+RUN cd apps/admin && npm run build
+
+# ============================================
+# 生产静态服务器（Nginx 模式更推荐，此处用 node 简单 serve）
+# ============================================
+FROM node:20-alpine
+
+WORKDIR /app
+
+RUN npm install -g serve
+
+COPY --from=builder /app/apps/admin/dist ./dist
+
+EXPOSE 5174
+
+CMD ["serve", "-s", "dist", "-l", "5174"]

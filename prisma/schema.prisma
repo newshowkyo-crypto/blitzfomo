@@ -1,0 +1,763 @@
+// prisma/schema.prisma
+// Blitz Finale World Cup 2026 Edition
+// 严格按照 TDD + CODEX_TASK 设计
+// 所有金额字段统一使用 BigInt（最小单位：1 = 0.01 BF/USDT）
+// 任何余额变更必须通过 ledger 表 + applyLedger 服务
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// 用户与资金核心
+// ============================================================
+
+model User {
+  id            String   @id @default(cuid())
+  walletAddress String   @unique @map("wallet_address") // 仅用于签名登录身份
+  nickname      String?
+  avatarUrl     String?  @map("avatar_url")
+
+  balance       BigInt   @default(0) @map("balance")     // 视图缓存，始终 = ledger 聚合
+  totalPurchased BigInt  @default(0) @map("total_purchased")
+  totalWon      BigInt   @default(0) @map("total_won")
+
+  isFrozen      Boolean  @default(false) @map("is_frozen")
+  frozenReason  String?  @map("frozen_reason")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  purchases     Purchase[]
+  ledgers       Ledger[]
+  withdrawals   Withdrawal[]
+  payments      Payment[]
+  roadHoldings  RoadKeyHolding[]
+  roadPurchases RoadPurchase[]
+  roadDividends RoadDividend[]
+  roadCommissionsAsInviter RoadReferralCommission[] @relation("RoadCommissionInviter")
+  roadCommissionsAsReferred RoadReferralCommission[] @relation("RoadCommissionReferred")
+  roadKols      RoadKol[]
+
+  @@map("users")
+}
+
+// 不可变资金流水（双账本核心）
+model Ledger {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id])
+
+  // 业务关联
+  roundId       String?  @map("round_id")
+  round         Round?   @relation(fields: [roundId], references: [id])
+  purchaseId    String?  @map("purchase_id")
+  purchase      Purchase? @relation(fields: [purchaseId], references: [id])
+  paymentId     String?  @map("payment_id")
+  payment       Payment? @relation(fields: [paymentId], references: [id])
+  withdrawalId  String?  @map("withdrawal_id")
+  withdrawal    Withdrawal? @relation(fields: [withdrawalId], references: [id])
+
+  // 资金变动
+  type          LedgerType
+  amount        BigInt   // 正数=增加，负数=减少（最小单位）
+  balanceBefore BigInt   @map("balance_before")
+  balanceAfter  BigInt   @map("balance_after")
+
+  // 描述与审计
+  description   String
+  meta          Json?    // 额外上下文（风控原因、操作人等）
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([userId, createdAt])
+  @@index([roundId])
+  @@index([type])
+  @@map("ledger")
+}
+
+enum LedgerType {
+  RECHARGE          // 充值到账
+  PURCHASE          // 购买扣款
+  WIN               // 中奖到账
+  WITHDRAW_FROZEN   // 提现冻结（负）
+  WITHDRAW_REFUND   // 提现拒绝退款（正）
+  MANUAL_ADJUST     // 后台手动调整（仅 super_admin）
+  PLATFORM_FEE      // 平台抽成（正，平台账户）
+  BOT_COMPENSATION  // 机器人补偿（极少用）
+}
+
+// ============================================================
+// 游戏轮次与购买
+// ============================================================
+
+model Round {
+  id            String   @id @default(cuid())
+  roundNumber   Int      @unique @map("round_number") // 自增轮次号
+
+  prizePool     BigInt   @map("prize_pool")           // 当前奖池（累计购买）
+  initialPool   BigInt   @map("initial_pool")         // 本轮初始奖池（来自 game_config）
+  winnerAmount  BigInt?  @map("winner_amount")        // 实际发给赢家的 70%
+  platformFee   BigInt?  @map("platform_fee")         // 平台 30%
+
+  status        RoundStatus @default(OPEN)
+  startedAt     DateTime @map("started_at")
+  deadlineAt    DateTime @map("deadline_at")
+  settledAt     DateTime? @map("settled_at")
+
+  lastBuyerUserId String? @map("last_buyer_user_id")
+  lastBuyerNickname String? @map("last_buyer_nickname")
+
+  winnerUserId  String?  @map("winner_user_id")
+  winnerNickname String? @map("winner_nickname")
+
+  isBotWinner   Boolean  @default(false) @map("is_bot_winner") // 机器人中奖不真实发奖
+
+  purchases     Purchase[]
+  ledgers       Ledger[]
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([status, deadlineAt])
+  @@map("rounds")
+}
+
+enum RoundStatus {
+  OPEN
+  SETTLING
+  SETTLED
+  CANCELLED
+}
+
+model Purchase {
+  id            String   @id @default(cuid())
+  roundId       String   @map("round_id")
+  round         Round    @relation(fields: [roundId], references: [id])
+
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id])
+
+  amount        BigInt   // 购买金额（最小单位）
+  isBot         Boolean  @default(false) @map("is_bot")
+
+  // 幂等与审计
+  idempotencyKey String? @unique @map("idempotency_key")
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+
+  ledgers       Ledger[]
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([roundId, createdAt])
+  @@index([userId])
+  @@map("purchases")
+}
+
+// ============================================================
+// 配置（单例表 + 缓存）
+// ============================================================
+
+// 游戏核心参数（后台可实时修改）
+model GameConfig {
+  id                    Int      @id @default(1) // 单例，永远只有 1 条
+
+  bfToUsdtRate          Int      @default(100) @map("bf_to_usdt_rate") // 1 BF = 100 USDT 最小单位（即 1:1）
+  initialPrizePool      BigInt   @map("initial_prize_pool")            // 初始奖池（bigint）
+  winnerPercent         Int      @default(70) @map("winner_percent")   // 70
+  platformPercent       Int      @default(30) @map("platform_percent") // 30
+  countdownSeconds      Int      @default(60) @map("countdown_seconds")
+  minBuyAmount          BigInt   @map("min_buy_amount")
+
+  // 前台赛事地图/赛程图（后台可配置图片 URL；为空时前台使用本地默认占位图）
+  tournamentMapUrl      String?  @map("tournament_map_url")
+
+  // 支付网关切换
+  activePaymentGateway  String   @default("mock") @map("active_payment_gateway") // mock | stripe | fireblocks ...
+
+  // 机器人相关
+  botEnabled            Boolean  @default(true) @map("bot_enabled")
+  botPurchaseIntervalMs Int      @default(8000) @map("bot_purchase_interval_ms")
+  botMinAmount          BigInt   @map("bot_min_amount")
+  botMaxAmount          BigInt   @map("bot_max_amount")
+
+  updatedByAdminId      String?  @map("updated_by_admin_id")
+  updatedAt             DateTime @updatedAt @map("updated_at")
+
+  @@map("game_config")
+}
+
+// 风控参数（单例）
+model RiskConfig {
+  id                      Int     @id @default(1)
+
+  // 提现风控
+  withdrawMinAmount       BigInt  @map("withdraw_min_amount")
+  withdrawMaxAmountDaily  BigInt  @map("withdraw_max_amount_daily")
+  withdrawRequirePurchaseCount Int @map("withdraw_require_purchase_count") // 至少购买 N 次才允许提现
+  withdrawCooldownHours   Int     @map("withdraw_cooldown_hours")           // 两次提现间隔
+
+  // 购买风控
+  purchaseMaxAmountPerTx  BigInt  @map("purchase_max_amount_per_tx")
+  purchaseRateLimitPerMin Int     @map("purchase_rate_limit_per_min")
+
+  // 大额告警
+  largeAmountThreshold    BigInt  @map("large_amount_threshold")
+
+  updatedByAdminId        String? @map("updated_by_admin_id")
+  updatedAt               DateTime @updatedAt @map("updated_at")
+
+  @@map("risk_config")
+}
+
+// ============================================================
+// 支付与提现
+// ============================================================
+
+model Payment {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id])
+
+  gateway       String   // mock / real gateway name
+  gatewayOrderId String? @map("gateway_order_id") // 网关返回的订单号
+  amountUsdt    BigInt   @map("amount_usdt")
+
+  status        PaymentStatus @default(PENDING)
+  paidAt        DateTime? @map("paid_at")
+
+  // 回调验签与幂等
+  callbackRaw   Json?    @map("callback_raw")
+  idempotencyKey String? @unique @map("idempotency_key")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  ledgers       Ledger[]
+
+  @@index([userId, status])
+  @@map("payments")
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Withdrawal {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  user          User     @relation(fields: [userId], references: [id])
+
+  amountUsdt    BigInt   @map("amount_usdt")
+  toAddress     String   @map("to_address")
+  chain         String   @default("TON") // 或 TRC20 / ERC20 等
+
+  status        WithdrawalStatus @default(REQUESTED)
+
+  riskScore     Int      @default(0) @map("risk_score")
+  riskReason    String?  @map("risk_reason")
+
+  reviewedByAdminId String? @map("reviewed_by_admin_id")
+  reviewedAt    DateTime? @map("reviewed_at")
+  paidAt        DateTime? @map("paid_at")
+  paidRemark    String?  @map("paid_remark") // 人工打款备注/凭证
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  ledgers       Ledger[]
+
+  @@index([userId, status])
+  @@index([status, createdAt])
+  @@map("withdrawals")
+}
+
+enum WithdrawalStatus {
+  REQUESTED
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+  PAID
+  FAILED
+}
+
+// ============================================================
+// 管理员与权限
+// ============================================================
+
+model Admin {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  passwordHash  String   @map("password_hash")
+
+  role          AdminRole @default(OPERATOR)
+  isActive      Boolean  @default(true) @map("is_active")
+
+  lastLoginAt   DateTime? @map("last_login_at")
+  lastLoginIp   String?  @map("last_login_ip")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  auditLogs     AdminAuditLog[]
+  sponsorLedgers SponsorLedger[]
+
+  @@map("admins")
+}
+
+enum AdminRole {
+  SUPER_ADMIN   // 拥有全部权限
+  OPERATOR      // 日常运营（禁止支付密钥、风控配置、手动改余额）
+}
+
+model AdminAuditLog {
+  id            String   @id @default(cuid())
+  adminId       String   @map("admin_id")
+  admin         Admin    @relation(fields: [adminId], references: [id])
+
+  action        String   // e.g. "game_config:update", "withdraw:approve", "user:adjust_balance"
+  targetType    String?  @map("target_type") // user / withdrawal / config ...
+  targetId      String?  @map("target_id")
+
+  before        Json?
+  after         Json?
+
+  ipAddress     String?  @map("ip_address")
+  userAgent     String?  @map("user_agent")
+
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([adminId, createdAt])
+  @@index([action])
+  @@map("admin_audit_log")
+}
+
+// ============================================================
+// 多语言与系统
+// ============================================================
+
+model Locale {
+  id            String   @id @default(cuid())
+  lang          String   @unique // en / es / pt / tr / cn
+  isDefault     Boolean  @default(false) @map("is_default")
+  content       Json     // 扁平 key-value
+  updatedAt     DateTime @updatedAt @map("updated_at")
+
+  @@map("locales")
+}
+
+// 系统日志（结构化，便于查询和导出）
+model SystemLog {
+  id            String   @id @default(cuid())
+  level         String   // info / warn / error
+  module        String
+  message       String
+  meta          Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@index([level, createdAt])
+  @@map("system_logs")
+}
+
+// ============================================================
+// Road to Champion (V3)
+// ============================================================
+
+model Team {
+  id              String   @id @default(cuid())
+  code            String   @unique
+  name            String
+  flagUrl         String?
+  groupCode       String?
+  strengthFactor  Decimal  @default(1.0) @db.Decimal(10, 4)
+  impliedTop32    Decimal? @db.Decimal(10, 6)
+  impliedTop16    Decimal? @db.Decimal(10, 6)
+  impliedTop8     Decimal? @db.Decimal(10, 6)
+  impliedTop4     Decimal? @db.Decimal(10, 6)
+  impliedFinal    Decimal? @db.Decimal(10, 6)
+  impliedChampion Decimal? @db.Decimal(10, 6)
+  status          TeamStatus @default(ACTIVE)
+  currentStage    RoadStage  @default(GROUP)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  pools           RoadPool[]
+
+  @@map("teams")
+}
+
+model RoadPool {
+  id                 String   @id @default(cuid())
+  teamId             String
+  stage              RoadStage
+  status             PoolStatus @default(OPEN)
+  basePrice          BigInt
+  currentPrice       BigInt
+  soldKeys           Decimal @default(0) @db.Decimal(36, 18)
+  totalPurchases     BigInt  @default(0)
+  prizePool          BigInt  @default(0)
+  dividendPaid       BigInt  @default(0)
+  superPoolContrib   BigInt  @default(0)
+  reserveContrib     BigInt  @default(0)
+  sponsorAmount      BigInt  @default(0)
+  sponsorBudgetLimit BigInt  @default(0)
+  openAt             DateTime?
+  closeAt            DateTime?
+  settledAt          DateTime?
+  params             Json?
+  team               Team @relation(fields: [teamId], references: [id])
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  holdings           RoadKeyHolding[]
+  purchases          RoadPurchase[]
+  dividends          RoadDividend[]
+  sponsorLedgers     SponsorLedger[]
+  treasuryLedgers    RoadTreasuryLedger[]
+
+  @@unique([teamId, stage])
+  @@index([status, stage])
+  @@map("road_pools")
+}
+
+model RoadKeyHolding {
+  id            String   @id @default(cuid())
+  userId        String
+  poolId        String
+  keyAmount     Decimal @default(0) @db.Decimal(36, 18)
+  costAmount    BigInt
+  avgEntryPrice BigInt
+  genesisBoost  Decimal @default(1.0) @db.Decimal(10, 4)
+  pendingReward BigInt  @default(0)
+  releasedReward BigInt @default(0)
+  status        HoldingStatus @default(ACTIVE)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id])
+  pool          RoadPool @relation(fields: [poolId], references: [id])
+
+  @@unique([userId, poolId])
+  @@index([poolId, status])
+  @@map("road_key_holdings")
+}
+
+model RoadPurchase {
+  id             String   @id @default(cuid())
+  userId         String
+  poolId         String
+  amount         BigInt
+  keyAmount      Decimal @db.Decimal(36, 18)
+  priceSnapshot  BigInt
+  houseFee       BigInt
+  prizePart      BigInt
+  dividendPart   BigInt
+  superPart      BigInt
+  reinvestPart   BigInt
+  agentPart      BigInt
+  reservePart    BigInt
+  referralCode   String?
+  idempotencyKey String? @unique
+  createdAt      DateTime @default(now())
+
+  user           User     @relation(fields: [userId], references: [id])
+  pool           RoadPool @relation(fields: [poolId], references: [id])
+  dividends      RoadDividend[]
+  treasuryLedgers RoadTreasuryLedger[]
+  referralCommission RoadReferralCommission?
+
+  @@index([poolId, createdAt])
+  @@index([userId, createdAt])
+  @@map("road_purchases")
+}
+
+model RoadDividend {
+  id           String   @id @default(cuid())
+  source       RoadDividendSource @default(PURCHASE)
+  purchaseId   String?
+  poolId       String
+  userId       String
+  amount       BigInt
+  weight       Decimal @db.Decimal(36, 18)
+  status       RewardStatus @default(PENDING_RELEASE)
+  releaseAt    DateTime?
+  createdAt    DateTime @default(now())
+
+  purchase     RoadPurchase? @relation(fields: [purchaseId], references: [id])
+  pool         RoadPool      @relation(fields: [poolId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
+  treasuryLedgers RoadTreasuryLedger[]
+
+  @@index([userId, status])
+  @@index([poolId])
+  @@map("road_dividends")
+}
+
+model SuperJackpot {
+  id         String @id @default(cuid())
+  seasonCode String @unique
+  amount     BigInt @default(0)
+  status     JackpotStatus @default(ACTIVE)
+  updatedAt  DateTime @updatedAt
+
+  @@map("super_jackpot")
+}
+
+model SponsorLedger {
+  id         String @id @default(cuid())
+  poolId     String
+  amount     BigInt
+  source     SponsorSource @default(OFFICIAL)
+  operatorId String?
+  reference  String? @unique
+  note       String?
+  createdAt  DateTime @default(now())
+
+  pool       RoadPool @relation(fields: [poolId], references: [id])
+  operator   Admin?   @relation(fields: [operatorId], references: [id])
+  treasuryLedgers RoadTreasuryLedger[]
+
+  @@index([poolId, createdAt])
+  @@map("sponsor_ledger")
+}
+
+model RoadTreasuryLedger {
+  id             String @id @default(cuid())
+  seasonCode     String
+  eventType      RoadTreasuryEventType
+  eventId        String
+  entryKey       String
+  bucket         RoadTreasuryBucket
+  amount         BigInt
+  poolId         String?
+  purchaseId     String?
+  sponsorLedgerId String?
+  dividendId     String?
+  meta           Json?
+  createdAt      DateTime @default(now())
+
+  pool           RoadPool?      @relation(fields: [poolId], references: [id])
+  purchase       RoadPurchase?  @relation(fields: [purchaseId], references: [id])
+  sponsorLedger  SponsorLedger? @relation(fields: [sponsorLedgerId], references: [id])
+  dividend       RoadDividend?  @relation(fields: [dividendId], references: [id])
+
+  @@unique([eventType, eventId, entryKey])
+  @@index([seasonCode, bucket])
+  @@index([poolId])
+  @@map("road_treasury_ledger")
+}
+
+enum RoadEconomyMode {
+  COLD_START
+  NORMAL_GROWTH
+  KNOCKOUT_FOMO
+  FINAL_RUSH
+}
+
+model RoadConfig {
+  id                      Int                 @id @default(1)
+  seasonCode              String              @unique @map("season_code")
+  
+  // Economy Mode
+  economyMode             RoadEconomyMode     @default(NORMAL_GROWTH) @map("economy_mode")
+  
+  // House Fee Settings
+  baseHouseFeeBps         Int                 @default(600) @map("base_house_fee_bps")
+  minHouseFeeBps          Int                 @default(500) @map("min_house_fee_bps")
+  maxHouseFeeBps          Int                 @default(2000) @map("max_house_fee_bps")
+  
+  // Dividend Settings
+  baseDividendBps         Int                 @default(2800) @map("base_dividend_bps")
+  minDividendBps          Int                 @default(600) @map("min_dividend_bps")
+  maxDividendBps          Int                 @default(3200) @map("max_dividend_bps")
+  
+  // Fund Allocation Base
+  prizeBps                Int                 @default(3200) @map("prize_bps")
+  superBps                Int                 @default(1500) @map("super_bps")
+  reinvestBps             Int                 @default(1000) @map("reinvest_bps")
+  agentBps                Int                 @default(1000) @map("agent_bps")
+  reserveBps              Int                 @default(500) @map("reserve_bps")
+  
+  // Dynamic Range Limits
+  minSuperBps             Int                 @default(1000) @map("min_super_bps")
+  maxSuperBps             Int                 @default(4500) @map("max_super_bps")
+  minReserveBps           Int                 @default(500) @map("min_reserve_bps")
+  maxReserveBps           Int                 @default(1800) @map("max_reserve_bps")
+  
+  // Special Allocation
+  dailyRushBps            Int                 @default(200) @map("daily_rush_bps")
+  megaPoolBps             Int                 @default(500) @map("mega_pool_bps")
+  
+  // Pressure & Growth Settings
+  withdrawalPressureThresholdBps Int          @default(3000) @map("withdrawal_pressure_threshold_bps")
+  volumeGrowthBoostCapBps         Int          @default(300) @map("volume_growth_boost_cap_bps")
+  
+  // Release Delay Settings
+  releaseDelayHours       Int                 @default(24) @map("release_delay_hours")
+  releaseDelayMinHours    Int                 @default(12) @map("release_delay_min_hours")
+  releaseDelayMaxHours    Int                 @default(72) @map("release_delay_max_hours")
+  
+  // Risk Settings
+  lowCoverageThresholdBps Int                 @default(10000) @map("low_coverage_threshold_bps")
+  
+  // Budget
+  sponsorGlobalBudget     BigInt              @default(0) @map("sponsor_global_budget")
+  
+  updatedAt               DateTime            @updatedAt @map("updated_at")
+
+  @@map("road_config")
+}
+
+model OfficialSponsorBudget {
+  id             String  @id @default(cuid())
+  seasonCode     String  @unique @map("season_code")
+  totalBudget    BigInt  @map("total_budget")
+  usedBudget     BigInt  @default(0) @map("used_budget")
+  remainingBudget BigInt @map("remaining_budget")
+  status         OfficialBudgetStatus @default(ACTIVE)
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  @@map("official_sponsor_budget")
+}
+
+model RoadKol {
+  id           String @id @default(cuid())
+  seasonCode   String @map("season_code")
+  referralCode String @unique @map("referral_code")
+  inviterId    String @map("inviter_id")
+  status       RoadKolStatus @default(ACTIVE)
+  note         String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  inviter      User @relation(fields: [inviterId], references: [id])
+
+  @@index([seasonCode, status])
+  @@map("road_kol")
+}
+
+model RoadReferralCommission {
+  id              String @id @default(cuid())
+  seasonCode      String @map("season_code")
+  referralCode    String @map("referral_code")
+  inviterId       String @map("inviter_id")
+  referredUserId  String @map("referred_user_id")
+  purchaseId      String @unique @map("purchase_id")
+  commissionAmount BigInt @map("commission_amount")
+  status          RoadCommissionStatus @default(PENDING)
+  releaseAt       DateTime? @map("release_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  inviter         User @relation("RoadCommissionInviter", fields: [inviterId], references: [id])
+  referredUser    User @relation("RoadCommissionReferred", fields: [referredUserId], references: [id])
+  purchase        RoadPurchase @relation(fields: [purchaseId], references: [id])
+
+  @@index([inviterId, status])
+  @@index([referredUserId])
+  @@index([seasonCode, status])
+  @@map("road_referral_commission")
+}
+
+enum RoadStage {
+  GROUP
+  TOP32
+  TOP16
+  TOP8
+  TOP4
+  FINAL
+  CHAMPION
+}
+
+enum TeamStatus {
+  ACTIVE
+  ADVANCED
+  ELIMINATED
+  CHAMPION
+}
+
+enum PoolStatus {
+  DRAFT
+  OPEN
+  CLOSED
+  SETTLED
+  CANCELLED
+}
+
+enum HoldingStatus {
+  ACTIVE
+  WON
+  LOST
+  CLOSED
+}
+
+enum RewardStatus {
+  PENDING_RELEASE
+  RELEASED
+  REINVESTED
+  CANCELLED
+}
+
+enum RoadDividendSource {
+  PURCHASE
+  STAGE_REWARD
+}
+
+enum JackpotStatus {
+  ACTIVE
+  SETTLED
+}
+
+enum SponsorSource {
+  OFFICIAL
+}
+
+enum RoadTreasuryEventType {
+  PURCHASE
+  SPONSOR_INJECT
+  REWARD_RELEASE
+  COMMISSION_RELEASE
+  COMMISSION_CANCEL
+  STAGE_ADVANCE
+  TEAM_ELIMINATION
+  POOL_CLOSE
+}
+
+enum RoadTreasuryBucket {
+  PLATFORM_FEE
+  POOL_PRIZE
+  PENDING_REWARD
+  SUPER_JACKPOT
+  REINVEST_POOL
+  AGENT_POOL
+  RESERVE
+  PLATFORM_CARRY
+  OFFICIAL_SPONSOR_COST
+  SURVIVOR_PUBLIC_POOL
+  ACTIVITY_BUDGET
+  USER_RELEASED
+}
+
+enum OfficialBudgetStatus {
+  ACTIVE
+  PAUSED
+  CLOSED
+}
+
+enum RoadKolStatus {
+  ACTIVE
+  PAUSED
+}
+
+enum RoadCommissionStatus {
+  PENDING
+  RELEASED
+  PAID
+  CANCELLED
+}

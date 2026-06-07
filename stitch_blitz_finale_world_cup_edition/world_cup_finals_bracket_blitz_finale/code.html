@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WC2026 ELITE - Blitz Finale Bracket</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;family=Space+Grotesk:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                "outline-variant": "#504532",
+                "surface": "#121317",
+                "on-tertiary-fixed-variant": "#930010",
+                "inverse-on-surface": "#2f3035",
+                "tertiary-fixed": "#ffdad6",
+                "inverse-primary": "#795900",
+                "surface-tint": "#fbbc0e",
+                "surface-container-low": "#1a1b20",
+                "on-primary-container": "#664a00",
+                "surface-variant": "#343439",
+                "secondary-container": "#00eefc",
+                "on-tertiary-container": "#a30013",
+                "on-tertiary": "#680008",
+                "on-primary": "#402d00",
+                "on-primary-fixed-variant": "#5c4300",
+                "tertiary-container": "#ffaca5",
+                "on-tertiary-fixed": "#410003",
+                "on-secondary-fixed": "#002022",
+                "on-surface-variant": "#d4c5ac",
+                "outline": "#9c8f78",
+                "tertiary-fixed-dim": "#ffb3ad",
+                "tertiary": "#ffd3cf",
+                "surface-bright": "#38393e",
+                "primary-container": "#f5b700",
+                "surface-container-lowest": "#0d0e12",
+                "on-surface": "#e3e2e8",
+                "on-secondary": "#00363a",
+                "secondary-fixed": "#7df4ff",
+                "primary": "#ffd88a",
+                "primary-fixed-dim": "#fbbc0e",
+                "on-secondary-container": "#00686f",
+                "error-container": "#93000a",
+                "inverse-surface": "#e3e2e8",
+                "secondary-fixed-dim": "#00dbe9",
+                "on-background": "#e3e2e8",
+                "surface-dim": "#121317",
+                "surface-container": "#1f1f24",
+                "on-secondary-fixed-variant": "#004f54",
+                "surface-container-highest": "#343439",
+                "on-primary-fixed": "#261a00",
+                "secondary": "#d3fbff",
+                "on-error": "#690005",
+                "error": "#ffb4ab",
+                "primary-fixed": "#ffdea0",
+                "on-error-container": "#ffdad6",
+                "background": "#121317",
+                "surface-container-high": "#292a2e"
+            },
+            "borderRadius": {
+                "DEFAULT": "0.25rem",
+                "lg": "0.5rem",
+                "xl": "0.75rem",
+                "full": "9999px"
+            },
+            "spacing": {
+                "gutter": "16px",
+                "container-margin": "24px",
+                "stack-lg": "32px",
+                "stack-md": "16px",
+                "stack-sm": "8px"
+            },
+            "fontFamily": {
+                "display-countdown": ["Space Grotesk"],
+                "body-lg": ["Inter"],
+                "label-caps": ["Space Grotesk"],
+                "headline-lg-mobile": ["Plus Jakarta Sans"],
+                "headline-md": ["Plus Jakarta Sans"],
+                "body-md": ["Inter"],
+                "headline-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                "display-countdown": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "800"}],
+                "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(31, 31, 36, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .neon-cyan-glow {
+            box-shadow: 0 0 15px rgba(0, 238, 252, 0.3);
+            border: 1px solid rgba(0, 238, 252, 0.5);
+        }
+        .neon-gold-glow {
+            box-shadow: 0 0 15px rgba(255, 216, 138, 0.3);
+            border: 1px solid rgba(255, 216, 138, 0.5);
+        }
+        .winner-wall-scroll::-webkit-scrollbar {
+            display: none;
+        }
+        .bracket-connector {
+            background: linear-gradient(90deg, #00eefc 0%, #fbbc0e 100%);
+            opacity: 0.6;
+        }
+        .stadium-bg {
+            background: radial-gradient(circle at top, rgba(0, 238, 252, 0.1) 0%, rgba(18, 19, 23, 1) 70%);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md text-body-md overflow-x-hidden selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-white/15 shadow-[0_0_15px_rgba(255,216,138,0.1)] flex justify-between items-center px-container-margin h-16">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 duration-200" style="font-variation-settings: 'FILL' 1;">menu</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tighter italic">WC2026 ELITE</h1>
+</div>
+<div class="flex items-center gap-stack-md">
+<div class="flex flex-col items-end hidden sm:flex">
+<span class="font-label-caps text-label-caps text-secondary-container">LIVE ARENA</span>
+<span class="text-[10px] text-on-surface-variant/60 uppercase tracking-widest">Active Blitz</span>
+</div>
+<div class="h-10 w-10 rounded-full bg-surface-variant flex items-center justify-center border border-primary/30 overflow-hidden active:scale-95 duration-200">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqaLBY9gXk6HcLqn5qeiSDxS_3wio7hcmfrZvC97Eq_bvYZCdDqTXjU-iTzs7Wob7rF2XOkP0QXN1-k4PA_LqwXTXmD6n4O5SBb_f4IoGULVOmmfdixjHl536_BggkaxXvHHNNbqCuUVvYZMDjTs7Yh--_dpArsakrbZFNgeEtjkhwkNqnVaizw4Q8dsxtgy6_1CFMtoMM-RAzkXheG7-QFgZKtWlWomTbzWyHgkYoJ1-Vkzj-MLh5-8e1YpKCrRiZ_2CafPdhsy5E"/>
+</div>
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 duration-200">account_balance_wallet</span>
+</div>
+</header>
+<main class="pt-16 pb-24 min-h-screen stadium-bg">
+<!-- Winner Wall (The Aggregate Scroll) -->
+<section class="w-full py-4 overflow-x-auto winner-wall-scroll bg-surface-container-lowest/50 border-y border-white/5">
+<div class="flex whitespace-nowrap gap-gutter px-container-margin">
+<div class="flex items-center gap-2 bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-primary">@CR7_GOAT WON 4.2k TON</span>
+</div>
+<div class="flex items-center gap-2 bg-secondary-container/10 border border-secondary-container/20 px-3 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-secondary-container animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-secondary-container">@MESSI10 JOINED BLITZ #402</span>
+</div>
+<div class="flex items-center gap-2 bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-primary">@NEYMAR_JR_10 WON 1.8k TON</span>
+</div>
+<div class="flex items-center gap-2 bg-on-tertiary-container/10 border border-on-tertiary-container/20 px-3 py-1 rounded-full">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+<span class="font-label-caps text-label-caps text-on-tertiary-container">JACKPOT REACHED 50k TON</span>
+</div>
+</div>
+</section>
+<!-- Blitz Finale Branding Section -->
+<section class="mt-stack-lg px-container-margin text-center">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-secondary-container tracking-tight">
+                BLITZ <span class="text-primary italic">FINALE</span>
+</h2>
+<p class="font-label-caps text-label-caps text-on-surface-variant mt-1 tracking-widest">WORLD CUP 2026 ROAD TO GLORY</p>
+</section>
+<!-- Main Tournament Bracket Area -->
+<section class="relative w-full h-[600px] md:h-[800px] mt-stack-md flex items-center justify-center overflow-hidden">
+<!-- 3D Bracket Background Effect -->
+<div class="absolute inset-0 z-0 opacity-40">
+<img alt="Tournament Bracket HUD" class="w-full h-full object-contain pointer-events-none scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBSQ2jHkiMdlBx1K81gZg0W7UTNNTZ5IDoc_C-95WhWX_HpkT0E-slYVaGCcNbPkqpmnCX-dEWQjYMHtlTkVyrs3fEFPxwPVKT94kadCiFDzRti1_TA3qRK0gZhABQWyZqxSFFSt_4z4L7_sDBWxEai7U57ozFJGeD1G7cdQhKT5MoNZsxMLPkc7sf7L8GIBskEsrrD74UYNBfKh3JH0DSnb4c0XOeKyFOfIVmjFB3cEX1UZJ2GM7NEoVGS1fenUjPWHvm8Ge0yuEBR"/>
+</div>
+<!-- Foreground Interactive Bracket UI -->
+<div class="relative z-10 w-full max-w-7xl h-full flex items-center justify-between px-container-margin">
+<!-- Left Side: Quarter Finals -->
+<div class="flex flex-col gap-stack-lg w-40 md:w-64">
+<!-- Match 1 -->
+<div class="glass-card p-3 rounded-xl neon-cyan-glow cursor-pointer hover:scale-105 transition-transform duration-300">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-label-caps text-on-surface-variant/80 uppercase">Match #41</span>
+<span class="text-[10px] font-label-caps text-secondary-container">LIVE</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">ARG</div>
+<span class="font-bold text-sm">Argentina</span>
+</div>
+<span class="font-display-countdown text-xl text-primary">2</span>
+</div>
+<div class="flex justify-between items-center opacity-60">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">NED</div>
+<span class="font-bold text-sm">Netherlands</span>
+</div>
+<span class="font-display-countdown text-xl">1</span>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-center">
+<span class="text-[10px] text-on-surface-variant">Odds: 1.85</span>
+<button class="px-3 py-1 bg-primary text-on-primary font-label-caps text-[10px] rounded-lg">WAGER</button>
+</div>
+</div>
+<!-- Match 2 -->
+<div class="glass-card p-3 rounded-xl border-white/10 opacity-80">
+<div class="flex justify-between items-center mb-2">
+<span class="text-[10px] font-label-caps text-on-surface-variant/80 uppercase">Match #42</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant">Starts in 4h</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">BRA</div>
+<span class="font-bold text-sm">Brazil</span>
+</div>
+<span class="font-display-countdown text-xl">-</span>
+</div>
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-2">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">CRO</div>
+<span class="font-bold text-sm">Croatia</span>
+</div>
+<span class="font-display-countdown text-xl">-</span>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-center">
+<span class="text-[10px] text-on-surface-variant">Odds: 1.42 | 4.50</span>
+<button class="px-3 py-1 border border-primary/50 text-primary font-label-caps text-[10px] rounded-lg">PRE-BET</button>
+</div>
+</div>
+</div>
+<!-- Center: The Finals Display -->
+<div class="hidden lg:flex flex-col items-center justify-center gap-stack-lg relative">
+<div class="w-64 h-64 rounded-full bg-primary/5 border border-primary/20 flex flex-col items-center justify-center relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+<span class="material-symbols-outlined text-primary text-6xl mb-2 drop-shadow-[0_0_15px_rgba(255,216,138,0.8)]" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<h3 class="font-headline-md text-headline-md text-primary">FINALS</h3>
+<p class="font-label-caps text-label-caps text-on-surface-variant">JULY 19, 2026</p>
+<!-- Pulse Ring -->
+<div class="absolute inset-0 border-4 border-primary/10 rounded-full animate-ping"></div>
+</div>
+<div class="glass-card p-6 rounded-2xl neon-gold-glow w-80 text-center">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.2em] mb-4 block">GRAND JACKPOT</span>
+<span class="font-display-countdown text-4xl text-on-surface">582,400 <span class="text-secondary-container">TON</span></span>
+<div class="mt-4 flex gap-2 justify-center">
+<div class="px-4 py-2 bg-surface-container-high rounded-xl border border-white/5">
+<span class="text-xs text-on-surface-variant block">Players</span>
+<span class="font-bold">12.8k</span>
+</div>
+<div class="px-4 py-2 bg-surface-container-high rounded-xl border border-white/5">
+<span class="text-xs text-on-surface-variant block">Status</span>
+<span class="font-bold text-primary">ELITE</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Side: Quarter Finals -->
+<div class="flex flex-col gap-stack-lg w-40 md:w-64 text-right">
+<!-- Match 3 -->
+<div class="glass-card p-3 rounded-xl border-white/10">
+<div class="flex justify-between items-center mb-2 flex-row-reverse">
+<span class="text-[10px] font-label-caps text-on-surface-variant/80 uppercase">Match #43</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant">Starts in 8h</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center flex-row-reverse">
+<div class="flex items-center gap-2 flex-row-reverse">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">FRA</div>
+<span class="font-bold text-sm">France</span>
+</div>
+<span class="font-display-countdown text-xl">-</span>
+</div>
+<div class="flex justify-between items-center flex-row-reverse">
+<div class="flex items-center gap-2 flex-row-reverse">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">ENG</div>
+<span class="font-bold text-sm">England</span>
+</div>
+<span class="font-display-countdown text-xl">-</span>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-center flex-row-reverse">
+<span class="text-[10px] text-on-surface-variant">Odds: 2.10 | 1.95</span>
+<button class="px-3 py-1 border border-primary/50 text-primary font-label-caps text-[10px] rounded-lg">PRE-BET</button>
+</div>
+</div>
+<!-- Match 4 -->
+<div class="glass-card p-3 rounded-xl border-white/10">
+<div class="flex justify-between items-center mb-2 flex-row-reverse">
+<span class="text-[10px] font-label-caps text-on-surface-variant/80 uppercase">Match #44</span>
+<span class="text-[10px] font-label-caps text-on-surface-variant">Starts in 12h</span>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center flex-row-reverse">
+<div class="flex items-center gap-2 flex-row-reverse">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">POR</div>
+<span class="font-bold text-sm">Portugal</span>
+</div>
+<span class="font-display-countdown text-xl">-</span>
+</div>
+<div class="flex justify-between items-center flex-row-reverse">
+<div class="flex items-center gap-2 flex-row-reverse">
+<div class="w-6 h-6 rounded bg-surface-container flex items-center justify-center text-[10px]">ESP</div>
+<span class="font-bold text-sm">Spain</span>
+</div>
+<span class="font-display-countdown text-xl">-</span>
+</div>
+</div>
+<div class="mt-3 pt-2 border-t border-white/5 flex justify-between items-center flex-row-reverse">
+<span class="text-[10px] text-on-surface-variant">Odds: 2.05 | 2.05</span>
+<button class="px-3 py-1 border border-primary/50 text-primary font-label-caps text-[10px] rounded-lg">PRE-BET</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Grid (Bento Style) -->
+<section class="px-container-margin mt-stack-lg">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-gutter">
+<div class="glass-card p-4 rounded-2xl flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60">YOUR WIN RATE</span>
+<div class="mt-2">
+<span class="font-display-countdown text-3xl text-secondary-container">68%</span>
+<div class="w-full bg-surface-container-high h-1.5 rounded-full mt-2">
+<div class="bg-secondary-container h-full rounded-full" style="width: 68%"></div>
+</div>
+</div>
+</div>
+<div class="glass-card p-4 rounded-2xl flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60">ACTIVE BETS</span>
+<div class="mt-2 flex items-end gap-2">
+<span class="font-display-countdown text-3xl text-primary">12</span>
+<span class="text-xs text-primary/80 mb-1">+2 Today</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-2xl flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60">STREAK</span>
+<div class="mt-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="font-display-countdown text-3xl">5</span>
+<span class="text-xs text-on-surface-variant/60 mb-1">X Bonus</span>
+</div>
+</div>
+<div class="glass-card p-4 rounded-2xl flex flex-col justify-between">
+<span class="font-label-caps text-label-caps text-on-surface-variant/60">GLOBAL RANK</span>
+<div class="mt-2 flex items-end gap-2">
+<span class="font-display-countdown text-3xl">#402</span>
+<span class="text-xs text-secondary-container mb-1">TOP 1%</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Live Commentary / Social Proof -->
+<section class="px-container-margin mt-stack-lg pb-12">
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-stack-sm flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+                LIVE COMMONS FEED
+            </h3>
+<div class="space-y-3">
+<div class="glass-card p-3 rounded-xl flex gap-3 items-start animate-fade-in">
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden shrink-0">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvnaCb03RQcyJwQ8ZpaeSUwB0vo66gu9eWT5OhF-TNaWrQPZe_66F0tyTxkdqIoKjgDPCCC4Ye2M2d_ecV8iZEN4w8uvOs16r4z7H55virYBg7xpgsQ0XZdNr7YEc6d6rYyRzLafgtYg82cMzKhpE8gluAJw1BN_g7c6ZEA3BahhbIdTuwHlNsLNvO-fDMmdMkyNWOD-sXOPr4L4eLpDWuWJdbEd16mdFcJiIcTOr_ivx1YbPvhpMJhNeMZdM7Bb3MKo2dSUlHeBhi"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">@Felix_Plays</span>
+<span class="text-[10px] text-on-surface-variant">2m ago</span>
+</div>
+<p class="text-sm text-on-surface/80">Argentina's defense looks shaky, but Messi is a magician. Just placed 500 TON on them to clear!</p>
+</div>
+</div>
+<div class="glass-card p-3 rounded-xl flex gap-3 items-start opacity-70">
+<div class="w-8 h-8 rounded-full bg-surface-container overflow-hidden shrink-0">
+<img alt="User" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-xVhsxs4Q5QJaJlgWQc45H-djSHpqGbQxNNR0YjYKzH_Cn2W_y59eRWYDrCQza8G7e-KYZ_K9WgiWj8wukAuAxRLPE1Uez125puu1UJqLuRDACkg_-zCNMmbqtmXz-ln2j7xjU8NCYtnNCmh78WvzftDgqZIBjgoRx-VBX8K0Pvrcc9-bZIxafp3u4k-BkzH2nPK8iqd-wqlv58Sf2hZ51r_edtRbmUM_nGA_F32hAaIT5ejc_hEcOVmi1n3IndU08qccO_m9lc0m"/>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="font-bold text-sm">@Sarah_Betz</span>
+<span class="text-[10px] text-on-surface-variant">5m ago</span>
+</div>
+<p class="text-sm text-on-surface/80">Brazil vs Croatia is going to be a bloodbath. My money is on the underdog today!</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface/90 dark:bg-surface/90 backdrop-blur-xl rounded-t-xl border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] flex justify-around items-center pt-2 pb-6 px-4">
+<a class="flex flex-col items-center justify-center text-primary font-bold drop-shadow-[0_0_8px_rgba(255,216,138,0.6)] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">sports_soccer</span>
+<span class="font-label-caps text-label-caps mt-1">Arena</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-caps text-label-caps mt-1">Leader</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps mt-1">Refer</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-caps text-label-caps mt-1">Wallet</span>
+</a>
+</nav>
+<!-- FAB (Suppressed on this screen but kept for structure) -->
+<!-- Hidden because it's a detail/navigation focused screen -->
+<script>
+        // Micro-interaction for match cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1.05)';
+            });
+        });
+
+        // Atmospheric shimmer effect logic (vanilla)
+        const arena = document.querySelector('.stadium-bg');
+        window.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            arena.style.background = `radial-gradient(circle at ${x * 100}% ${y * 100}%, rgba(0, 238, 252, 0.1) 0%, rgba(18, 19, 23, 1) 70%)`;
+        });
+    </script>
+</body></html>

@@ -1,0 +1,22 @@
+{
+  "name": "blitzfomo-world-cup-2026-edition",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Blitz Finale - World Cup 2026 Edition",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  }
+}

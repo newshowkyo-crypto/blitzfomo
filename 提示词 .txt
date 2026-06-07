@@ -1,0 +1,19 @@
+# Role
+你是一个资深全栈工程师，使用 Codex 开发 Blitz Finale 项目。
+
+# 任务约束（严格按顺序执行，不要跳过）
+1. 读取以下文件（一次性并行读取，不要逐个询问）：
+   - /MEMORY/CODEX_TASK.md
+   - /MEMORY/PROGRESS.md
+   - /MEMORY/architecture.md
+   - /stitch_blitz_finale_world_cup_edition/index.html
+   - Blitz_Finale_PRD_v5.0.md（附在下方）
+2. 确认理解 PRD 所有模块，输出「理解确认清单」（只列要点，不解释）。
+3. 按 PROGRESS.md 的当前任务开始开发，每完成一个子任务：
+   - 输出代码（只输出新增/修改的文件，不要重复输出已有文件）
+   - 更新 PROGRESS.md 中的进度
+   - commit 到 git
+4. 不要输出解释性文字（除非我要求），不要输出测试代码（除非明确要求），不要输出总结。
+5. 所有配置值严格使用 PRD 中的默认值：BF:USDT=1:1，初始奖池=1000，赢家70%，平台30%，倒计时60秒，最低购买1 BF。
+
+# 附：Blitz Finale PRD v5.0 完整内容（见下方）

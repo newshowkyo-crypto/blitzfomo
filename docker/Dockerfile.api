@@ -1,0 +1,53 @@
+# docker/Dockerfile.api
+# Blitz Finale API (NestJS)
+
+FROM node:20-alpine AS builder
+
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+# 复制依赖定义
+COPY package*.json ./
+COPY apps/api/package.json ./apps/api/
+COPY packages/shared/package.json ./packages/shared/
+
+# Create directories for optional packages (code is volume-mounted in development)
+RUN mkdir -p ./apps/api ./packages/shared
+
+# 删除旧的 lock 文件，确保 workspaces 依赖被正确安装
+RUN rm -f package-lock.json
+RUN echo "cache-bust-20260530"
+RUN npm install --legacy-peer-deps
+
+# 复制源码
+COPY . .
+
+# 生成 Prisma Client
+RUN npx prisma generate --schema=prisma/schema.prisma
+
+# 构建
+RUN cd apps/api && npm run build
+
+# ============================================
+# 生产镜像
+# ============================================
+FROM node:20-alpine
+
+RUN apk add --no-cache openssl
+
+WORKDIR /app
+
+# Copy only the artifacts needed to run the compiled API
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/api/dist ./dist
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/packages ./packages
+COPY --from=builder /app/scripts ./scripts
+
+EXPOSE 3000
+
+# NestJS monorepo build emits the entry under dist/apps/api/src/main.js
+# (the @blitz/shared path mapping preserves the workspace directory layout).
+CMD ["node", "dist/apps/api/src/main.js"]

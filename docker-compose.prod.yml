@@ -1,0 +1,113 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: blitz-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:?POSTGRES_DB is required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: blitz-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:?REDIS_PASSWORD is required}
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "redis-cli -a ${REDIS_PASSWORD} ping | grep PONG"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: blitz-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL:?DATABASE_URL is required}
+      REDIS_URL: ${REDIS_URL:?REDIS_URL is required}
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      BOT_TOKEN: ${BOT_TOKEN:?BOT_TOKEN is required}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:?ADMIN_USERNAME is required}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}
+      OPERATOR_USERNAME: ${OPERATOR_USERNAME:?OPERATOR_USERNAME is required}
+      OPERATOR_PASSWORD: ${OPERATOR_PASSWORD:?OPERATOR_PASSWORD is required}
+      PORT: 3000
+      ACTIVE_PAYMENT_GATEWAY: ${ACTIVE_PAYMENT_GATEWAY:?ACTIVE_PAYMENT_GATEWAY is required}
+      PLISIO_API_KEY: ${PLISIO_API_KEY:?PLISIO_API_KEY is required}
+      PLISIO_ALLOWED_PSYS_CIDS: ${PLISIO_ALLOWED_PSYS_CIDS:-USDT_TRX,USDT_TON,TON,TRX}
+      PLISIO_SOURCE_CURRENCY: ${PLISIO_SOURCE_CURRENCY:-USD}
+      PLISIO_EXPIRE_MIN: ${PLISIO_EXPIRE_MIN:-60}
+      PUBLIC_API_BASE_URL: ${PUBLIC_API_BASE_URL:?PUBLIC_API_BASE_URL is required}
+      TMA_PUBLIC_URL: ${TMA_PUBLIC_URL:?TMA_PUBLIC_URL is required}
+      PLISIO_SUCCESS_URL: ${PLISIO_SUCCESS_URL:-${TMA_PUBLIC_URL}}
+      PLISIO_FAIL_URL: ${PLISIO_FAIL_URL:-${TMA_PUBLIC_URL}}
+    command: >
+      sh -c "
+        npx prisma migrate deploy --schema=prisma/schema.prisma &&
+        node prisma/seed.js &&
+        node scripts/seed-road-production.js &&
+        node dist/apps/api/src/main.js
+      "
+
+  admin:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.admin
+    container_name: blitz-admin
+    restart: unless-stopped
+    depends_on:
+      - api
+    environment:
+      VITE_API_BASE: /admin/api
+
+  nginx:
+    image: nginx:alpine
+    container_name: blitz-nginx
+    restart: unless-stopped
+    depends_on:
+      - api
+      - admin
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./web:/var/www/web:ro
+      - ./stitch_blitz_finale_world_cup_edition:/var/www/stitch:ro
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: blitz-caddy
+    restart: unless-stopped
+    depends_on:
+      - nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN:?DOMAIN is required}
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+volumes:
+  postgres_data:
+  redis_data:
+  caddy_data:
+  caddy_config:

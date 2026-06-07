@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WC2026 ELITE - Referral Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;family=Space+Grotesk:wght@600;700&amp;family=Inter:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind Config Execution -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-tertiary-fixed-variant": "#930010",
+                    "primary": "#ffd88a",
+                    "secondary-fixed-dim": "#00dbe9",
+                    "inverse-primary": "#795900",
+                    "error": "#ffb4ab",
+                    "secondary-fixed": "#7df4ff",
+                    "on-secondary-container": "#00686f",
+                    "on-background": "#e3e2e8",
+                    "primary-container": "#f5b700",
+                    "tertiary-container": "#ffaca5",
+                    "primary-fixed": "#ffdea0",
+                    "surface-container-highest": "#343439",
+                    "on-error": "#690005",
+                    "tertiary-fixed": "#ffdad6",
+                    "tertiary": "#ffd3cf",
+                    "surface-variant": "#343439",
+                    "surface-dim": "#121317",
+                    "on-error-container": "#ffdad6",
+                    "secondary-container": "#00eefc",
+                    "surface-tint": "#fbbc0e",
+                    "on-primary-fixed-variant": "#5c4300",
+                    "primary-fixed-dim": "#fbbc0e",
+                    "surface-container-high": "#292a2e",
+                    "on-tertiary-container": "#a30013",
+                    "on-secondary-fixed-variant": "#004f54",
+                    "error-container": "#93000a",
+                    "surface-bright": "#38393e",
+                    "secondary": "#d3fbff",
+                    "on-primary-fixed": "#261a00",
+                    "on-secondary-fixed": "#002022",
+                    "on-primary": "#402d00",
+                    "on-surface-variant": "#d4c5ac",
+                    "inverse-surface": "#e3e2e8",
+                    "surface": "#121317",
+                    "tertiary-fixed-dim": "#ffb3ad",
+                    "on-tertiary": "#680008",
+                    "outline": "#9c8f78",
+                    "on-surface": "#e3e2e8",
+                    "background": "#121317",
+                    "inverse-on-surface": "#2f3035",
+                    "surface-container-low": "#1a1b20",
+                    "surface-container": "#1f1f24",
+                    "on-secondary": "#00363a",
+                    "on-primary-container": "#664a00",
+                    "surface-container-lowest": "#0d0e12",
+                    "outline-variant": "#504532",
+                    "on-tertiary-fixed": "#410003"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-lg": "32px",
+                    "stack-sm": "8px",
+                    "stack-md": "16px",
+                    "container-margin": "24px",
+                    "gutter": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "label-caps": ["Space Grotesk"],
+                    "display-countdown": ["Space Grotesk"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "800"}],
+                    "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                    "display-countdown": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #121317;
+            color: #e3e2e8;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(31, 31, 36, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 216, 138, 0.1);
+        }
+        .neon-border-primary {
+            box-shadow: 0 0 15px rgba(255, 216, 138, 0.2);
+        }
+        .winner-gradient {
+            background: linear-gradient(135deg, #ffd88a 0%, #f5b700 100%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen pb-24">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-white/15 shadow-[0_0_15px_rgba(255,216,138,0.1)] flex justify-between items-center px-container-margin h-16">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full overflow-hidden border border-primary/50">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" data-alt="A premium high-resolution 3D stylized avatar of a professional soccer player wearing a sleek black and gold jersey. The lighting is dramatic, coming from the side like a stadium spotlight against a dark background. The overall aesthetic is clean, modern, and aligned with a high-stakes sports gaming platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyPNkO8um25rc0rdOYTibSYMMjF9FDVjM0EUEQaQqWgPTMRl9UalEdHivUejXzktDqcJr64ak2g4xH-KOrac44NJiJZSqgqUZdHhc5C7pAYEpv0eniJoI2OFEKxzwCz3IPzlr8dH1RA3-jMCJ77UfJz169cpJs_X8HJjytWFAdVDGisCSKJc-bzbxUajQ6jNHg6L1FyegqksFA6Px5FrNFsiCmpThMhgqRkZkro5wzENQ4b4FpSh99y4D2A2CnhJowSv2X-2EktRl2"/>
+</div>
+<span class="font-headline-md text-headline-md text-primary tracking-tighter italic">WC2026 ELITE</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end hidden sm:flex">
+<span class="font-label-caps text-label-caps text-on-surface-variant">BALANCE</span>
+<span class="text-primary font-bold">1,240.50 TON</span>
+</div>
+<span class="material-symbols-outlined text-primary text-2xl active:scale-95 duration-200 cursor-pointer">account_balance_wallet</span>
+</div>
+</header>
+<!-- Main Content -->
+<main class="pt-24 px-container-margin max-w-5xl mx-auto space-y-stack-lg">
+<!-- Hero Section / Header -->
+<section>
+<h1 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary mb-2">Referral Center</h1>
+<p class="text-on-surface-variant body-md">Scale your team and earn commissions on every game they play.</p>
+</section>
+<!-- Bento Grid Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md">
+<!-- Referral Link Card -->
+<div class="md:col-span-2 glass-card p-stack-md rounded-xl flex flex-col justify-between">
+<div>
+<h3 class="font-label-caps text-label-caps text-primary mb-4 uppercase tracking-widest">Your Unique Referral Link</h3>
+<div class="flex items-center gap-3 bg-surface-container-lowest p-4 rounded-lg border border-white/5">
+<span class="truncate text-on-surface-variant font-mono">blitz.elite/ref/CHAMP777_ELITE</span>
+<button class="ml-auto bg-primary text-on-primary px-4 py-2 rounded-lg font-bold hover:opacity-90 active:scale-95 transition-all flex items-center gap-2" onclick="copyLink()">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+                            Copy
+                        </button>
+</div>
+</div>
+<div class="mt-6 flex items-center gap-4">
+<div class="flex -space-x-3">
+<img alt="Invited user" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="A portrait of a diverse modern user in a stylized digital illustration style. Warm stadium lighting accents the facial features against a deep charcoal background to match the high-end sports interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdMDo_jQVmOI6scm0Iywsamb_R93iDeh_DBYvtwrptstBCx65Y1sj1juScjD_UPdzjj72ygavcQ2RhuQLmG_a94dNm8PB-BwUEGoCVHKAxM_q8AI4H15D_E1lrtDd_ktvoQ2A4Qu9OF1VJK80NmgV-16rfKk8sfUoRQGdxSHPqAlGaC_BCIjbprl95j1JbUSivKN8rG-5RXeulbXfqMRud3S7iy86y6atljCrlP-6Q-PYdlPS8x5hAgDIvF_gi4iIBoNsJRf4TMsln"/>
+<img alt="Invited user" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="A portrait of a diverse modern user in a stylized digital illustration style. Warm stadium lighting accents the facial features against a deep charcoal background to match the high-end sports interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGVmMo7MtoBVu3_wgtuqu29RFryAvDv2mLINuquEbXfTxcOsCDe7ndo1DrQlVV4St-rU7IkYw5mT05QWBEZZ5zGLhRuIBoWHzroDRX8l0r0rbgC942jd38ArCDyoTG7n6jaG_CcwRs5sy-EIGhtkKveMYdjtVsG_9EtXisDEraVum50aRn1oXJ38jLA3lD_E1oZPG5aTnt8ipF2rjkEZma9uyCFA_pvOIKvSsK8wOA9shh7n8oNYHaJT-1QHGYjDdvI-VidFBIxL2h"/>
+<img alt="Invited user" class="w-8 h-8 rounded-full border-2 border-surface" data-alt="A portrait of a diverse modern user in a stylized digital illustration style. Warm stadium lighting accents the facial features against a deep charcoal background to match the high-end sports interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDN4gW6btYjGe1p-Tga74wpfGIAAXHzPdxcObeHjmgmiEuZrtxYD5utOqHDmboscvbKgTl5Tn5aT_a8RZf0Vk99vZuioew1JFngFMewsmrT7sIYOkurbQ36EvRz-Pq3MB3S-tzK8jsXlkASsr8j0_-grrLN-FklPF46RCUc22APlVk2TsEzOtPl1EVS-zvpWskfVjrrcNipysnZ8zuq0AJDo8Es9Tc639zyuWQvluFDOKB1iPXhVwb-l0EWs3XCB9WQWMXB-chal4p7"/>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest border-2 border-surface flex items-center justify-center text-[10px] font-bold">+12</div>
+</div>
+<p class="text-xs text-on-surface-variant italic">Share with your circle and start earning instantly.</p>
+</div>
+</div>
+<!-- Summary Card -->
+<div class="glass-card p-stack-md rounded-xl flex flex-col justify-center items-center text-center relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary/10 rounded-full blur-3xl"></div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-2">TOTAL EARNED</h3>
+<div class="font-display-countdown text-primary drop-shadow-[0_0_10px_rgba(255,216,138,0.4)]">
+                    428.50
+                </div>
+<span class="font-bold text-primary-container">TON</span>
+<div class="mt-4 pt-4 border-t border-white/5 w-full flex justify-between">
+<div>
+<p class="text-xs text-on-surface-variant">Invited</p>
+<p class="font-bold">15 Users</p>
+</div>
+<div class="text-right">
+<p class="text-xs text-on-surface-variant">Network Size</p>
+<p class="font-bold">42 Users</p>
+</div>
+</div>
+</div>
+</div>
+<!-- 2-Tier Earnings Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+<div class="glass-card p-stack-md rounded-xl border-l-4 border-l-primary">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">filter_1</span>
+</div>
+<div>
+<h4 class="font-bold">Level 1 Commission</h4>
+<p class="text-xs text-on-surface-variant">Direct Referrals</p>
+</div>
+<div class="ml-auto text-right">
+<span class="text-2xl font-bold text-primary">10%</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Earnings to Date</span>
+<span class="font-mono text-primary">312.40 TON</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[70%]"></div>
+</div>
+</div>
+</div>
+<div class="glass-card p-stack-md rounded-xl border-l-4 border-l-secondary-fixed-dim">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-secondary-fixed-dim/10 flex items-center justify-center text-secondary-fixed-dim">
+<span class="material-symbols-outlined">filter_2</span>
+</div>
+<div>
+<h4 class="font-bold">Level 2 Commission</h4>
+<p class="text-xs text-on-surface-variant">Friends of Friends</p>
+</div>
+<div class="ml-auto text-right">
+<span class="text-2xl font-bold text-secondary-fixed-dim">5%</span>
+</div>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between text-sm">
+<span class="text-on-surface-variant">Earnings to Date</span>
+<span class="font-mono text-secondary-fixed-dim">116.10 TON</span>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
+<div class="bg-secondary-fixed-dim h-full w-[30%]"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Referred Users List -->
+<section class="glass-card rounded-xl overflow-hidden">
+<div class="p-stack-md border-b border-white/5 flex justify-between items-center">
+<h3 class="font-label-caps text-label-caps text-primary">NETWORK PERFORMANCE</h3>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:text-white transition-colors">tune</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead class="bg-surface-container-low/50 text-xs text-on-surface-variant uppercase tracking-wider">
+<tr>
+<th class="px-6 py-4 font-semibold">User</th>
+<th class="px-6 py-4 font-semibold">Level</th>
+<th class="px-6 py-4 font-semibold">Status</th>
+<th class="px-6 py-4 font-semibold text-right">Contribution</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-xs font-bold">JD</div>
+<div>
+<div class="text-sm font-bold">@johndoe_sports</div>
+<div class="text-[10px] text-on-surface-variant uppercase">Joined 2 days ago</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">L1</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-primary/20 text-primary border border-primary/30">Active</span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-primary text-sm font-bold">42.10 TON</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-xs font-bold">BM</div>
+<div>
+<div class="text-sm font-bold">@bet_master_01</div>
+<div class="text-[10px] text-on-surface-variant uppercase">Joined 1 week ago</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">L1</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-surface-container-highest text-on-surface-variant border border-white/10">Idle</span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-primary text-sm font-bold">128.50 TON</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors group">
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded bg-surface-container-highest flex items-center justify-center text-xs font-bold">S2</div>
+<div>
+<div class="text-sm font-bold">@sam_ton_fan</div>
+<div class="text-[10px] text-on-surface-variant uppercase">Joined 3 days ago</div>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 text-sm">L2</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-primary/20 text-primary border border-primary/30">Active</span>
+</td>
+<td class="px-6 py-4 text-right font-mono text-secondary-fixed-dim text-sm font-bold">12.05 TON</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="p-4 text-center">
+<button class="text-primary text-xs font-bold uppercase tracking-widest hover:underline transition-all">View All 42 Network Members</button>
+</div>
+</section>
+<!-- How it Works -->
+<section class="glass-card p-stack-lg rounded-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-10">
+<span class="material-symbols-outlined text-[120px]" style="font-variation-settings: 'FILL' 1;">groups</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary mb-6">Elite Referral Program</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-stack-md relative z-10">
+<div class="space-y-2">
+<div class="font-bold text-white flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary text-[10px] flex items-center justify-center">1</span>
+                        Share Your Code
+                    </div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Send your unique link to friends. Every successful sign-up locks them into your network forever.</p>
+</div>
+<div class="space-y-2">
+<div class="font-bold text-white flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary text-[10px] flex items-center justify-center">2</span>
+                        Earn on Plays
+                    </div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Receive 10% of the platform fee from your direct referrals (L1) every time they enter a match.</p>
+</div>
+<div class="space-y-2">
+<div class="font-bold text-white flex items-center gap-2">
+<span class="w-6 h-6 rounded-full bg-primary text-on-primary text-[10px] flex items-center justify-center">3</span>
+                        Compound Growth
+                    </div>
+<p class="text-xs text-on-surface-variant leading-relaxed">When your friends invite their friends, you earn an additional 5% (L2) from their activity.</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/90 dark:bg-surface/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] flex justify-around items-center pt-2 pb-6 px-4">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-caps text-label-caps mt-1 uppercase">Arena</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-caps text-label-caps mt-1 uppercase">Leader</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold drop-shadow-[0_0_8px_rgba(255,216,138,0.6)] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps mt-1 uppercase">Refer</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-caps text-label-caps mt-1 uppercase">Wallet</span>
+</a>
+</nav>
+<!-- JS Micro-interactions -->
+<script>
+        function copyLink() {
+            const btn = event.currentTarget;
+            const originalText = btn.innerHTML;
+            
+            // Interaction feedback
+            btn.innerHTML = '<span class="material-symbols-outlined text-sm">check</span> Copied!';
+            btn.classList.add('bg-secondary-fixed', 'text-on-secondary-container');
+            
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.classList.remove('bg-secondary-fixed', 'text-on-secondary-container');
+            }, 2000);
+
+            // Logic placeholder
+            console.log("Link copied to clipboard");
+        }
+
+        // Add subtle hover effect for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

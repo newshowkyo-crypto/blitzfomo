@@ -1,0 +1,16 @@
+.docker-data/
+node_modules/
+dist/
+npm-debug.log*
+.env
+.env.production
+.env.production.generated
+audit-output/
+playwright-report/
+test-results/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.zip
+debug.log

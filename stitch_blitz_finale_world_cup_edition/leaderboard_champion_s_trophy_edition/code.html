@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Blitz Finale - Global Leaderboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;family=Space+Grotesk:wght@600;700&amp;family=Inter:wght@400;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=Plus+Jakarta+Sans:wght@100..900&amp;family=Space+Grotesk:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            background-color: #121317;
+            color: #e3e2e8;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(31, 31, 36, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .podium-glow-gold {
+            filter: drop-shadow(0 0 15px rgba(255, 216, 138, 0.4));
+        }
+        .podium-glow-cyan {
+            filter: drop-shadow(0 0 15px rgba(0, 219, 233, 0.3));
+        }
+        .winner-wall-gradient {
+            background: linear-gradient(90deg, transparent, rgba(255, 216, 138, 0.05), transparent);
+        }
+        .active-tab-indicator {
+            box-shadow: 0 0 10px rgba(255, 216, 138, 0.5);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#930010",
+                        "primary": "#ffd88a",
+                        "secondary-fixed-dim": "#00dbe9",
+                        "inverse-primary": "#795900",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#7df4ff",
+                        "on-secondary-container": "#00686f",
+                        "on-background": "#e3e2e8",
+                        "primary-container": "#f5b700",
+                        "tertiary-container": "#ffaca5",
+                        "primary-fixed": "#ffdea0",
+                        "surface-container-highest": "#343439",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary": "#ffd3cf",
+                        "surface-variant": "#343439",
+                        "surface-dim": "#121317",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#00eefc",
+                        "surface-tint": "#fbbc0e",
+                        "on-primary-fixed-variant": "#5c4300",
+                        "primary-fixed-dim": "#fbbc0e",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-container": "#a30013",
+                        "on-secondary-fixed-variant": "#004f54",
+                        "error-container": "#93000a",
+                        "surface-bright": "#38393e",
+                        "secondary": "#d3fbff",
+                        "on-primary-fixed": "#261a00",
+                        "on-secondary-fixed": "#002022",
+                        "on-primary": "#402d00",
+                        "on-surface-variant": "#d4c5ac",
+                        "inverse-surface": "#e3e2e8",
+                        "surface": "#121317",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "on-tertiary": "#680008",
+                        "outline": "#9c8f78",
+                        "on-surface": "#e3e2e8",
+                        "background": "#121317",
+                        "inverse-on-surface": "#2f3035",
+                        "surface-container-low": "#1a1b20",
+                        "surface-container": "#1f1f24",
+                        "on-secondary": "#00363a",
+                        "on-primary-container": "#664a00",
+                        "surface-container-lowest": "#0d0e12",
+                        "outline-variant": "#504532",
+                        "on-tertiary-fixed": "#410003"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "32px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "container-margin": "24px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "label-caps": ["Space Grotesk"],
+                        "display-countdown": ["Space Grotesk"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "800"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-countdown": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+<style>.podium-glow-cyan-energy { filter: drop-shadow(0 0 20px rgba(0, 219, 233, 0.6)); }</style></head>
+<body class="bg-background text-on-surface antialiased">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-white/15 shadow-[0_0_15px_rgba(255,216,138,0.1)] flex justify-between items-center px-container-margin h-16">
+<div class="flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary font-bold">sports_soccer</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tighter italic">WC2026 ELITE</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center gap-6">
+<a class="text-primary font-label-caps text-label-caps hover:opacity-80 transition-opacity" href="#">Arena</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:opacity-80 transition-opacity" href="#">Leader</a>
+<a class="text-on-surface-variant font-label-caps text-label-caps hover:opacity-80 transition-opacity" href="#">Refer</a>
+</div>
+<button class="active:scale-95 duration-200">
+<span class="material-symbols-outlined text-primary text-2xl">account_balance_wallet</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-container-margin max-w-4xl mx-auto">
+<!-- Hero Header -->
+<section class="text-center mb-stack-lg">
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg text-primary mb-2 uppercase tracking-tight">Blitz Finale Leaderboard</h2>
+<p class="font-body-md text-body-md text-on-surface-variant/80">Only the elite dominate the stadium. Are you one of them?</p>
+</section>
+<!-- Timeframe Tabs -->
+<div class="flex p-1 bg-surface-container-high rounded-xl mb-stack-lg relative overflow-hidden">
+<button class="flex-1 py-3 font-label-caps text-label-caps rounded-lg z-10 text-primary transition-all duration-300 bg-surface-container-highest shadow-lg" onclick="switchTab(this)">Today</button>
+<button class="flex-1 py-3 font-label-caps text-label-caps rounded-lg z-10 text-on-surface-variant transition-all duration-300" onclick="switchTab(this)">Weekly</button>
+<button class="flex-1 py-3 font-label-caps text-label-caps rounded-lg z-10 text-on-surface-variant transition-all duration-300" onclick="switchTab(this)">All Time</button>
+</div>
+<!-- Podium Section -->
+<section class="grid grid-cols-3 items-end gap-2 md:gap-gutter mb-stack-lg pt-12">
+<!-- Rank 2 -->
+<div class="flex flex-col items-center">
+<div class="relative mb-4">
+<div class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-[#C0C0C0] p-1 podium-glow-cyan">
+<img class="w-full h-full rounded-full object-cover" data-alt="A stylized digital portrait of a professional e-sports athlete wearing a modern headset, set against a dark atmospheric background with neon cyan highlights. The character has a determined expression, and the lighting is cinematic and high-contrast, fitting a premium stadium noir aesthetic with glowing energy accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgRYwwfINb0mkmoGBdKebN6lrn3PL2E8mhn3DYkawoJIKBbD5PozJm80ORlm1XSiaGaEFn_MQYxfWWdeQEQYALQbor1lGbcAVv0ROn1sto2tndol04F1LWHkMFgPuDgx8E2y6LML1oe6l4-QAuzENwGgdsikzAglk5AqhWj-xVv-9EQa9HLLPYtYb2En4oW1s-MHwxtO6O-25BgI1gPmrizaqHPEowIewB-qs28RSRwjmQogkJc6La9gtXJH-pVgIJY87AHIIqutlv"/>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#C0C0C0] text-surface font-bold text-sm px-2 py-0.5 rounded-full">2</div>
+</div>
+<p class="font-label-caps text-[10px] md:text-label-caps text-on-surface-variant text-center truncate w-full">ELITE_MARCO</p>
+<div class="w-full h-24 md:h-32 bg-surface-container-high rounded-t-xl flex flex-col items-center justify-end pb-4 border-t border-white/5">
+<span class="text-primary font-bold text-xs md:text-sm">4.2K BF</span>
+</div>
+</div>
+<!-- Rank 1 -->
+<div class="flex flex-col items-center -translate-y-6">
+<div class="relative mb-4 scale-110">
+<div class="absolute -top-16 left-1/2 -translate-x-1/2 w-40 h-40 md:w-56 md:h-56 z-0 opacity-80 pointer-events-none"><img alt="Blitz Finale Trophy" class="w-full h-full object-contain podium-glow-cyan-energy" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCvG3u-Q1SubW9tOQtJbjD9_JgOot42rnC2H4Fb7ovsU33afC1ic5E386t9I_AXVwLkRSsIY1tWyXni9IXFGCIjim8_o_YwwezJJRBPO4lDnORoxHsgFiIL9bHww43T553Gqyv_aNKxhuuwUAQAA3Ys44FdYbsYnk5NqD0aK08U1UZqF7CAnr-wnIvvt_QH8fkX1DOT6_CxXDeK7kctirjf11DNVM9Q68PqBmDfePErIpziQZfSN4eB3Lsw3gq62C8PYRPvrmhErwvX"/></div><div class="w-20 h-20 md:w-32 md:h-32 rounded-full border-4 border-primary p-1 relative overflow-visible podium-glow-cyan-energy">
+<img class="w-full h-full rounded-full object-cover" data-alt="A high-quality digital illustration of a top-tier gaming champion avatar. The character is wearing a golden crown and sleek futuristic armor. The background is a deep space black with radiant golden flares and electric neon sparks, creating an intense, heroic, and celebratory winner mood for a World Cup elite tournament." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyJehKpD-q-Lzt-AppWTCzV5oqKYl1H4CQXoYMOXHDMd8VABHxMAqXKtWqyFIJ4c0Yk-2bbcyKjgimUXflLgYFlOkiA5ZjM7FhxL1DaeRQljcvTrz7XOMcGuSRNV8KcTxvh2nMmL9odq89nTK_83G0zDcR54rn7E_gb2vj0sbUwiVWHPzNigNHY70LRKlgW9Y2yU4VDuuxh25uvKyRW8Y0ws1YdYAtMqedK1pxFsSaaoelP2BMjlc84Cq7aXlKRlQ4aX_7eEFgqaRQ"/>
+<span class="material-symbols-outlined absolute -top-8 left-1/2 -translate-x-1/2 text-primary text-4xl" style="font-variation-settings: 'FILL' 1;">workspace_premium</span>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-primary text-on-primary font-extrabold text-base px-3 py-1 rounded-full shadow-lg">1</div>
+</div>
+<p class="font-label-caps text-xs md:text-body-md font-bold text-primary text-center truncate w-full">CHAMPION_777</p>
+<div class="w-full h-32 md:h-44 bg-primary/10 rounded-t-2xl flex flex-col items-center justify-end pb-6 border-t-2 border-primary/30 relative overflow-hidden" style="background: linear-gradient(180deg, rgba(0, 219, 233, 0.15) 0%, rgba(18, 19, 23, 0) 100%); border-top-color: rgba(0, 219, 233, 0.4);">
+<div class="absolute inset-0 winner-wall-gradient animate-pulse"></div>
+<span class="text-primary font-display-countdown text-xl md:text-3xl relative z-10">8.9K</span>
+<span class="text-primary font-label-caps text-[10px] relative z-10">BF WINNINGS</span>
+</div>
+</div>
+<!-- Rank 3 -->
+<div class="flex flex-col items-center">
+<div class="relative mb-4">
+<div class="w-16 h-16 md:w-24 md:h-24 rounded-full border-4 border-[#CD7F32] p-1">
+<img class="w-full h-full rounded-full object-cover" data-alt="A cinematic 3D avatar of a competitive football gamer with sharp features and glowing cyan eye accents. The lighting is moody and dramatic, highlighting the sleek contours of the character. The visual style is premium glassmorphism, with the background showing subtle stadium lights and a high-tech athletic aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMPzLi_v4xFRL2ncfUcGasV9h16VxaZBEmrErAatj4KHZJ_y3LwzJFWk2Jp3TUsxn1OCIpCmthHYDT7BA9Q2R37xgpImZaVN5Xzt5nclCnMKqx-Eadp0YrgXeJ5Z0Je35MVGsFJZ6V3Rhnb9N2r9tLYUPYqLjJmh1YOeJY8aP_2cdQlahTxJL2WnwgzPnuCxa7SE7BCQCim8tnrnWv2WrgJ9AqzNfJBEbJtPje_mZ82CD2c5HeAs4J7KigS8rq0BsJ36AhqoYS-cfJ"/>
+</div>
+<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-[#CD7F32] text-surface font-bold text-sm px-2 py-0.5 rounded-full">3</div>
+</div>
+<p class="font-label-caps text-[10px] md:text-label-caps text-on-surface-variant text-center truncate w-full">STRIKER_X</p>
+<div class="w-full h-20 md:h-28 bg-surface-container-high rounded-t-xl flex flex-col items-center justify-end pb-4 border-t border-white/5">
+<span class="text-primary font-bold text-xs md:text-sm">3.1K BF</span>
+</div>
+</div>
+</section>
+<!-- Ranked List -->
+<section class="space-y-3">
+<!-- Header for list -->
+<div class="flex items-center px-4 py-2 font-label-caps text-[10px] text-on-surface-variant/60 uppercase tracking-widest border-b border-white/5">
+<span class="w-10">Rank</span>
+<span class="flex-1">Player</span>
+<span>Winnings</span>
+</div>
+<!-- Rank 4 -->
+<div class="glass-card flex items-center p-4 rounded-xl active:scale-[0.98] transition-all duration-200">
+<span class="w-10 font-display-countdown text-xl text-on-surface-variant/40">4</span>
+<div class="flex-1 flex items-center gap-3">
+<img alt="" class="w-10 h-10 rounded-full bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCc6iCsmLjLf2D338fAFD8hRG9lYFp9bpwkxgrZM6Mpkz0nZPUhQYXVjd_snl03xN1kZ7yP5WXfLlXpZg3T7qU_84tfg97BNXqpkauCAP_A6oT04uKw1tOHXimmPLe7Bk-IObrCcOellHNR1uwJs8Zrmsz6O7xfRFi_QYmKf7VU9YuxA34Gl2BoOnGNgz_jESDKkBd_K0wbtCIvOIfFC2K4yWudb0bwN6CJDVEfjtL3hnXrp7O-pHOYWmlBWTil6e4BytXxIoDmKc1P"/>
+<div>
+<p class="font-body-md font-bold text-on-surface">SHADOW_PLAY</p>
+<p class="font-label-caps text-[10px] text-secondary-fixed-dim">PRO LEVEL</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-display-countdown text-lg text-primary">2.8K</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">BF TOKENS</p>
+</div>
+</div>
+<!-- Rank 5 -->
+<div class="glass-card flex items-center p-4 rounded-xl active:scale-[0.98] transition-all duration-200">
+<span class="w-10 font-display-countdown text-xl text-on-surface-variant/40">5</span>
+<div class="flex-1 flex items-center gap-3">
+<img alt="" class="w-10 h-10 rounded-full bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBNu1ghMcfsH3Q5Tcjc-gGP8KuGeiSR5eWg0MLPDUpgc4O1ans1yNSEwHZUjBsJVN5x_i7Bf44FOR5fyTOg9Tx8J2hPZ8uzAyTiaYbXnJkjJiTt50NcMDwwllQRl6RkPnw7Yg3dxo72BToijJbpgLf--6nx06qNyqutBWuZeLACVX_plqfpVZjB66Uvyeoiya87OWxIRl0Q6gC01wFCmSmtNsMApo83N64misCpYJD1f2eHkOLYgefBsaE_pwcPcA73i1SvQ8iMe5K"/>
+<div>
+<p class="font-body-md font-bold text-on-surface">WALL_GK</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant/60">VETERAN</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-display-countdown text-lg text-primary">2.4K</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">BF TOKENS</p>
+</div>
+</div>
+<!-- Rank 6 -->
+<div class="glass-card flex items-center p-4 rounded-xl active:scale-[0.98] transition-all duration-200">
+<span class="w-10 font-display-countdown text-xl text-on-surface-variant/40">6</span>
+<div class="flex-1 flex items-center gap-3">
+<img alt="" class="w-10 h-10 rounded-full bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqXX5sxE40OStat4-lnZ3z2MCw7nhfrY5Rs8lkunvqzSATNv_xTWLRWGgTDjGwwSrOThWrZYkLayrkFBEu7P-ZJA5AM6m6Aqp1i897onweQQwfiKz6_S0f1L83XnZgebz8LIkMLlC7TSP1Ecb_EtRVYgBaSy_Vbw97TLWAuZYChAUWnJ_yXu-_7wN2FruEK34OdDi4FDFL4mxQIDH2a0eMhJH2Fp_9cMRJ2vEEdUTP1ynLd_9ulbkMfC26tgXKu5lXOl_mpwVj2RLU"/>
+<div>
+<p class="font-body-md font-bold text-on-surface">ZUES_ELITE</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant/60">QUALIFIER</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-display-countdown text-lg text-primary">1.9K</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">BF TOKENS</p>
+</div>
+</div>
+<!-- Rank 7 -->
+<div class="glass-card flex items-center p-4 rounded-xl active:scale-[0.98] transition-all duration-200">
+<span class="w-10 font-display-countdown text-xl text-on-surface-variant/40">7</span>
+<div class="flex-1 flex items-center gap-3">
+<img alt="" class="w-10 h-10 rounded-full bg-surface-container" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCLg7z0YQIqLedBZFja8B99cgCGhVcNVPBjEFrFZNydn7YkKEFB94FXcTW0BMG-ECx1zGKWqDNZdIHMesn_84UHkn3mFReWdHpD0OXw93M4hAwFuSNf3EUT1-F1sAqau8cqW3E0NilTf5piXBWyORxgo-GAOxAtAgDVsR78SKa6nZWD-fJMNfzSTPsLb6Xgs1wTdVfTQV_9trh0dEcrNsN2rMa39gJJwHS4X5S-2H99tNE_0E3j3SK3NiZi5mE8CGCrqJtWMZJaIqz"/>
+<div>
+<p class="font-body-md font-bold text-on-surface">NOX_CHAMP</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant/60">QUALIFIER</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-display-countdown text-lg text-primary">1.7K</p>
+<p class="font-label-caps text-[8px] text-on-surface-variant">BF TOKENS</p>
+</div>
+</div>
+</section>
+</main>
+<!-- My Rank Sticky Footer -->
+<div class="fixed bottom-[88px] left-0 right-0 px-container-margin z-40 md:bottom-6">
+<div class="max-w-4xl mx-auto glass-card border-primary/30 bg-primary/10 rounded-2xl p-4 flex items-center shadow-2xl animate-bounce-subtle">
+<span class="w-10 font-display-countdown text-2xl text-primary drop-shadow-[0_0_8px_rgba(255,216,138,0.5)]">12</span>
+<div class="flex-1 flex items-center gap-3">
+<div class="relative">
+<img alt="" class="w-12 h-12 rounded-full border-2 border-primary bg-surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHUqRbFUq3C_cqP7fPPiA9iAnns6NPr4COFwGDB_ChVXSXOFMoiRxpp7AO78JZvvdtj3RY47IdO1lv9CvSdzR7-S9xoVEs8gT4u-bol9ZhEvTC59jeRoyiRcev-tSKWwRuy06OYRaZmcgsG6MDEf1vKIQIc6vxVEpCpVjExcSOHIOD2NpFaHgBF9f31bNehUdB_Drob2L-TKpTtOylVCPtWMK80peqvbmUPham2rrt0Ftn8JaY30ZlEqqe94Hnz4-EuNGTh1UgbIIr"/>
+<span class="absolute -top-1 -right-1 bg-primary w-3 h-3 rounded-full animate-ping"></span>
+</div>
+<div>
+<p class="font-body-md font-extrabold text-primary">CHAMPION_777 (YOU)</p>
+<p class="font-label-caps text-[10px] text-secondary-fixed-dim">VERIFIED PRO</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-display-countdown text-xl text-primary">8.9K</p>
+<div class="flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-[12px] text-primary">trending_up</span>
+<p class="font-label-caps text-[10px] text-primary">+3 Ranks</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/90 dark:bg-surface/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] flex justify-around items-center pt-2 pb-6 px-4">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-caps text-label-caps">Arena</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold drop-shadow-[0_0_8px_rgba(255,216,138,0.6)] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">leaderboard</span>
+<span class="font-label-caps text-label-caps">Leader</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps">Refer</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="font-label-caps text-label-caps">Wallet</span>
+</a>
+</nav>
+<script>
+        function switchTab(el) {
+            // Reset all buttons in the parent
+            const buttons = el.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-surface-container-highest', 'shadow-lg', 'text-primary');
+                btn.classList.add('text-on-surface-variant');
+            });
+
+            // Set active state for clicked button
+            el.classList.add('bg-surface-container-highest', 'shadow-lg', 'text-primary');
+            el.classList.remove('text-on-surface-variant');
+
+            // Feedback Haptic-like
+            el.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                el.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        // Simple smooth scroll and intersection observers could go here
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `all 0.5s ease-out ${index * 0.05}s`;
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 100);
+            });
+        });
+    </script>
+<style>
+        @keyframes bounce-subtle {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+        .animate-bounce-subtle {
+            animation: bounce-subtle 3s infinite ease-in-out;
+        }
+    </style>
+</body></html>

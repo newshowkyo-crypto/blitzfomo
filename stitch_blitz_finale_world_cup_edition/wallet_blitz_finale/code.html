@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>WC2026 ELITE - Wallet &amp; Assets</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&amp;family=Space+Grotesk:wght@600;700&amp;family=Inter:wght@400;700&amp;family=Orbitron:wght@700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .font-orbitron { font-family: 'Orbitron', sans-serif; }
+        body {
+            background-color: #121317;
+            color: #e3e2e8;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(31, 31, 36, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .gold-glow {
+            box-shadow: 0 0 20px rgba(255, 216, 138, 0.15);
+        }
+        .neon-border {
+            border: 1px solid rgba(0, 219, 233, 0.3);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed-variant": "#930010",
+                        "primary": "#ffd88a",
+                        "secondary-fixed-dim": "#00dbe9",
+                        "inverse-primary": "#795900",
+                        "error": "#ffb4ab",
+                        "secondary-fixed": "#7df4ff",
+                        "on-secondary-container": "#00686f",
+                        "on-background": "#e3e2e8",
+                        "primary-container": "#f5b700",
+                        "tertiary-container": "#ffaca5",
+                        "primary-fixed": "#ffdea0",
+                        "surface-container-highest": "#343439",
+                        "on-error": "#690005",
+                        "tertiary-fixed": "#ffdad6",
+                        "tertiary": "#ffd3cf",
+                        "surface-variant": "#343439",
+                        "surface-dim": "#121317",
+                        "on-error-container": "#ffdad6",
+                        "secondary-container": "#00eefc",
+                        "surface-tint": "#fbbc0e",
+                        "on-primary-fixed-variant": "#5c4300",
+                        "primary-fixed-dim": "#fbbc0e",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-container": "#a30013",
+                        "on-secondary-fixed-variant": "#004f54",
+                        "error-container": "#93000a",
+                        "surface-bright": "#38393e",
+                        "secondary": "#d3fbff",
+                        "on-primary-fixed": "#261a00",
+                        "on-secondary-fixed": "#002022",
+                        "on-primary": "#402d00",
+                        "on-surface-variant": "#d4c5ac",
+                        "inverse-surface": "#e3e2e8",
+                        "surface": "#121317",
+                        "tertiary-fixed-dim": "#ffb3ad",
+                        "on-tertiary": "#680008",
+                        "outline": "#9c8f78",
+                        "on-surface": "#e3e2e8",
+                        "background": "#121317",
+                        "inverse-on-surface": "#2f3035",
+                        "surface-container-low": "#1a1b20",
+                        "surface-container": "#1f1f24",
+                        "on-secondary": "#00363a",
+                        "on-primary-container": "#664a00",
+                        "surface-container-lowest": "#0d0e12",
+                        "outline-variant": "#504532",
+                        "on-tertiary-fixed": "#410003"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "32px",
+                        "stack-sm": "8px",
+                        "stack-md": "16px",
+                        "container-margin": "24px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["plusJakartaSans"],
+                        "headline-lg": ["plusJakartaSans"],
+                        "label-caps": ["spaceGrotesk"],
+                        "display-countdown": ["spaceGrotesk"],
+                        "body-md": ["inter"],
+                        "body-lg": ["inter"],
+                        "headline-lg-mobile": ["plusJakartaSans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "800"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-countdown": ["48px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "34px", "fontWeight": "800"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface">
+<!-- Top AppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-xl border-b border-white/15 shadow-[0_0_15px_rgba(255,216,138,0.1)] flex justify-between items-center px-container-margin h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary cursor-pointer active:scale-95 transition-transform" onclick="history.back()">arrow_back</span>
+<h1 class="font-headline-md text-headline-md text-primary tracking-tighter italic uppercase">WC2026 ELITE</h1>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end">
+<span class="font-label-caps text-[10px] text-on-surface-variant/60 uppercase">Status</span>
+<span class="text-[12px] font-bold text-secondary-fixed-dim flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed-dim animate-pulse"></span>
+                    VERIFIED PRO
+                </span>
+</div>
+<div class="w-10 h-10 rounded-full border border-primary/30 overflow-hidden">
+<img alt="User Profile Avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl5gWw_awAombxuKpnX0ghPQPDPYy-jpR1uMETuD35sCdRAPzlMVG9NWY_HsT6qzwgwovcgbCp65Wv_VYNppN1RzZXCowQrFtITnEg8TOw3oJXZwmSUaNj7CBqN3uPYOe-S4kGYyhc1rzgvzSjmoNsihdR97gmHOwVNofkN5AFj_fTk3rnXLKtURhWZpMqqi5vfRdnmAQRbfUyeHXjbKBpck_I-TiuikzMdyfBgU4la_xdlmAuocuXUWVhM1227vl7eTt8qfttPZZa"/>
+</div>
+</div>
+</header>
+<!-- Winner Wall (Limitless scrolling trust builder) -->
+<div class="mt-16 w-full bg-surface-container-lowest py-2 overflow-hidden whitespace-nowrap border-b border-white/5">
+<div class="flex animate-[marquee_30s_linear_infinite] gap-12">
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-bold text-xs uppercase tracking-widest">LATEST WIN:</span>
+<span class="text-on-surface text-xs font-label-caps">PLAYER_882 won 4.25 TON in Final Match</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-bold text-xs uppercase tracking-widest">LATEST WIN:</span>
+<span class="text-on-surface text-xs font-label-caps">CHAMP_X withdrew 12.00 TON</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-bold text-xs uppercase tracking-widest">REFERRAL:</span>
+<span class="text-on-surface text-xs font-label-caps">LUCA_V earned 0.5 TON</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-primary-container font-bold text-xs uppercase tracking-widest">LATEST WIN:</span>
+<span class="text-on-surface text-xs font-label-caps">GOAL_HUNTER won 8.10 TON</span>
+</div>
+</div>
+</div>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+<main class="px-container-margin py-stack-lg mb-24">
+<!-- Main Balance Card -->
+<section class="relative overflow-hidden rounded-xl bg-gradient-to-br from-surface-container-high to-surface p-6 mb-stack-lg border border-white/10 gold-glow">
+<div class="absolute -top-12 -right-12 w-48 h-48 bg-primary/10 blur-[80px] rounded-full"></div>
+<div class="relative z-10 flex flex-col gap-1">
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase tracking-widest">Available Balance</span>
+<div class="flex items-baseline gap-3">
+<span class="font-orbitron text-4xl md:text-5xl text-primary drop-shadow-[0_0_10px_rgba(255,216,138,0.4)]">2,482.50</span>
+<span class="font-headline-md text-primary-fixed-dim">TON</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-secondary-fixed-dim text-sm font-bold">≈ $12,840.15 USD</span>
+<span class="text-error text-xs font-label-caps">+1.2% (24h)</span>
+</div>
+</div>
+<!-- Quick Actions -->
+<div class="grid grid-cols-2 gap-4 mt-8 relative z-10">
+<button class="bg-primary-container text-on-primary-container font-headline-md py-4 rounded-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-all shadow-lg">
+<span class="material-symbols-outlined">add_circle</span>
+                    Deposit
+                </button>
+<button class="border border-secondary-fixed-dim text-secondary-fixed-dim font-headline-md py-4 rounded-lg flex items-center justify-center gap-2 hover:bg-secondary-fixed-dim/10 active:scale-95 transition-all">
+<span class="material-symbols-outlined">payments</span>
+                    Withdraw
+                </button>
+</div>
+</section>
+<!-- TON Security Badge -->
+<div class="flex items-center justify-center gap-3 mb-stack-lg">
+<div class="glass-card flex items-center gap-3 px-4 py-2 rounded-full border border-secondary-fixed-dim/20">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-xl" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+<span class="font-label-caps text-[10px] text-on-surface tracking-widest uppercase">Secured by TON Blockchain</span>
+</div>
+</div>
+<!-- Recent Transactions -->
+<section class="flex flex-col gap-stack-md">
+<div class="flex items-center justify-between px-1">
+<h2 class="font-headline-md text-headline-md text-on-surface">Recent Activity</h2>
+<button class="text-primary font-label-caps text-xs uppercase hover:underline">View All</button>
+</div>
+<!-- Transaction Items -->
+<div class="flex flex-col gap-3">
+<!-- Item 1: Win -->
+<div class="glass-card p-4 rounded-xl flex items-center justify-between hover:bg-surface-container-highest/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+</div>
+<div>
+<p class="font-body-lg font-bold text-on-surface">Match Win</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">June 14 • 14:20</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-primary">+84.50 TON</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase flex items-center justify-end gap-1">
+<span class="w-1 h-1 rounded-full bg-secondary-fixed-dim"></span>
+                            Completed
+                        </p>
+</div>
+</div>
+<!-- Item 2: Buy-in -->
+<div class="glass-card p-4 rounded-xl flex items-center justify-between hover:bg-surface-container-highest/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container-high flex items-center justify-center border border-white/5">
+<span class="material-symbols-outlined text-on-surface-variant">stadium</span>
+</div>
+<div>
+<p class="font-body-lg font-bold text-on-surface">Match Buy-in</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">June 14 • 10:05</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-on-surface">-15.00 TON</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase flex items-center justify-end gap-1">
+<span class="w-1 h-1 rounded-full bg-secondary-fixed-dim"></span>
+                            Settled
+                        </p>
+</div>
+</div>
+<!-- Item 3: Referral -->
+<div class="glass-card p-4 rounded-xl flex items-center justify-between hover:bg-surface-container-highest/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-secondary-fixed-dim/10 flex items-center justify-center border border-secondary-fixed-dim/20">
+<span class="material-symbols-outlined text-secondary-fixed-dim">groups</span>
+</div>
+<div>
+<p class="font-body-lg font-bold text-on-surface">Referral Bonus</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">June 13 • 18:44</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-primary">+2.50 TON</p>
+<p class="text-[10px] font-bold text-secondary-fixed-dim uppercase flex items-center justify-end gap-1">
+<span class="w-1 h-1 rounded-full bg-secondary-fixed-dim"></span>
+                            Bonus Applied
+                        </p>
+</div>
+</div>
+<!-- Item 4: Withdrawal -->
+<div class="glass-card p-4 rounded-xl flex items-center justify-between hover:bg-surface-container-highest/50 transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-error-container/10 flex items-center justify-center border border-error-container/20">
+<span class="material-symbols-outlined text-error">account_balance_wallet</span>
+</div>
+<div>
+<p class="font-body-lg font-bold text-on-surface">Withdrawal</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">June 12 • 09:12</p>
+</div>
+</div>
+<div class="text-right">
+<p class="font-headline-md text-on-surface">-250.00 TON</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase flex items-center justify-end gap-1">
+<span class="w-1 h-1 rounded-full bg-on-surface-variant"></span>
+                            Processing
+                        </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Network Stats (Social Proof) -->
+<section class="mt-stack-lg p-6 rounded-xl border border-white/5 bg-surface-container-lowest">
+<h3 class="font-label-caps text-xs text-on-surface-variant uppercase mb-4 text-center tracking-[0.2em]">Live Global Economy</h3>
+<div class="grid grid-cols-2 gap-8 text-center">
+<div>
+<p class="font-headline-md text-primary">12.4M</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">TON Distributed</p>
+</div>
+<div>
+<p class="font-headline-md text-secondary-fixed-dim">1.2s</p>
+<p class="font-label-caps text-[10px] text-on-surface-variant uppercase">Payout Speed</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-xl bg-surface/90 dark:bg-surface/90 backdrop-blur-xl border-t border-white/10 shadow-[0_-5px_20px_rgba(0,0,0,0.5)] flex justify-around items-center pt-2 pb-6 px-4">
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">sports_soccer</span>
+<span class="font-label-caps text-label-caps mt-1">Arena</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="font-label-caps text-label-caps mt-1">Leader</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant/60 hover:text-primary transition-colors active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined">groups</span>
+<span class="font-label-caps text-label-caps mt-1">Refer</span>
+</a>
+<a class="flex flex-col items-center justify-center text-primary font-bold drop-shadow-[0_0_8px_rgba(255,216,138,0.6)] active:scale-110 duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+<span class="font-label-caps text-label-caps mt-1">Wallet</span>
+</a>
+</nav>
+<!-- Visual Background Flourish -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-20">
+<div class="absolute top-[10%] right-[10%] w-[400px] h-[400px] bg-primary rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[5%] left-[-5%] w-[300px] h-[300px] bg-secondary-fixed-dim rounded-full blur-[100px]"></div>
+</div>
+<script>
+        // Simple micro-interaction for cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousedown', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.1s ease-out';
+            });
+            card.addEventListener('mouseup', () => {
+                card.style.transform = 'scale(1)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body></html>

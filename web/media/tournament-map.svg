@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1450" role="img" aria-labelledby="title desc">
+  <title id="title">Blitz Finale Road to Champion tournament map</title>
+  <desc id="desc">A clear World Cup champion path bracket from TOP32 to TOP16, TOP8, TOP4, FINAL and CHAMPION.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#071b14"/>
+      <stop offset=".48" stop-color="#081016"/>
+      <stop offset="1" stop-color="#030806"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fff2ae"/>
+      <stop offset=".55" stop-color="#f5c756"/>
+      <stop offset="1" stop-color="#b37712"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8df7ff"/>
+      <stop offset=".55" stop-color="#31d9ff"/>
+      <stop offset="1" stop-color="#1184b8"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <style>
+      .title{font:900 54px Arial,sans-serif;fill:#fff7d6;letter-spacing:-1px}
+      .sub{font:800 22px Arial,sans-serif;fill:#8df7ff;letter-spacing:4px}
+      .label{font:900 22px Arial,sans-serif;fill:#fff8dc}
+      .small{font:800 15px Arial,sans-serif;fill:#9fb5ad}
+      .box{fill:rgba(255,255,255,.045);stroke:rgba(255,255,255,.24);stroke-width:2}
+      .open{stroke:#f5c756;filter:url(#glow)}
+      .future{stroke:#31d9ff;opacity:.85}
+      .lineGold{stroke:url(#gold);stroke-width:5;fill:none;filter:url(#glow)}
+      .lineCyan{stroke:url(#cyan);stroke-width:4;fill:none;opacity:.8}
+    </style>
+  </defs>
+  <rect width="900" height="1450" fill="url(#bg)"/>
+  <circle cx="450" cy="720" r="520" fill="none" stroke="#12392f" stroke-width="2"/>
+  <circle cx="450" cy="720" r="380" fill="none" stroke="#102630" stroke-width="2"/>
+  <path d="M130 1260 C260 1190 740 1190 870 1260" fill="none" stroke="#183b2f" stroke-width="3"/>
+  <text x="450" y="94" text-anchor="middle" class="sub">WORLD CUP 2026</text>
+  <text x="450" y="154" text-anchor="middle" class="title">ROAD TO CHAMPION</text>
+  <text x="450" y="196" text-anchor="middle" class="small">Buy stage keys · Survive the bracket · Chase the Super Champion Pool</text>
+
+  <path class="lineCyan" d="M132 300 H230 V395 H312"/>
+  <path class="lineCyan" d="M132 510 H230 V445 H312"/>
+  <path class="lineCyan" d="M132 930 H230 V830 H312"/>
+  <path class="lineCyan" d="M132 1140 H230 V880 H312"/>
+  <path class="lineCyan" d="M768 300 H670 V395 H588"/>
+  <path class="lineCyan" d="M768 510 H670 V445 H588"/>
+  <path class="lineCyan" d="M768 930 H670 V830 H588"/>
+  <path class="lineCyan" d="M768 1140 H670 V880 H588"/>
+  <path class="lineGold" d="M312 420 H390 V640 H450"/>
+  <path class="lineGold" d="M312 855 H390 V760 H450"/>
+  <path class="lineGold" d="M588 420 H510 V640 H450"/>
+  <path class="lineGold" d="M588 855 H510 V760 H450"/>
+  <path class="lineGold" d="M450 640 V550"/>
+  <path class="lineGold" d="M450 760 V850"/>
+
+  <g transform="translate(78 248)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">32 LIVE POOLS</text>
+  </g>
+  <g transform="translate(78 468)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">OPEN NOW</text>
+  </g>
+  <g transform="translate(78 888)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">KEY MARKET</text>
+  </g>
+  <g transform="translate(78 1108)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">GROUP STAGE</text>
+  </g>
+
+  <g transform="translate(690 248)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">32 LIVE POOLS</text>
+  </g>
+  <g transform="translate(690 468)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">OPEN NOW</text>
+  </g>
+  <g transform="translate(690 888)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">KEY MARKET</text>
+  </g>
+  <g transform="translate(690 1108)">
+    <rect class="box open" width="132" height="72" rx="16"/>
+    <text x="66" y="31" text-anchor="middle" class="label">TOP32</text>
+    <text x="66" y="53" text-anchor="middle" class="small">GROUP STAGE</text>
+  </g>
+
+  <g transform="translate(286 382)">
+    <rect class="box future" width="136" height="82" rx="18"/>
+    <text x="68" y="35" text-anchor="middle" class="label">TOP16</text>
+    <text x="68" y="58" text-anchor="middle" class="small">opens after results</text>
+  </g>
+  <g transform="translate(286 818)">
+    <rect class="box future" width="136" height="82" rx="18"/>
+    <text x="68" y="35" text-anchor="middle" class="label">TOP8</text>
+    <text x="68" y="58" text-anchor="middle" class="small">quarter path</text>
+  </g>
+  <g transform="translate(522 382)">
+    <rect class="box future" width="136" height="82" rx="18"/>
+    <text x="68" y="35" text-anchor="middle" class="label">TOP16</text>
+    <text x="68" y="58" text-anchor="middle" class="small">knockout path</text>
+  </g>
+  <g transform="translate(522 818)">
+    <rect class="box future" width="136" height="82" rx="18"/>
+    <text x="68" y="35" text-anchor="middle" class="label">TOP8</text>
+    <text x="68" y="58" text-anchor="middle" class="small">quarter path</text>
+  </g>
+
+  <g transform="translate(367 600)">
+    <rect class="box future" width="166" height="92" rx="20"/>
+    <text x="83" y="39" text-anchor="middle" class="label">TOP4</text>
+    <text x="83" y="64" text-anchor="middle" class="small">semi-final keys</text>
+  </g>
+  <g transform="translate(367 810)">
+    <rect class="box future" width="166" height="92" rx="20"/>
+    <text x="83" y="39" text-anchor="middle" class="label">FINAL</text>
+    <text x="83" y="64" text-anchor="middle" class="small">final match keys</text>
+  </g>
+  <g transform="translate(300 674)">
+    <circle cx="150" cy="55" r="76" fill="rgba(245,199,86,.1)" stroke="url(#gold)" stroke-width="5" filter="url(#glow)"/>
+    <text x="150" y="48" text-anchor="middle" class="label">CHAMPION</text>
+    <text x="150" y="75" text-anchor="middle" class="small">SUPER POOL</text>
+  </g>
+  <text x="450" y="1320" text-anchor="middle" class="small">Current launch strategy: TOP32 pools open first. Later stages unlock from admin results.</text>
+  <text x="450" y="1360" text-anchor="middle" fill="#f5c756" font-family="Arial,sans-serif" font-size="24" font-weight="900">BLITZ FOMO · WORLD CUP CHAMPION ROAD</text>
+</svg>

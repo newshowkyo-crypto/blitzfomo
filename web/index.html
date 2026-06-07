@@ -1,0 +1,3036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Blitz Fomo World Cup 2026</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050806;
+      --pitch: #0f4f34;
+      --pitch-2: #0a2d22;
+      --surface: rgba(12, 17, 22, .92);
+      --surface-2: rgba(20, 27, 34, .94);
+      --line: rgba(255, 255, 255, .12);
+      --line-strong: rgba(245, 199, 86, .5);
+      --text: #f8f5ec;
+      --muted: #b8c0b5;
+      --gold: #f5c756;
+      --gold-2: #ffe7a6;
+      --green: #29d982;
+      --blue: #4ed7ff;
+      --red: #ff6f61;
+      --purple: #9b7cff;
+      --orange: #ff9f43;
+      --shadow: 0 24px 80px rgba(0, 0, 0, .58);
+      --shadow-gold: 0 18px 48px rgba(245, 199, 86, .26);
+      --radius: 18px;
+      --radius-xl: 22px;
+      --page-pad: 14px;
+      --section-gap: 14px;
+      --card-gap: 12px;
+      --phone: 430px;
+    }
+
+    * { box-sizing: border-box; }
+    * { min-width: 0; }
+    html, body { min-height: 100%; margin: 0; }
+    body {
+      background:
+        linear-gradient(180deg, rgba(8, 49, 33, .86), rgba(5, 8, 6, 1) 52%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+    }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .62; }
+
+    .tma-shell {
+      width: min(100vw, var(--phone));
+      min-height: 100dvh;
+      margin: 0 auto;
+      position: relative;
+      overflow-x: hidden;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px) 0 0 / 36px 36px,
+        linear-gradient(180deg, rgba(255, 255, 255, .04), transparent 320px),
+        #07100d;
+      border-left: 1px solid rgba(255, 255, 255, .08);
+      border-right: 1px solid rgba(255, 255, 255, .08);
+      box-shadow: 0 0 90px rgba(0, 0, 0, .7);
+    }
+    .tma-shell::after {
+      content: "";
+      position: fixed;
+      left: 50%;
+      top: -120px;
+      width: min(520px, 120vw);
+      height: 420px;
+      transform: translateX(-50%);
+      pointer-events: none;
+      opacity: .34;
+      background:
+        radial-gradient(circle at 28% 35%, rgba(245,199,86,.42), transparent 34%),
+        radial-gradient(circle at 72% 22%, rgba(78,215,255,.26), transparent 35%),
+        radial-gradient(circle at 50% 70%, rgba(41,217,130,.2), transparent 38%);
+      filter: blur(16px);
+    }
+    .tma-shell::before {
+      content: "";
+      position: fixed;
+      inset: 74px calc(50% - min(50vw, var(--phone) / 2)) 0;
+      pointer-events: none;
+      opacity: .18;
+      background:
+        radial-gradient(circle at 50% 25%, transparent 0 58px, rgba(255,255,255,.42) 59px 60px, transparent 61px),
+        linear-gradient(90deg, transparent 49.6%, rgba(255,255,255,.35) 49.8% 50.2%, transparent 50.4%),
+        linear-gradient(180deg, transparent 50%, rgba(255,255,255,.32) 50.1%, transparent 50.25%);
+      mask-image: linear-gradient(180deg, transparent, #000 12%, #000 72%, transparent);
+    }
+
+    .appbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      min-height: 64px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 8px;
+      padding: calc(10px + env(safe-area-inset-top)) 12px 10px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(6, 12, 10, .88);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand { min-width: 0; display: flex; align-items: center; gap: 9px; }
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      flex: 0 0 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      color: #111;
+      background:
+        radial-gradient(circle at 30% 25%, #fff8d6, transparent 28%),
+        linear-gradient(180deg, var(--gold-2), var(--gold));
+      font-weight: 950;
+      box-shadow: 0 10px 26px rgba(245,199,86,.28);
+    }
+    .brand-title { margin: 0; font-size: 18px; line-height: 1; font-weight: 950; white-space: nowrap; }
+    .brand-sub { margin-top: 4px; color: var(--muted); font-size: 11px; white-space: nowrap; }
+    .appbar-actions { display: flex; align-items: center; gap: 8px; }
+    .lang-select-wrap {
+      position: relative;
+      width: 132px;
+      flex: 0 0 132px;
+    }
+    .lang-select {
+      width: 100%;
+      height: 38px;
+      appearance: none;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 0 32px 0 12px;
+      color: var(--gold-2);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.035)),
+        rgba(255, 255, 255, .07);
+      font-size: 13px;
+      font-weight: 950;
+      outline: none;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .lang-select-wrap::after {
+      content: "⌄";
+      position: absolute;
+      right: 11px;
+      top: 7px;
+      color: var(--muted);
+      pointer-events: none;
+      font-weight: 950;
+    }
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .07);
+      color: var(--gold-2);
+      font-weight: 900;
+    }
+    .profile-btn { width: 44px; font-size: 20px; }
+
+    .content {
+      width: 100%;
+      display: grid;
+      gap: var(--section-gap);
+      padding: 16px var(--page-pad) calc(96px + env(safe-area-inset-bottom));
+    }
+    .view { display: none; animation: enter .18s ease; }
+    .view.active {
+      display: grid;
+      gap: var(--section-gap);
+    }
+    .view > .hero,
+    .view > .score-strip,
+    .view > .panel {
+      margin-top: 0;
+    }
+    @keyframes enter { from { opacity: .55; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(245,199,86,0), var(--shadow-gold); }
+      50% { box-shadow: 0 0 30px rgba(245,199,86,.22), var(--shadow-gold); }
+    }
+    @keyframes livePulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: .55; } }
+
+    .hero {
+      height: 240px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      background: #101821;
+      box-shadow: var(--shadow);
+      background-image: url('/media/hero-road-champion.webp');
+      background-size: cover;
+      background-position: center;
+    }
+    .hero > img { display: none; }
+    .hero::before {
+      content: "⚽";
+      position: absolute;
+      right: 14px;
+      top: 12px;
+      z-index: 2;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 999px;
+      background: rgba(3, 8, 7, .52);
+      box-shadow: 0 10px 24px rgba(0,0,0,.32);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(3, 7, 5, .15), rgba(3, 7, 5, .95)),
+        radial-gradient(circle at 20% 72%, rgba(245,199,86,.22), transparent 38%),
+        linear-gradient(90deg, rgba(6, 20, 15, .36), transparent 48%, rgba(6, 20, 15, .48));
+    }
+    .hero-copy { position: absolute; left: 16px; right: 16px; bottom: 15px; z-index: 3; }
+    .road-map-hero {
+      background-image: url('/media/road-map-bg.webp');
+      background-size: cover;
+      background-position: center;
+    }
+    .kicker {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 950;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .hero h2 { margin: 6px 0 0; font-size: 32px; line-height: .96; font-weight: 1000; letter-spacing: -.04em; text-shadow: 0 2px 8px rgba(0,0,0,.85), 0 4px 16px rgba(0,0,0,.68), 0 10px 32px rgba(0,0,0,.55); }
+    .hero-note { margin: 8px 0 0; max-width: 330px; color: #e6ebdf; font-size: 12px; line-height: 1.35; }
+    .hero-badges { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      padding: 0 10px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 999px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.04)),
+        rgba(0,0,0,.34);
+      color: #fff8d6;
+      font-size: 11px;
+      font-weight: 950;
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.16);
+    }
+    .stage-road {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      align-items: center;
+      gap: 5px;
+      margin-top: 12px;
+      padding: 9px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(245,199,86,.18);
+      overflow: hidden;
+    }
+    .stage-road::-webkit-scrollbar { display: none; }
+    .stage-node {
+      min-width: 0;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      box-sizing: border-box;
+      padding: 0;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.1);
+      color: var(--muted);
+      font-size: clamp(7px, 1.9vw, 9px);
+      font-weight: 950;
+      white-space: nowrap;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: -.02em;
+      overflow: hidden;
+      text-overflow: clip;
+    }
+    .stage-node.active {
+      background: rgba(245,199,86,.22);
+      border-color: var(--gold);
+      color: var(--gold-2);
+      box-shadow: 0 0 16px rgba(245,199,86,.24);
+    }
+    .stage-node.gold {
+      background: linear-gradient(180deg, rgba(255,231,166,.3), rgba(245,199,86,.15));
+      border-color: var(--gold);
+      color: var(--gold-2);
+      text-shadow: 0 0 10px rgba(245,199,86,.5);
+    }
+    .stage-node:hover {
+      border-color: rgba(245,199,86,.42);
+      color: var(--gold-2);
+    }
+    .stage-node:focus-visible,
+    .road-tabs button:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+    .stage-arrow {
+      display: none;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .score-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      margin-top: 0;
+      padding: 12px;
+      border: 1px solid rgba(41, 217, 130, .28);
+      border-radius: var(--radius-xl);
+      background:
+        linear-gradient(90deg, rgba(41, 217, 130, .13), rgba(245, 199, 86, .09)),
+        rgba(5, 14, 11, .74);
+      box-shadow: 0 14px 38px rgba(0,0,0,.22), 0 1px 0 rgba(255,255,255,.06) inset;
+    }
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      min-height: 30px;
+      padding: 0 10px;
+      border: 1px solid rgba(41, 217, 130, .34);
+      border-radius: 999px;
+      color: var(--green);
+      background: rgba(41, 217, 130, .1);
+      font-size: 12px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .dot { width: 8px; height: 8px; border-radius: 99px; background: var(--green); box-shadow: 0 0 14px rgba(41, 217, 130, .9); }
+    .live-pill .dot { animation: livePulse 1.5s ease-in-out infinite; }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .075), rgba(255, 255, 255, .022)),
+        radial-gradient(circle at 10% 0%, rgba(245,199,86,.08), transparent 36%),
+        var(--surface);
+      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,.06) inset;
+    }
+    .panel, .score-strip, .hero { backdrop-filter: blur(12px); }
+    .panel-head {
+      min-height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-title { font-size: 16px; font-weight: 950; line-height: 1.15; }
+    .panel-sub { margin-top: 3px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+    .panel-body { padding: 14px; }
+
+    .jackpot {
+      display: grid;
+      gap: 12px;
+      padding: 20px 16px 20px;
+      margin-bottom: 16px;
+      background:
+        linear-gradient(135deg, rgba(245, 199, 86, .15), transparent 48%),
+        linear-gradient(160deg, rgba(41, 217, 130, .08), transparent 68%),
+        var(--surface);
+      background-image: url('/media/super-jackpot-bg.webp');
+      background-size: cover;
+      background-position: center;
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+    }
+    .jackpot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: 
+        linear-gradient(180deg, rgba(0,0,0,.15) 0%, rgba(0,0,0,.35) 45%, rgba(0,0,0,.72) 100%);
+      pointer-events: none;
+    }
+    .jackpot > * {
+      position: relative;
+      z-index: 2;
+    }
+    #main-prize {
+      position: relative;
+      z-index: 2;
+      color: var(--gold-2);
+      font-size: clamp(50px, 17vw, 72px);
+      line-height: .88;
+      font-weight: 1000;
+      letter-spacing: -.055em;
+      overflow-wrap: anywhere;
+      text-shadow: 0 0 30px rgba(245,199,86,.22), 0 12px 36px rgba(0,0,0,.62);
+      background: linear-gradient(180deg, rgba(0,0,0,.3), rgba(0,0,0,.6));
+      padding: 8px 12px;
+      border-radius: 8px;
+      backdrop-filter: blur(4px);
+    }
+    .timer-card {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 16px;
+      background: rgba(0,0,0,.22);
+    }
+    #timer-display { color: var(--text); font-size: 36px; line-height: 1; font-weight: 1000; font-variant-numeric: tabular-nums; }
+    .timer-track { height: 10px; border-radius: 999px; background: rgba(255, 255, 255, .14); overflow: hidden; }
+    #timer-bar { width: 100%; height: 100%; background: linear-gradient(90deg, var(--green), var(--gold), var(--red)); transition: width .3s ease; }
+
+    .label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 11px; font-weight: 850; }
+    .value { min-width: 0; color: var(--gold-2); font-weight: 950; line-height: 1.16; overflow-wrap: anywhere; }
+    .input {
+      width: 100%;
+      height: 48px;
+      padding: 0 13px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: var(--radius);
+      outline: 0;
+      background: rgba(0,0,0,.65);
+      color: var(--text);
+      font-size: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 0 0 1px rgba(255,255,255,.04) inset;
+      backdrop-filter: blur(8px);
+    }
+    .input:focus { 
+      border-color: var(--blue); 
+      box-shadow: 0 0 0 3px rgba(78, 215, 255, .18), inset 0 1px 0 rgba(255,255,255,.1); 
+    }
+    .btn {
+      min-height: 48px;
+      width: 100%;
+      border: 0;
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,248,220,.9), transparent 35%),
+        linear-gradient(180deg, #fff0b9, var(--gold));
+      color: #121006;
+      font-weight: 950;
+      box-shadow: var(--shadow-gold), 0 2px 0 rgba(0,0,0,.12);
+      transition: transform .12s ease, filter .16s ease, box-shadow .16s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,.3) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .btn:hover { 
+      transform: translateY(-2px); 
+      filter: brightness(1.05); 
+      box-shadow: var(--shadow-gold), 0 6px 20px rgba(245,199,86,.32), 0 2px 0 rgba(0,0,0,.12);
+    }
+    .btn:active { 
+      transform: translateY(0); 
+      box-shadow: 0 4px 12px rgba(245,199,86,.2), 0 2px 0 rgba(0,0,0,.12);
+    }
+    #buy-button { animation: pulseGlow 2.4s ease-in-out infinite; }
+    .btn.secondary { 
+      color: var(--text); 
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.055)); 
+      border: 1px solid var(--line); 
+      box-shadow: 0 4px 12px rgba(0,0,0,.15); 
+    }
+    .btn.secondary:hover { 
+      background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.08));
+      border-color: rgba(255,255,255,.2);
+    }
+    .btn.ghost { 
+      min-height: 42px; 
+      color: var(--gold-2); 
+      background: rgba(255, 255, 255, .05); 
+      border: 1px solid var(--line-strong); 
+      box-shadow: 0 4px 12px rgba(0,0,0,.12); 
+    }
+    .btn.ghost:hover {
+      background: rgba(245,199,86,.1);
+      border-color: var(--gold);
+    }
+    .form-stack { display: grid; gap: 12px; }
+    .two-col { display: grid; grid-template-columns: minmax(0, 1fr) minmax(104px, .45fr); gap: 10px; align-items: end; }
+    .quick-grid, .stat-grid, .tile-grid, .tool-grid { display: grid; gap: 10px; }
+    .quick-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .stat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 4px; }
+    .tile-grid, .tool-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tile-grid.gap-below { margin-bottom: 12px; }
+    .bracket-img { width: 100%; border-radius: 12px; border: 1px solid var(--line); display: block; background: #07110e; }
+    .quick-grid button, .tool-card {
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.025)),
+        rgba(0,0,0,.35);
+      color: var(--text);
+      font-weight: 950;
+      transition: transform .12s ease, border-color .16s ease, background .16s ease, box-shadow .16s ease;
+      backdrop-filter: blur(8px);
+    }
+    .quick-grid button:hover, .tool-card:hover {
+      transform: translateY(-1px);
+      border-color: rgba(245, 199, 86, .55);
+      background: rgba(245, 199, 86, .12);
+      box-shadow: 0 4px 14px rgba(245,199,86,.18);
+    }
+    .quick-grid button { min-height: 44px; font-size: 14px; padding: 0 8px; }
+    .tool-card { min-height: 74px; text-align: left; padding: 12px; }
+    .stat, .tile {
+      min-height: 78px;
+      display: grid;
+      align-content: center;
+      gap: 7px;
+      padding: 11px 10px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
+        rgba(2, 8, 7, .58);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .tile.icon-tile, .stat.icon-tile {
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: center;
+      align-content: center;
+    }
+    .tile-copy { min-width: 0; display: grid; gap: 7px; }
+    .ui-icon {
+      width: 34px;
+      height: 34px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 28% 18%, rgba(255,255,255,.24), transparent 30%),
+        linear-gradient(180deg, rgba(245,199,86,.2), rgba(41,217,130,.1));
+      border: 1px solid rgba(245,199,86,.24);
+      color: var(--gold-2);
+      font-size: 17px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.18);
+    }
+    .stat strong, .tile strong { min-width: 0; color: var(--gold-2); font-size: 20px; line-height: 1.05; font-weight: 950; overflow-wrap: anywhere; }
+    .stat strong { color: var(--text); font-size: 15px; }
+
+    .list { display: grid; gap: 8px; min-height: 70px; max-height: 360px; overflow: auto; }
+    .item {
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 11px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, .055);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+    }
+    .item:hover { border-color: rgba(245,199,86,.34); background: rgba(255,255,255,.075); }
+    .item-title { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 950; }
+    .item-meta { margin-top: 4px; color: var(--muted); font-size: 11px; }
+    .item-amount { color: var(--green); font-size: 14px; font-weight: 950; white-space: nowrap; }
+
+    .rank-podium { display: grid; grid-template-columns: 1fr 1.16fr 1fr; gap: 8px; align-items: end; padding-top: 10px; }
+    .podium-card {
+      min-height: 154px;
+      display: grid;
+      place-items: center;
+      align-content: start;
+      gap: 7px;
+      padding: 26px 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(245,199,86,.1), transparent 46%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.025)),
+        rgba(255, 255, 255, .05);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .podium-card::after {
+      content: "";
+      position: absolute;
+      inset: auto 10px 0;
+      height: 4px;
+      border-radius: 999px 999px 0 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), transparent);
+    }
+    .podium-card.gold::after { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .podium-card.silver::after { background: linear-gradient(90deg, transparent, #c2cad6, transparent); }
+    .podium-card.bronze::after { background: linear-gradient(90deg, transparent, #c87b3c, transparent); }
+    /* rank number chip top-center */
+    .podium-rank {
+      position: absolute;
+      top: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      min-width: 22px;
+      height: 20px;
+      padding: 0 7px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+      color: #f0ead4;
+      background: rgba(0,0,0,.34);
+      border: 1px solid var(--line);
+    }
+    .podium-card.gold .podium-rank { color: #2a1f05; background: linear-gradient(180deg, #ffe7a6, var(--gold)); border-color: rgba(245,199,86,.6); }
+    .podium-card.silver .podium-rank { color: #1c1f24; background: linear-gradient(180deg, #f3f6fb, #c2cad6); border-color: rgba(220,228,240,.55); }
+    .podium-card.bronze .podium-rank { color: #2a1604; background: linear-gradient(180deg, #f0bd86, #c87b3c); border-color: rgba(210,140,80,.55); }
+    /* Champion Board avatar: real trophy/player assets instead of placeholder initials */
+    .podium-crest {
+      position: relative;
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 28%, rgba(255,255,255,.28), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.04));
+      border: 2px solid var(--line);
+      overflow: visible;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.18), 0 10px 24px rgba(0,0,0,.24);
+    }
+    .podium-card.gold .podium-crest { border-color: var(--gold); box-shadow: 0 8px 20px rgba(245,199,86,.34); }
+    .podium-card.silver .podium-crest { border-color: rgba(220,228,240,.7); }
+    .podium-card.bronze .podium-crest { border-color: rgba(210,140,80,.7); }
+    .podium-visual {
+      width: calc(100% + 16px);
+      height: calc(100% + 16px);
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center;
+      filter: saturate(1.08) contrast(1.04);
+    }
+    .podium-visual.trophy { object-fit: contain; filter: drop-shadow(0 10px 15px rgba(245,199,86,.28)) saturate(1.1); }
+    .podium-visual.medal { object-fit: contain; filter: drop-shadow(0 9px 13px rgba(245,199,86,.2)) saturate(1.05); }
+    .podium-initial {
+      display: none;
+    }
+    .podium-medal {
+      position: absolute;
+      right: -4px;
+      bottom: -4px;
+      width: 22px;
+      height: 22px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(3,8,7,.82);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      line-height: 1;
+    }
+    .podium-name {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .podium-score { color: var(--gold-2); font-size: 14px; font-weight: 1000; white-space: nowrap; }
+    .podium-card.top {
+      min-height: 178px;
+      padding-top: 30px;
+      border-color: var(--line-strong);
+      background:
+        radial-gradient(circle at 50% 4%, rgba(255,231,166,.3), transparent 42%),
+        linear-gradient(180deg, rgba(245, 199, 86, .2), rgba(255, 255, 255, .06));
+      box-shadow: var(--shadow-gold);
+    }
+    .podium-card.top .podium-crest { width: 72px; height: 72px; }
+    .podium-card.top .podium-medal { width: 26px; height: 26px; font-size: 15px; }
+    .podium-card.top .podium-score { font-size: 16px; }
+
+    /* Champion Board ranking list */
+    .rank-row {
+      display: grid;
+      grid-template-columns: 40px minmax(0, 1fr) auto;
+      gap: 11px;
+      align-items: center;
+      min-height: 62px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)),
+        rgba(255, 255, 255, .04);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .rank-row:hover { transform: translateY(-1px); border-color: rgba(245,199,86,.32); background: rgba(245,199,86,.06); }
+    .rank-row.is-top { border-color: var(--line-strong); background: radial-gradient(circle at 0% 0%, rgba(245,199,86,.16), transparent 52%), rgba(245,199,86,.05); }
+    .rank-row.is-leader {
+      border-color: rgba(245,199,86,.62);
+      background: linear-gradient(100deg, rgba(245,199,86,.2), rgba(245,199,86,.05) 60%), rgba(245,199,86,.05);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 8px 22px rgba(245,199,86,.16);
+    }
+    .rank-row.is-leader .rank-name { color: var(--gold-2); }
+    .rank-badge {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 1000;
+      font-variant-numeric: tabular-nums;
+      color: #f0ead4;
+      background: linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.03));
+      border: 1px solid var(--line);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+    .rank-badge.gold { color: #2a1f05; background: linear-gradient(180deg, #ffe7a6, var(--gold)); border-color: rgba(245,199,86,.6); box-shadow: 0 6px 16px rgba(245,199,86,.34); }
+    .rank-badge.silver { color: #1c1f24; background: linear-gradient(180deg, #f3f6fb, #c2cad6); border-color: rgba(220,228,240,.55); }
+    .rank-badge.bronze { color: #2a1604; background: linear-gradient(180deg, #f0bd86, #c87b3c); border-color: rgba(210,140,80,.55); }
+    .rank-main { min-width: 0; display: grid; gap: 4px; }
+    .rank-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; font-weight: 950; }
+    .rank-meta { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: 11px; }
+    .rank-prize { text-align: right; display: grid; gap: 3px; }
+    .rank-prize b { color: var(--gold-2); font-size: 15px; font-weight: 1000; white-space: nowrap; line-height: 1; }
+    .rank-prize span { color: var(--muted); font-size: 10px; white-space: nowrap; }
+    [dir="rtl"] .rank-prize { text-align: left; }
+
+    /* List loading skeleton + premium empty state */
+    .list-empty {
+      display: grid;
+      place-items: center;
+      gap: 8px;
+      padding: 26px 16px;
+      text-align: center;
+    }
+    .list-empty .empty-mark {
+      width: 80px;
+      height: 80px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,255,255,.15), transparent 32%),
+        linear-gradient(180deg, rgba(245,199,86,.12), rgba(41,217,130,.06));
+      border: 1px solid rgba(245,199,86,.2);
+      box-shadow: 0 12px 28px rgba(0,0,0,.24);
+      background-image: url('/media/empty-state-football.webp');
+      background-size: 60%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .list-empty .empty-title { font-size: 14px; font-weight: 950; color: var(--text); }
+    .list-empty .empty-sub { font-size: 12px; color: var(--muted); max-width: 240px; line-height: 1.4; }
+    .skeleton-row {
+      display: grid;
+      grid-template-columns: 40px minmax(0,1fr) 64px;
+      gap: 11px;
+      align-items: center;
+      min-height: 62px;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.03);
+    }
+    .skeleton-row > i { display: block; height: 12px; border-radius: 6px; background: linear-gradient(90deg, rgba(255,255,255,.06), rgba(255,255,255,.14), rgba(255,255,255,.06)); background-size: 200% 100%; animation: shimmer 1.3s linear infinite; }
+    .skeleton-row > i.sk-badge { height: 40px; border-radius: 12px; }
+    .skeleton-row > i.sk-line2 { width: 60%; margin-top: 7px; }
+    .skeleton-row .sk-main { min-width: 0; }
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+    .profile-hero { text-align: center; padding: 18px 10px 6px; }
+    .profile-avatar { width: 92px; height: 92px; border-radius: 22px; object-fit: cover; border: 1px solid var(--line-strong); box-shadow: 0 18px 44px rgba(245, 199, 86, .14); }
+    .profile-name { margin: 12px 0 4px; font-size: 28px; line-height: 1; font-weight: 950; }
+    .ref-link {
+      min-height: 46px;
+      display: block;
+      line-height: 46px;
+      padding: 0 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(3, 8, 7, .74);
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 14px;
+    }
+    .qr-card {
+      display: grid;
+      place-items: center;
+      padding: 14px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)), rgba(0,0,0,.26);
+      border: 1px solid rgba(245,199,86,.18);
+    }
+    #invite-qr {
+      width: 156px;
+      height: 156px;
+      border-radius: 14px;
+      background: #fff;
+      padding: 8px;
+      image-rendering: pixelated;
+    }
+    .trust-strip, .ref-steps {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .coin-row, .step-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+    .coin-pill, .step-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 32px;
+      padding: 0 10px;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      background: rgba(255,255,255,.055);
+      color: #f8f5ec;
+      font-size: 11px;
+      font-weight: 950;
+      cursor: pointer;
+      user-select: none;
+    }
+    .tool-card {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr);
+      align-items: center;
+      gap: 10px;
+    }
+    .tool-card span { min-width: 0; }
+    .coin-pill.hot,
+    .coin-pill.active {
+      border-color: rgba(245,199,86,.62);
+      background: linear-gradient(180deg, #fff1b1, var(--gold));
+      color: #171204;
+      box-shadow: 0 8px 18px rgba(245,199,86,.18);
+    }
+    .view[data-view="wallet"] .hero { height: 168px; }
+    .view[data-view="wallet"] .hero h2 { font-size: 28px; line-height: 1; letter-spacing: -.025em; }
+    .view[data-view="wallet"] .panel { margin-top: 9px; }
+    .view[data-view="wallet"] .panel-body { padding: 11px; }
+    .view[data-view="wallet"] .trust-strip { gap: 7px; margin-bottom: 9px; }
+    .view[data-view="wallet"] .coin-row { gap: 5px; }
+    .view[data-view="wallet"] .coin-pill { min-height: 27px; padding: 0 8px; font-size: 10px; }
+    .view[data-view="wallet"] .tile-grid.gap-below { margin-bottom: 9px; }
+    .view[data-view="wallet"].order-active .hero { height: 112px; }
+    .view[data-view="wallet"].order-active .hero-copy { bottom: 12px; }
+    .view[data-view="wallet"].order-active .hero h2 { font-size: 23px; }
+    .view[data-view="wallet"].order-active .trust-strip { margin-bottom: 7px; }
+    .view[data-view="wallet"].order-active .payment-hint { font-size: 11px; line-height: 1.32; }
+    .payment-hint, .ref-hint {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .reward-meter {
+      height: 12px;
+      overflow: hidden;
+      border-radius: 999px;
+      background: rgba(255,255,255,.12);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+    }
+    .reward-meter span {
+      display: block;
+      width: 38%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+    }
+
+    .payment-box {
+      display: none;
+      gap: 10px;
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.018)),
+        var(--surface-2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 14px 36px rgba(0,0,0,.28);
+      position: relative;
+      overflow: hidden;
+      transition: border-color .2s ease, box-shadow .2s ease;
+    }
+    .payment-box.show { display: grid; }
+    /* status accent bar at top of the card */
+    .payment-box::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: .9;
+    }
+    .payment-box.is-pending { border-color: rgba(245,199,86,.34); }
+    .payment-box.is-pending::before { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+    .payment-box.is-paid { border-color: rgba(41,217,130,.4); box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 14px 36px rgba(41,217,130,.16); }
+    .payment-box.is-paid::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+    .payment-box.is-failed { border-color: rgba(255,111,97,.4); }
+    .payment-box.is-failed::before { background: linear-gradient(90deg, transparent, var(--red), transparent); }
+    .payment-head { display: flex; align-items: center; justify-content: space-between; gap: 9px; padding-bottom: 10px; border-bottom: 1px dashed var(--line); }
+    .payment-head-left { display: flex; align-items: center; gap: 11px; min-width: 0; }
+    .payment-head-icon {
+      width: 36px; height: 36px; flex: 0 0 36px;
+      display: grid; place-items: center;
+      border-radius: 12px;
+      font-size: 19px;
+      background: linear-gradient(180deg, rgba(245,199,86,.2), rgba(41,217,130,.08));
+      border: 1px solid rgba(245,199,86,.24);
+      transition: background .2s ease, border-color .2s ease;
+    }
+    .payment-box.is-paid .payment-head-icon { background: linear-gradient(180deg, rgba(41,217,130,.26), rgba(41,217,130,.08)); border-color: rgba(41,217,130,.4); }
+    .payment-box.is-failed .payment-head-icon { background: linear-gradient(180deg, rgba(255,111,97,.24), rgba(255,111,97,.07)); border-color: rgba(255,111,97,.4); }
+    .payment-head-title { color: var(--muted); font-size: 11px; font-weight: 850; }
+    .payment-head-amount { color: var(--gold-2); font-size: 19px; font-weight: 1000; line-height: 1.1; overflow-wrap: anywhere; }
+    .pay-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      flex: 0 0 auto;
+      min-height: 28px;
+      padding: 0 11px;
+      border-radius: 999px;
+      font-size: 11px; font-weight: 1000; letter-spacing: .04em;
+      border: 1px solid transparent;
+      white-space: nowrap;
+    }
+    .pay-badge-dot { width: 7px; height: 7px; border-radius: 999px; background: currentColor; box-shadow: 0 0 10px currentColor; }
+    .pay-badge.pending { color: var(--gold-2); background: rgba(245,199,86,.12); border-color: rgba(245,199,86,.4); }
+    .pay-badge.pending .pay-badge-dot { animation: livePulse 1.5s ease-in-out infinite; }
+    .pay-badge.paid { color: var(--green); background: rgba(41,217,130,.13); border-color: rgba(41,217,130,.42); }
+    .pay-badge.failed { color: var(--red); background: rgba(255,111,97,.13); border-color: rgba(255,111,97,.42); }
+    .payment-rows { display: grid; gap: 8px; }
+    .payment-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--muted); font-size: 12px; }
+    .payment-row strong { color: var(--text); overflow-wrap: anywhere; text-align: right; font-variant-numeric: tabular-nums; }
+    .payment-row.order-id-row { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; }
+    .payment-id-wrap { display: inline-flex; align-items: center; justify-content: flex-end; gap: 7px; min-width: 0; overflow: hidden; }
+    .payment-id {
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      letter-spacing: -.01em;
+    }
+    .copy-chip {
+      flex: 0 0 auto;
+      min-width: 54px; height: 28px;
+      padding: 0 9px;
+      display: inline-grid; place-items: center;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.045));
+      color: var(--gold-2);
+      font-size: 11px;
+      font-weight: 950;
+      line-height: 1;
+      transition: border-color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .copy-chip:hover { border-color: var(--line-strong); background: rgba(245,199,86,.12); transform: translateY(-1px); }
+    .copy-chip.copied { color: var(--green); border-color: rgba(41,217,130,.5); background: rgba(41,217,130,.12); }
+    .payment-fail-hint {
+      display: none;
+      gap: 7px;
+      padding: 9px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,111,97,.3);
+      background: rgba(255,111,97,.08);
+      color: #ffb7ae;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .payment-box.is-failed .payment-fail-hint { display: block; }
+    .payment-actions { display: grid; gap: 8px; }
+    .payment-actions .btn.ghost {
+      min-height: 44px;
+      color: #121006;
+      background: linear-gradient(180deg, #fff0b9, var(--gold));
+      border-color: rgba(245,199,86,.58);
+      box-shadow: 0 10px 22px rgba(245,199,86,.2);
+    }
+    .payment-actions .btn.ghost:disabled {
+      color: rgba(255,255,255,.55);
+      background: rgba(255,255,255,.055);
+      border-color: var(--line);
+      box-shadow: none;
+    }
+    .payment-box.show + .payment-hint { margin-top: 10px; }
+    [dir="rtl"] .payment-row strong { text-align: left; }
+    [dir="rtl"] .payment-id { direction: ltr; }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(3, 8, 7, .72);
+    }
+    .segmented button { min-height: 38px; border: 0; border-radius: 6px; color: var(--muted); background: transparent; font-weight: 900; }
+    .segmented button.active { color: #111006; background: var(--gold); }
+
+    .road-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 6px;
+      border-radius: 14px;
+      background: rgba(0,0,0,.32);
+      border: 1px solid var(--line);
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .road-tabs::-webkit-scrollbar { display: none; }
+    .road-tabs button {
+      flex: 0 0 auto;
+      min-width: 72px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid transparent;
+      border-radius: 10px;
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 950;
+      white-space: nowrap;
+      transition: all .16s ease;
+    }
+    .road-tabs button.active {
+      background: linear-gradient(180deg, rgba(255,231,166,.2), rgba(245,199,86,.1));
+      border-color: var(--gold);
+      color: var(--gold-2);
+      box-shadow: 0 4px 14px rgba(245,199,86,.18);
+    }
+    .road-tab-count {
+      min-width: 18px;
+      height: 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      font-size: 9px;
+      font-weight: 1000;
+    }
+    .road-tabs button.active .road-tab-count {
+      background: rgba(245,199,86,.34);
+    }
+
+    .road-card-list {
+      display: grid;
+      gap: 12px;
+      max-height: none;
+      overflow: visible;
+    }
+    .road-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 82px;
+      gap: 12px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)),
+        rgba(0,0,0,.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+      transition: border-color .16s ease, transform .16s ease;
+    }
+    .road-card:hover {
+      border-color: rgba(245,199,86,.34);
+      transform: translateY(-1px);
+    }
+    .road-card.sponsored {
+      border-color: rgba(78,215,255,.28);
+      background:
+        linear-gradient(180deg, rgba(78,215,255,.08), rgba(255,255,255,.02)),
+        rgba(0,0,0,.22);
+    }
+    .road-card-main {
+      min-width: 0;
+      display: grid;
+      gap: 9px;
+    }
+    .road-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+    }
+    .road-card-flag {
+      width: 28px;
+      height: 20px;
+      flex: 0 0 28px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+    .road-card-team {
+      min-width: 0;
+    }
+    .road-card-team-name {
+      font-size: 15px;
+      font-weight: 950;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .road-card-stage {
+      font-size: 11px;
+      font-weight: 900;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .road-card-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .road-card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      min-height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 9px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+    .road-card-badge.sponsored {
+      background: rgba(78,215,255,.16);
+      border: 1px solid rgba(78,215,255,.34);
+      color: var(--blue);
+    }
+    .road-card-badge.status-open {
+      background: rgba(41,217,130,.16);
+      border: 1px solid rgba(41,217,130,.34);
+      color: var(--green);
+    }
+    .road-card-badge.status-closed {
+      background: rgba(120,120,120,.16);
+      border: 1px solid rgba(120,120,120,.34);
+      color: var(--muted);
+    }
+    .road-card-badge.status-settled {
+      background: rgba(245,199,86,.16);
+      border: 1px solid rgba(245,199,86,.34);
+      color: var(--gold-2);
+    }
+    .road-card-badge.status-cancelled {
+      background: rgba(255,111,97,.16);
+      border: 1px solid rgba(255,111,97,.34);
+      color: var(--red);
+    }
+    .road-card-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px 10px;
+      font-size: 11px;
+    }
+    .road-card-stat {
+      min-width: 0;
+    }
+    .road-card-stat-label {
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .road-card-stat-value {
+      color: var(--text);
+      font-weight: 950;
+      font-size: 12px;
+      margin-top: 2px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .road-card-stat-value.gold {
+      color: var(--gold-2);
+    }
+    .road-card-stat-value.green {
+      color: var(--green);
+    }
+    .road-card-hot {
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+      overflow: hidden;
+    }
+    .road-card-hot-bar {
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--gold), var(--red));
+    }
+    .road-card-right {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 10px;
+      min-width: 82px;
+    }
+    .road-card-price {
+      text-align: right;
+    }
+    .road-card-price-label {
+      font-size: 10px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .road-card-price-value {
+      font-size: 18px;
+      font-weight: 1000;
+      color: var(--gold-2);
+      line-height: 1;
+    }
+    .road-card-button {
+      width: 76px;
+      min-height: 36px;
+      padding: 0 12px;
+      border: 0;
+      border-radius: 10px;
+      background:
+        radial-gradient(circle at 30% 20%, rgba(255,248,220,.4), transparent 35%),
+        linear-gradient(180deg, #fff0b9, var(--gold));
+      color: #121006;
+      font-size: 11px;
+      font-weight: 950;
+      box-shadow: 0 6px 18px rgba(245,199,86,.24);
+    }
+    .road-card-button:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+    .road-card-timer {
+      font-size: 10px;
+      font-weight: 900;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .road-card-timer.hot {
+      color: var(--red);
+    }
+
+    .split-box {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.32);
+      border: 1px solid var(--line);
+    }
+    .split-header {
+      margin-bottom: 10px;
+    }
+    .split-title {
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--gold-2);
+    }
+    .split-list {
+      display: grid;
+      gap: 6px;
+    }
+    .split-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.04);
+    }
+    .split-label {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .split-value {
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--text);
+    }
+    .split-value.gold {
+      color: var(--gold-2);
+    }
+    .split-value.green {
+      color: var(--green);
+    }
+
+    .risk-box {
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255,111,97,.08);
+      border: 1px solid rgba(255,111,97,.24);
+    }
+    .risk-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .risk-icon {
+      font-size: 14px;
+    }
+    .risk-title {
+      font-size: 12px;
+      font-weight: 950;
+      color: var(--red);
+    }
+    .risk-list {
+      margin: 0;
+      padding-left: 20px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .risk-list li {
+      margin-bottom: 4px;
+    }
+    .risk-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      z-index: 25;
+      width: min(var(--app-w), 100vw);
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 4px;
+      padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+      border-top: 1px solid rgba(245,199,86,.18);
+      background: rgba(6, 12, 10, .96);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 -18px 48px rgba(0,0,0,.48);
+    }
+    .bottom-nav button {
+      min-height: 54px;
+      display: grid;
+      place-items: center;
+      align-content: center;
+      gap: 4px;
+      border: 0;
+      border-radius: var(--radius);
+      background: transparent;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+      transition: color .16s ease, background .16s ease, transform .16s ease;
+    }
+    .bottom-nav button:active { transform: translateY(1px); }
+    .bottom-nav button b { font-size: 18px; line-height: 1; }
+    .bottom-nav button.active { color: var(--gold-2); background: linear-gradient(180deg, rgba(245, 199, 86, .18), rgba(245, 199, 86, .08)); }
+    .bottom-nav button.active b {
+      color: var(--gold);
+      text-shadow: 0 0 18px rgba(245,199,86,.72);
+    }
+    .toast {
+      position: fixed;
+      z-index: 40;
+      left: 50%;
+      bottom: calc(86px + env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(390px, calc(100vw - 28px));
+      display: none;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: #101a18;
+      color: var(--text);
+      box-shadow: var(--shadow);
+      font-weight: 850;
+    }
+    .toast.show { display: block; }
+    .ok { color: var(--green); }
+    .warn { color: var(--gold-2); }
+    .error { color: var(--red); }
+    .modal-overlay {
+      position: fixed;
+      z-index: 60;
+      inset: 0;
+      background: rgba(0, 0, 0, .72);
+      backdrop-filter: blur(10px);
+      display: grid;
+      place-items: center;
+      padding: 18px;
+    }
+    .modal-card {
+      width: min(420px, calc(100vw - 28px));
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(6, 12, 10, .78);
+    }
+    .modal-title { font-weight: 1000; font-size: 16px; }
+    .modal-sub { font-size: 11px; color: var(--muted); margin-top: 4px; }
+    .modal-body { padding: 14px; }
+    [dir="rtl"] .item, [dir="rtl"] .score-strip, [dir="rtl"] .payment-row { direction: rtl; }
+    [dir="rtl"] .hero-copy { text-align: right; }
+    html[lang="zh"] .hero h2 { font-size: 30px; letter-spacing: -.06em; line-height: 1.04; }
+    html[lang="zh"] #main-prize { font-size: clamp(48px, 15vw, 64px); }
+    html[lang="zh"] .brand-title { font-size: 17px; }
+
+    @media (max-width: 360px) {
+      :root { --page-pad: 10px; --section-gap: 12px; }
+      .quick-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stat-grid, .two-col, .tile-grid, .tool-grid { grid-template-columns: 1fr; }
+      .lang-select-wrap { width: 112px; flex-basis: 112px; }
+      .brand-title { font-size: 16px; }
+      .brand-sub { font-size: 10px; }
+      #main-prize { font-size: 44px; }
+      .hero h2 { font-size: 28px; }
+      .hero-badges { gap: 5px; }
+      .hero-badge { font-size: 10px; padding: 0 8px; }
+      .hero { height: 224px; }
+      #timer-display { font-size: 30px; }
+      .road-card { grid-template-columns: minmax(0, 1fr) 76px; padding: 12px; }
+      .road-card-right { min-width: 76px; }
+      .road-card-button { width: 70px; }
+    }
+    @media (max-width: 360px) {
+      .view[data-view="wallet"] .hero { height: 156px; }
+      .view[data-view="wallet"] .two-col { grid-template-columns: minmax(0, 1fr) 96px; }
+      .view[data-view="wallet"] .btn { min-height: 46px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="tma-shell">
+    <header class="appbar">
+      <div class="brand">
+        <div class="brand-mark">BF</div>
+        <div>
+          <h1 class="brand-title">Blitz Fomo</h1>
+          <div class="brand-sub" data-i18n="season">World Cup 2026 Edition</div>
+        </div>
+      </div>
+      <div class="appbar-actions">
+        <div class="lang-select-wrap">
+          <select id="lang-select" class="lang-select" aria-label="Language">
+            <option value="en">🇺🇸 English</option>
+            <option value="zh">🇨🇳 中文</option>
+            <option value="es">🇪🇸 Español</option>
+            <option value="pt">🇧🇷 Português</option>
+            <option value="fr">🇫🇷 Français</option>
+            <option value="ar">🇸🇦 العربية</option>
+          </select>
+        </div>
+        <button class="icon-btn profile-btn" type="button" data-go="profile" aria-label="Profile">👤</button>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="view active" data-view="arena">
+        <div class="hero">
+          <img src="/media/world-cup-hero.png" alt="">
+          <div class="hero-copy">
+            <div class="kicker" data-i18n="arenaKicker">ROAD TO CHAMPION</div>
+            <h2 data-i18n="heroTitle">Road to Champion</h2>
+            <p class="hero-note" data-i18n="heroNote">Buy team stage keys early. Earn pending rewards from later buys. Survive stages to chase the Super Champion Pool.</p>
+            <div class="stage-road">
+              <button class="stage-node active" type="button" data-hero-stage="TOP32">TOP32</button>
+              <div class="stage-arrow">→</div>
+              <button class="stage-node" type="button" data-hero-stage="TOP16">TOP16</button>
+              <div class="stage-arrow">→</div>
+              <button class="stage-node" type="button" data-hero-stage="TOP8">TOP8</button>
+              <div class="stage-arrow">→</div>
+              <button class="stage-node" type="button" data-hero-stage="TOP4">TOP4</button>
+              <div class="stage-arrow">→</div>
+              <button class="stage-node" type="button" data-hero-stage="FINAL">FINAL</button>
+              <div class="stage-arrow">→</div>
+              <button class="stage-node gold" type="button" data-hero-stage="CHAMPION">CHAMPION</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="score-strip">
+          <div>
+            <span class="label" data-i18n="account">Account</span>
+            <div id="player-name" class="value">Demo Player</div>
+          </div>
+          <div>
+            <span class="label" data-i18n="balance">Balance</span>
+            <div id="header-balance" class="value">$0.00 BF</div>
+          </div>
+        </div>
+        <div class="score-strip">
+          <span data-i18n="gameStatus">Game status</span>
+          <span class="live-pill"><span class="dot"></span><span id="connection-status">SYNC</span></span>
+        </div>
+
+        <div class="panel">
+          <div class="jackpot">
+            <div class="kicker" data-i18n="superJackpot">Super Champion Pool</div>
+            <div id="main-prize">$0.00</div>
+            <div class="stat-grid">
+              <div class="stat icon-tile"><span class="ui-icon">🏆</span><span class="tile-copy"><span data-i18n="stagePools">Stage Pools</span><strong id="stage-pools">-</strong></span></div>
+              <div class="stat icon-tile"><span class="ui-icon">🏷️</span><span class="tile-copy"><span data-i18n="officialSponsored">Sponsored</span><strong id="official-sponsored">-</strong></span></div>
+              <div class="stat icon-tile"><span class="ui-icon">⏳</span><span class="tile-copy"><span data-i18n="pendingRewards">Pending</span><strong id="pending-rewards">-</strong></span></div>
+            </div>
+            <div class="form-stack">
+              <div>
+                <span class="label">Select Pool</span>
+                <div id="road-selected-pool" class="ref-link">-</div>
+              </div>
+              <div>
+                <label class="label" for="buy-amount" data-i18n="buyAmount">Buy amount (BF)</label>
+                <input id="buy-amount" class="input" type="number" min="1" step="1" value="50" inputmode="decimal">
+              </div>
+              <button id="buy-button" class="btn" type="button" data-i18n="buyButton">Buy Road Key</button>
+              <div class="quick-grid" aria-label="Quick buy amounts">
+                <button type="button" data-buy="10">+10</button>
+                <button type="button" data-buy="50">+50</button>
+                <button type="button" data-buy="100">+100</button>
+                <button type="button" data-buy="500">+500</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title" data-i18n="roadTitle">Road to Champion</div>
+              <div class="panel-sub" data-i18n="roadSub">Buy team keys · Earn dividends · Chase the Super Pool</div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div id="road-stage-tabs" class="road-tabs"></div>
+            <div class="gap-below"></div>
+            <div id="road-cards" class="road-card-list"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title" data-i18n="liveBuys">Live buys</div>
+              <div class="panel-sub" data-i18n="liveBuysSub">Fresh fan entries</div>
+            </div>
+            <button class="btn ghost" type="button" data-go="live">LIVE</button>
+          </div>
+          <div class="panel-body"><div id="activity-feed" class="list"></div></div>
+        </div>
+      </section>
+
+      <section class="view" data-view="live">
+        <div class="hero">
+          <img src="/media/world-cup-hero.png" alt="">
+          <div class="hero-copy">
+            <div class="kicker" data-i18n="matchCenter">Match center</div>
+            <h2 data-i18n="roundMonitor">Live road monitor</h2>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="telemetry">Pool telemetry</div><div class="panel-sub">LIVE</div></div><div class="live-pill"><span class="dot"></span>LIVE</div></div>
+          <div class="panel-body">
+            <div class="tile-grid">
+              <div class="tile icon-tile"><span class="ui-icon">🎟️</span><span class="tile-copy"><span class="label" data-i18n="minBuy">Release delay</span><strong id="min-buy">-</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">⚽</span><span class="tile-copy"><span class="label" data-i18n="closeAt">Close at</span><strong id="last-buyer">-</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">🏆</span><span class="tile-copy"><span class="label" data-i18n="winnerSplit">Fee (h)</span><strong id="winner-percent">-</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">🛡️</span><span class="tile-copy"><span class="label" data-i18n="platformSplit">Dividend (d)</span><strong id="platform-percent">-</strong></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="settlementLog">Settlement log</div><div class="panel-sub" data-i18n="settledRounds">Settled events</div></div></div>
+          <div class="panel-body"><div id="winner-wall" class="list"></div></div>
+        </div>
+      </section>
+
+      <section class="view" data-view="leader">
+        <div class="hero">
+          <img src="/media/world-cup-hero.png" alt="">
+          <div class="hero-copy"><div class="kicker" data-i18n="leaderboard">Leaderboard</div><h2 data-i18n="eliteRanking">Elite ranking</h2></div>
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <div class="segmented"><button class="active" type="button" data-i18n="today">Today</button><button type="button" data-i18n="weekly">Weekly</button><button type="button" data-i18n="allTime">All Time</button></div>
+            <div id="rank-podium" class="rank-podium">
+              <div class="podium-card silver">
+                <span class="podium-rank">2</span>
+                <span class="podium-crest"><img class="podium-visual medal" src="/media/winner-medal.png" alt=""><span class="podium-medal">2</span></span>
+                <span class="podium-name">Elite_Marco</span>
+                <span class="podium-score">4.2K BF</span>
+              </div>
+              <div class="podium-card top gold">
+                <span class="podium-rank">1</span>
+                <span class="podium-crest"><img class="podium-visual trophy" src="/media/champion-trophy.png" alt=""><span class="podium-medal">1</span></span>
+                <span class="podium-name">Champion_777</span>
+                <span class="podium-score">8.9K BF</span>
+              </div>
+              <div class="podium-card bronze">
+                <span class="podium-rank">3</span>
+                <span class="podium-crest"><img class="podium-visual" src="/media/champion-bust.png" alt=""><span class="podium-medal">3</span></span>
+                <span class="podium-name">Striker_X</span>
+                <span class="podium-score">3.1K BF</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="championBoard">Champion Board</div><div class="panel-sub" data-i18n="champBoardSub">Top buyers this season</div></div><span class="live-pill"><span class="dot"></span>LIVE</span></div>
+          <div class="panel-body"><div id="leader-list" class="list"></div></div>
+        </div>
+      </section>
+
+      <section class="view" data-view="wallet">
+        <div class="hero">
+          <img src="/media/world-cup-hero.png" alt="">
+          <div class="hero-copy"><div class="kicker" data-i18n="wallet">Wallet</div><h2 data-i18n="cashFlow">Balance and cash flow</h2></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="deposit">Deposit</div><div class="panel-sub" data-i18n="depositSub">Gateway order and account credit</div></div></div>
+          <div class="panel-body">
+            <div class="trust-strip">
+              <div class="coin-row">
+                <button class="coin-pill active" type="button" data-pay-coin="USDT TRC20">USDT TRC20</button>
+                <button class="coin-pill" type="button" data-pay-coin="USDT TON">USDT TON</button>
+                <button class="coin-pill" type="button" data-pay-coin="TON">TON</button>
+                <button class="coin-pill" type="button" data-pay-coin="TRX">TRX</button>
+              </div>
+              <div class="payment-hint" data-i18n="paymentHint">Recommended: use USDT TRC20 for fastest confirmation. Credits land as BF balance after gateway confirmation.</div>
+            </div>
+            <div class="tile-grid gap-below">
+              <div class="tile icon-tile"><span class="ui-icon">🔐</span><span class="tile-copy"><span class="label" data-i18n="gatewayLabel">Gateway</span><strong>Plisio</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">⚡</span><span class="tile-copy"><span class="label" data-i18n="creditMode">Credit mode</span><strong>1:1 BF</strong></span></div>
+            </div>
+            <div class="two-col">
+              <div><label class="label" for="recharge-amount" data-i18n="depositAmount">Deposit amount</label><input id="recharge-amount" class="input" type="number" min="10" step="10" value="100" inputmode="decimal"></div>
+              <button id="recharge-button" class="btn secondary" type="button" data-i18n="deposit">Deposit</button>
+            </div>
+            <div id="payment-box" class="payment-box">
+              <div class="payment-head">
+                <div class="payment-head-left">
+                  <span class="payment-head-icon">🧾</span>
+                  <div>
+                    <div class="payment-head-title" data-i18n="orderCardTitle">Payment order</div>
+                    <div class="payment-head-amount" id="payment-amount">$0.00</div>
+                  </div>
+                </div>
+                <span id="payment-badge" class="pay-badge pending"><span class="pay-badge-dot"></span><span id="payment-status" data-i18n="payStatusPending">PENDING</span></span>
+              </div>
+              <div class="payment-rows">
+                <div class="payment-row order-id-row">
+                  <span data-i18n="paymentOrder">Order</span>
+                  <span class="payment-id-wrap">
+                    <strong id="payment-order-id" class="payment-id">-</strong>
+                    <button id="copy-order" class="copy-chip" type="button" data-i18n-title="copyOrderId" aria-label="Copy order ID">Copy</button>
+                  </span>
+                </div>
+                <div class="payment-row"><span data-i18n="paymentGateway">Gateway</span><strong id="payment-gateway">-</strong></div>
+              </div>
+              <div id="payment-fail-hint" class="payment-fail-hint" data-i18n="payFailedHint">Payment failed or expired. Adjust the amount and create a new order.</div>
+              <div class="payment-actions">
+                <button id="payment-link" class="btn ghost" type="button"><span data-i18n="openInvoice">Open invoice</span></button>
+              </div>
+            </div>
+            <div class="payment-hint" data-i18n="paymentKeepOpen">Keep this page open after payment; the order status auto-refreshes until confirmed.</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="withdraw">Withdraw</div><div class="panel-sub" data-i18n="withdrawSub">Submitted requests enter review</div></div></div>
+          <div class="panel-body form-stack">
+            <div><label class="label" for="withdraw-address" data-i18n="withdrawAddress">Withdrawal address</label><input id="withdraw-address" class="input" placeholder="Enter your TON wallet address" autocomplete="off"></div>
+            <div class="two-col">
+              <div><label class="label" for="withdraw-amount" data-i18n="withdrawAmount">Withdraw amount</label><input id="withdraw-amount" class="input" type="number" min="10" step="10" value="30" inputmode="decimal"></div>
+              <button id="withdraw-button" class="btn secondary" type="button" data-i18n="submit">Submit</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="transactions">Transactions</div><div class="panel-sub">Profile ledger</div></div></div>
+          <div class="panel-body"><div id="tx-list" class="list"></div></div>
+        </div>
+      </section>
+
+      <section class="view" data-view="refer">
+        <div class="hero">
+          <img src="/media/world-cup-hero.png" alt="">
+          <div class="hero-copy"><div class="kicker" data-i18n="referral">Referral</div><h2 data-i18n="fanNetwork">Build your fan network</h2></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="inviteLink">Invite link</div><div class="panel-sub" data-i18n="referralStats">Referral stats</div></div></div>
+          <div class="panel-body form-stack">
+            <div class="ref-steps">
+              <div class="step-row">
+                <span class="step-pill" data-i18n="refStepCopy">1 · Copy</span>
+                <span class="step-pill" data-i18n="refStepShare">2 · Share in groups</span>
+                <span class="step-pill" data-i18n="refStepEarn">3 · Earn commission</span>
+              </div>
+              <div class="reward-meter"><span></span></div>
+              <div class="ref-hint" data-i18n="refHint">Push during match hype: Telegram groups, football channels, and crypto communities convert fastest.</div>
+            </div>
+            <div class="qr-card"><img id="invite-qr" alt="Invite QR code" src="" loading="lazy"></div>
+            <div id="ref-link" class="ref-link">https://blitzfomo.com/ref/demo</div>
+            <button id="copy-ref" class="btn" type="button" data-i18n="copyInvite">Copy invite link</button>
+            <div class="tile-grid">
+              <div class="tile icon-tile"><span class="ui-icon">👥</span><span class="tile-copy"><span class="label" data-i18n="invites">Invites</span><strong id="ref-count">0</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">💰</span><span class="tile-copy"><span class="label" data-i18n="commission">Commission</span><strong id="ref-commission">$0.00</strong></span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="profile">
+        <div class="profile-hero">
+          <img class="profile-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="">
+          <div id="profile-name" class="profile-name">Demo Player</div>
+          <div class="label" data-i18n="verifiedPro">Verified Pro</div>
+        </div>
+        <div class="panel">
+          <div class="panel-body">
+            <div class="tile-grid">
+              <div class="tile icon-tile"><span class="ui-icon">🛒</span><span class="tile-copy"><span class="label" data-i18n="totalBought">Total bought</span><strong id="total-purchased">$0.00</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">🏅</span><span class="tile-copy"><span class="label" data-i18n="totalWon">Total won</span><strong id="total-won">$0.00</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">⭐</span><span class="tile-copy"><span class="label" data-i18n="vipProgress">VIP progress</span><strong id="vip-progress">0%</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">🎖️</span><span class="tile-copy"><span class="label" data-i18n="achievements">Achievements</span><strong id="achievement-count">4</strong></span></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="myRoadKeys">My Road Keys</div><div class="panel-sub" data-i18n="holdingsPending">Holdings · Pending rewards</div></div></div>
+          <div class="panel-body">
+            <div class="tile-grid gap-below">
+              <div class="tile icon-tile"><span class="ui-icon">⏳</span><span class="tile-copy"><span class="label" data-i18n="pending">Pending</span><strong id="road-pending-total">$0.00</strong></span></div>
+              <div class="tile icon-tile"><span class="ui-icon">✅</span><span class="tile-copy"><span class="label" data-i18n="released">Released</span><strong id="road-released-total">$0.00</strong></span></div>
+            </div>
+            <div id="road-holdings-list" class="list"></div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="morePages">More pages</div><div class="panel-sub">Player modules</div></div></div>
+          <div class="panel-body">
+            <div class="tool-grid">
+              <button class="tool-card" type="button" data-go="live"><span class="ui-icon">📡</span><span data-i18n="matchCenter">Match center</span></button>
+              <button class="tool-card" type="button" data-go="rules"><span class="ui-icon">📜</span><span data-i18n="rules">Fair play rules</span></button>
+              <button class="tool-card" type="button" data-go="profile-edit"><span class="ui-icon">✏️</span><span data-i18n="editProfile">Edit profile</span></button>
+              <button class="tool-card" type="button" data-go="bracket"><span class="ui-icon">🗺️</span><span data-i18n="bracket">World Cup bracket</span></button>
+              <!-- 后台入口默认对普通玩家隐藏，仅当开启 ADMIN_DEBUG 时显示 -->
+              <button id="admin-entry" class="tool-card" type="button" style="display:none" onclick="location.href='/admin/'"><span class="ui-icon">🧭</span><span>Admin</span></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" data-view="profile-edit">
+        <div class="profile-hero">
+          <img class="profile-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="">
+          <div class="profile-name" data-i18n="editProfile">Edit profile</div>
+        </div>
+        <div class="panel"><div class="panel-body form-stack"><div><label class="label" for="profile-nickname-input" data-i18n="nickname">Nickname</label><input id="profile-nickname-input" class="input" placeholder="Enter nickname"></div><button id="save-nickname" class="btn" type="button" data-i18n="saveProfile">Save profile</button><button class="btn secondary" type="button" data-go="profile" data-i18n="backProfile">Back to profile</button></div></div>
+      </section>
+
+      <section class="view" data-view="rules">
+        <div class="hero"><img src="/media/world-cup-hero.png" alt=""><div class="hero-copy"><div class="kicker" data-i18n="rules">Fair play rules</div><h2 data-i18n="rulesTitle">Road rules and split</h2></div></div>
+        <div class="panel"><div class="panel-body"><div class="list">
+          <div class="item"><div><div class="item-title" data-i18n="ruleLast">No last-buyer rule</div><div class="item-meta" data-i18n="ruleLastSub">Rewards come from net pools and release schedule.</div></div></div>
+          <div class="item"><div><div class="item-title" data-i18n="ruleSplit">Prize split</div><div class="item-meta">Dynamic fee + net split (p/d/s/r/k/z)</div></div></div>
+          <div class="item"><div><div class="item-title" data-i18n="ruleRisk">Withdrawal risk checks</div><div class="item-meta" data-i18n="ruleRiskSub">Purchase history and cooldown rules apply.</div></div></div>
+        </div></div></div>
+      </section>
+
+      <section class="view" data-view="bracket">
+        <div class="hero road-map-hero"><div class="hero-copy"><div class="kicker" data-i18n="bracket">World Cup bracket</div><h2 data-i18n="tournamentMap">Tournament map</h2></div></div>
+        <div class="panel"><div class="panel-body"><img id="bracket-img" class="bracket-img" src="/media/tournament-map.svg" alt="World Cup bracket" onerror="if(this.getAttribute('src')!=='/media/tournament-map.svg'){this.dataset.failed=this.getAttribute('src');this.src='/media/tournament-map.svg';}"></div></div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="TMA navigation">
+      <button class="active" type="button" data-tab="arena"><b>⚽</b><span data-i18n="navArena">Arena</span></button>
+      <button type="button" data-tab="leader"><b>🏆</b><span data-i18n="navRank">Rank</span></button>
+      <button type="button" data-tab="wallet"><b>💳</b><span data-i18n="navWallet">Wallet</span></button>
+      <button type="button" data-tab="refer"><b>📣</b><span data-i18n="navInvite">Invite</span></button>
+      <button type="button" data-tab="profile"><b>👤</b><span data-i18n="navMe">Me</span></button>
+    </nav>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="road-modal" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="road-modal-title">Road Key</div>
+          <div class="modal-sub" id="road-modal-sub">-</div>
+        </div>
+        <button id="road-modal-close" class="icon-btn" type="button" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-body form-stack">
+        <div class="tile-grid">
+          <div class="tile icon-tile"><span class="ui-icon">💎</span><span class="tile-copy"><span class="label">Current Price</span><strong id="road-modal-price">$0.00 BF</strong></span></div>
+          <div class="tile icon-tile"><span class="ui-icon">🔑</span><span class="tile-copy"><span class="label">Est. Keys</span><strong id="road-modal-keys">0</strong></span></div>
+        </div>
+        <div>
+          <label class="label" for="road-modal-amount">Buy Amount (BF)</label>
+          <input id="road-modal-amount" class="input" type="number" min="1" step="1" value="50" inputmode="decimal">
+        </div>
+        <div class="split-box">
+          <div class="split-header">
+            <span class="split-title">💰 Split Preview</span>
+          </div>
+          <div class="split-list">
+            <div class="split-row">
+              <span class="split-label">Dynamic Fee</span>
+              <span id="split-fee" class="split-value">-</span>
+            </div>
+            <div class="split-row">
+              <span class="split-label">Stage Prize</span>
+              <span id="split-prize" class="split-value gold">-</span>
+            </div>
+            <div class="split-row">
+              <span class="split-label">Pending Dividend</span>
+              <span id="split-dividend" class="split-value green">-</span>
+            </div>
+            <div class="split-row">
+              <span class="split-label">Super Pool</span>
+              <span id="split-super" class="split-value">-</span>
+            </div>
+            <div class="split-row">
+              <span class="split-label">Agent/Reserve</span>
+              <span id="split-agent" class="split-value">-</span>
+            </div>
+          </div>
+        </div>
+        <div class="risk-box">
+          <div class="risk-header">
+            <span class="risk-icon">⚠️</span>
+            <span class="risk-title">Risk Notes</span>
+          </div>
+          <ul class="risk-list">
+            <li id="risk-note-1">Rewards are pending and released over time.</li>
+            <li id="risk-note-2">Route can be eliminated.</li>
+          </ul>
+        </div>
+        <button id="road-modal-buy" class="btn" type="button">Buy Road Key</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = '/api';
+    const $ = (id) => document.getElementById(id);
+    const LANGS = ['en', 'zh', 'es', 'pt', 'fr', 'ar'];
+    const I18N = {
+      en: {
+        season: 'World Cup 2026', me: 'ME', arenaKicker: 'ROAD TO CHAMPION', heroTitle: 'World Cup Champion Path', heroNote: 'Buy team stage keys early for better prices and earn pending dividends from subsequent purchases.', account: 'Account', balance: 'Balance', gameStatus: 'Stage Pools', currentPrize: 'Super Champion Jackpot', buyAmount: 'Buy Amount', buyButton: 'Buy Road Key', round: 'Pool', fans: 'Sold Keys', withdrawn: 'Official Sponsored', liveBuys: 'Live Feed', liveBuysSub: 'Real-time purchases, dividends, and official sponsor events', matchCenter: 'Match Center', roundMonitor: 'Live Road Monitor', telemetry: 'Pool Telemetry', minBuy: 'Release Period', closeAt: 'Close At', winnerSplit: 'Fee Rate', platformSplit: 'Dividend Rate', settlementLog: 'Settlement Log', settledRounds: 'Settled Events', leaderboard: 'Leaderboard', eliteRanking: 'Elite Ranking', today: 'Today', weekly: 'Weekly', allTime: 'All Time', rankingDetails: 'Ranking Details', winnerDriven: 'Stage Key Rules', wallet: 'Wallet', cashFlow: 'Balance & Cash Flow', deposit: 'Deposit', depositSub: 'Gateway order & account credit', depositAmount: 'Deposit Amount', paymentOrder: 'Order', paymentGateway: 'Gateway', paymentStatus: 'Status', openInvoice: 'Open Invoice', withdraw: 'Withdraw', withdrawSub: 'Submitted requests enter review queue', withdrawAddress: 'Withdrawal Address', withdrawAmount: 'Withdraw Amount', submit: 'Submit', transactions: 'Transactions', referral: 'Referral', fanNetwork: 'Build Your Fan Network', inviteLink: 'Invite Link', copyInvite: 'Copy Invite Link', invites: 'Invites', commission: 'Commission', verifiedPro: 'Verified Pro', totalBought: 'Total Bought', totalWon: 'Total Won', vipProgress: 'VIP Progress', achievements: 'Achievements', morePages: 'More Pages', rules: 'Fair Play Rules', editProfile: 'Edit Profile', bracket: 'World Cup Bracket', nickname: 'Nickname', saveProfile: 'Save Profile', backProfile: 'Back to Profile', rulesTitle: 'Road Rules & Distribution', ruleLast: 'Stage Key Rules', ruleLastSub: 'Rewards come from net pools and release schedule.', ruleSplit: 'Prize Split', ruleRisk: 'Withdrawal Risk Checks', ruleRiskSub: 'Purchase history and cooldown rules apply.', tournamentMap: 'Tournament Map', navArena: 'Arena', navRank: 'Rank', navWallet: 'Wallet', navInvite: 'Invite', navMe: 'Me', emptyPurchases: 'No Buys Yet', emptyPurchasesSub: 'Waiting for the first purchase', emptyWinners: 'No Settlements Yet', emptyWinnersSub: 'Settled stage events appear here', emptyTx: 'No Transactions Yet', emptyTxSub: 'Deposits, buys, and withdrawals appear here', buySuccess: 'Road Key purchased successfully.', buyFail: 'Purchase failed. Please check balance or try again.', depositSubmitted: 'Deposit order submitted.', depositConfirmed: 'Deposit confirmed.', depositFail: 'Deposit failed. Please try again.', withdrawSubmitted: 'Withdrawal request submitted.', withdrawFail: 'Withdrawal failed. Check balance and risk rules.', copied: 'Copied.', copyFail: 'Copy failed.', saveOk: 'Profile saved.', saveFail: 'Save failed.', nicknameEmpty: 'Nickname cannot be empty.', serviceFail: 'Service connection failed. Check Docker containers.', badgeWorldCup: '🏆 ROAD TO CHAMPION', badgeLivePot: '⚡ STAGE POOLS', badgeCrypto: '🏷️ OFFICIAL SPONSORED', closeLabel: 'CLOSE', pressureMeter: 'Stage', paymentHint: 'Recommended: use USDT TRC20 for fastest confirmation. Credits land as BF balance after gateway confirmation.', gatewayLabel: 'Gateway', creditMode: 'Credit Mode', paymentKeepOpen: 'Keep this page open after payment; order status auto-refreshes until confirmed.', refStepCopy: '1 · Copy', refStepShare: '2 · Share in Groups', refStepEarn: '3 · Earn Commission', refHint: 'Push during match hype: Telegram groups, football channels, and crypto communities convert fastest.', championBoard: 'Champion Board', champBoardSub: 'Top Buyers This Season', rankColPlayer: 'Player', rankColPrize: 'Winnings', emptyRanking: 'No Champions Yet', emptyRankingSub: 'Top buyers will appear here', loadingRanking: 'Loading rankings…', payStatusPending: 'PENDING', payStatusPaid: 'PAID', payStatusFailed: 'FAILED', payAmountLabel: 'Amount', orderCardTitle: 'Payment Order', payFailedHint: 'Payment failed or expired. Adjust amount and create a new order.', copyOrderId: 'Copy Order ID', statusOpen: 'LIVE', statusClosed: 'CLOSED', statusSettled: 'SETTLED', statusCancelled: 'CANCELLED', prizePool: 'Prize Pool', soldKeys: 'Sold Keys', dividendsPaid: 'Dividends Paid', closeAt: 'Close At', keyPrice: 'Key Price', buyRoadKey: 'Buy Key', officialSponsored: 'Official Sponsor', superPool: 'Super Pool', dailyRush: 'Daily Rush'
+      },
+      zh: { season: '2026 世界杯', me: '我的', arenaKicker: '世界杯冠军之路', heroTitle: '世界杯冠军之路', heroNote: '买入球队阶段 Key，越早价格越好，并可获得后续买入的待释放分红。', account: '账户', balance: '余额', gameStatus: '阶段池', currentPrize: '超级冠军池', buyAmount: '购买金额', buyButton: '购买 Road Key', round: '阶段池', fans: '已售 Key', withdrawn: '官方赞助', liveBuys: '实时动态', liveBuysSub: '实时购买、分红与官方赞助事件', matchCenter: '比赛中心', roundMonitor: '实时监控', telemetry: '池子数据', minBuy: '释放周期', closeAt: '封盘时间', winnerSplit: '费率', platformSplit: '分红率', settlementLog: '结算记录', settledRounds: '已结算事件', leaderboard: '排行榜', eliteRanking: '精英排名', today: '今日', weekly: '本周', allTime: '总榜', rankingDetails: '排行明细', winnerDriven: '阶段 Key 规则', wallet: '钱包', cashFlow: '余额与资金流水', deposit: '充值', depositSub: '网关订单与入账', depositAmount: '充值金额', paymentOrder: '订单', paymentGateway: '网关', paymentStatus: '状态', openInvoice: '打开支付页', withdraw: '提现', withdrawSub: '提交后进入审核队列', withdrawAddress: '提现地址', withdrawAmount: '提现金额', submit: '提交', transactions: '交易记录', referral: '邀请', fanNetwork: '建立你的球迷网络', inviteLink: '邀请链接', copyInvite: '复制邀请链接', invites: '邀请人数', commission: '佣金', verifiedPro: '认证玩家', totalBought: '累计买入', totalWon: '累计赢得', vipProgress: 'VIP 进度', achievements: '成就', morePages: '更多页面', rules: '公平规则', editProfile: '编辑资料', bracket: '世界杯赛程', nickname: '昵称', saveProfile: '保存资料', backProfile: '返回我的', rulesTitle: '冠军之路规则与分配', ruleLast: '阶段 Key 规则', ruleLastSub: '收益来自净池与释放规则。', ruleSplit: '奖池分成', ruleRisk: '提现风控校验', ruleRiskSub: '会检查购买记录与冷却规则。', tournamentMap: '赛事地图', navArena: '赛场', navRank: '排行', navWallet: '钱包', navInvite: '邀请', navMe: '我的', emptyPurchases: '暂无购买', emptyPurchasesSub: '等待第一笔购买', emptyWinners: '暂无结算', emptyWinnersSub: '阶段结算后显示于此', emptyTx: '暂无交易', emptyTxSub: '充值、买入、提现后显示', buySuccess: 'Road Key 购买成功。', buyFail: '购买失败，请检查余额或稍后重试。', depositSubmitted: '充值订单已提交。', depositConfirmed: '充值已确认。', depositFail: '充值失败，请稍后重试。', withdrawSubmitted: '提现申请已提交。', withdrawFail: '提现失败，请确认余额和风控条件。', copied: '已复制。', copyFail: '复制失败。', saveOk: '资料已保存。', saveFail: '保存失败。', nicknameEmpty: '昵称不能为空。', serviceFail: '服务连接失败，请检查 Docker 容器。', badgeWorldCup: '🏆 ROAD TO CHAMPION', badgeLivePot: '⚡ STAGE POOLS', badgeCrypto: '🏷️ OFFICIAL SPONSORED', closeLabel: '封盘', pressureMeter: '阶段', paymentHint: '推荐使用 USDT TRC20，确认更快。网关确认后自动入账 BF 余额。', gatewayLabel: '支付网关', creditMode: '入账模式', paymentKeepOpen: '付款后请保持页面打开，订单状态会自动刷新直到确认。', refStepCopy: '1 · 复制', refStepShare: '2 · 分享到群组', refStepEarn: '3 · 获得佣金', refHint: '比赛热度期间优先推 Telegram 群、足球频道和加密社区，转化最快。', championBoard: '冠军榜', champBoardSub: '本赛季买入榜首', rankColPlayer: '玩家', rankColPrize: '奖金', emptyRanking: '暂无冠军', emptyRankingSub: '买入榜首将显示在这里', loadingRanking: '正在加载排行…', payStatusPending: '待支付', payStatusPaid: '已到账', payStatusFailed: '已失败', payAmountLabel: '金额', orderCardTitle: '支付订单', payFailedHint: '支付失败或已过期，请调整金额并重新创建订单。', copyOrderId: '复制订单号', statusOpen: 'LIVE', statusClosed: 'CLOSED', statusSettled: 'SETTLED', statusCancelled: 'CANCELLED', prizePool: '奖池', soldKeys: '已售 Key', dividendsPaid: '已发分红', closeAt: '封盘时间', keyPrice: 'Key 价格', buyRoadKey: '购买 Key', officialSponsored: '官方赞助', superPool: '超级池', dailyRush: '今日冲刺' },
+      es: { season: 'Edición Copa Mundial 2026', me: 'YO', arenaKicker: 'Road to Champion', heroTitle: 'World Cup Champion Path', heroNote: 'Compra llaves por etapa y gana dividendos pendientes de compras posteriores.', account: 'Cuenta', balance: 'Saldo', gameStatus: 'Pools de etapa', currentPrize: 'Bote actual', buyAmount: 'Cantidad de compra', buyButton: 'Comprar Road Key', round: 'Pool', fans: 'Llaves vendidas', withdrawn: 'Patrocinado oficial', liveBuys: 'Compras en vivo', liveBuysSub: 'Nuevas entradas de fans', matchCenter: 'Centro de partidos', roundMonitor: 'Monitor de Road en vivo', telemetry: 'Telemetría de pool', minBuy: 'Retraso de liberación', closeAt: 'Cierre en', winnerSplit: 'Tarifa (h)', platformSplit: 'Dividendo (d)', settlementLog: 'Registro de liquidaciones', settledRounds: 'Eventos liquidados', leaderboard: 'Clasificación', eliteRanking: 'Ranking élite', today: 'Hoy', weekly: 'Semanal', allTime: 'Histórico', rankingDetails: 'Detalles del ranking', winnerDriven: 'Reglas de Stage Key', wallet: 'Billetera', cashFlow: 'Saldo y flujo de efectivo', deposit: 'Depositar', depositSub: 'Orden de pasarela y crédito de cuenta', depositAmount: 'Cantidad de depósito', paymentOrder: 'Orden', paymentGateway: 'Pasarela', paymentStatus: 'Estado', openInvoice: 'Abrir factura', withdraw: 'Retirar', withdrawSub: 'Las solicitudes enviadas entran en revisión', withdrawAddress: 'Dirección de retiro', withdrawAmount: 'Cantidad de retiro', submit: 'Enviar', transactions: 'Transacciones', referral: 'Referidos', fanNetwork: 'Construye tu red de fans', inviteLink: 'Enlace de invitación', copyInvite: 'Copiar enlace de invitación', invites: 'Invitaciones', commission: 'Comisión', verifiedPro: 'Pro verificado', totalBought: 'Total comprado', totalWon: 'Total ganado', vipProgress: 'Progreso VIP', achievements: 'Logros', morePages: 'Más páginas', rules: 'Reglas de juego limpio', editProfile: 'Editar perfil', bracket: 'Cuadro de la Copa Mundial', nickname: 'Apodo', saveProfile: 'Guardar perfil', backProfile: 'Volver al perfil', rulesTitle: 'Reglas y distribución de Road', ruleLast: 'Reglas de Road Key', ruleLastSub: 'Las recompensas provienen de pools netos y calendario de liberación.', ruleSplit: 'División del premio', ruleRisk: 'Verificaciones de riesgo de retiro', ruleRiskSub: 'Se aplican reglas de historial de compras y período de enfriamiento.', tournamentMap: 'Mapa del torneo', navArena: 'Arena', navRank: 'Ranking', navWallet: 'Billetera', navInvite: 'Invitar', navMe: 'Yo', emptyPurchases: 'Aún no hay compras', emptyPurchasesSub: 'Esperando la entrada de apertura', emptyWinners: 'Aún no hay ganadores', emptyWinnersSub: 'Las rondas liquidadas aparecen aquí', emptyTx: 'Aún no hay transacciones', emptyTxSub: 'Los depósitos, compras y retiros aparecen aquí', buySuccess: 'Compra confirmada.', buyFail: 'Compra fallida. Verifica el saldo o intenta de nuevo.', depositSubmitted: 'Orden de depósito enviada.', depositConfirmed: 'Depósito confirmado.', depositFail: 'Depósito fallido. Intenta de nuevo.', withdrawSubmitted: 'Solicitud de retiro enviada.', withdrawFail: 'Retiro fallido. Verifica el saldo y las reglas de riesgo.', copied: 'Copiado.', copyFail: 'Copia fallida.', saveOk: 'Perfil guardado.', saveFail: 'Guardado fallido.', nicknameEmpty: 'El apodo no puede estar vacío.', serviceFail: 'Fallo de conexión del servicio. Verifica los contenedores Docker.', badgeWorldCup: '🏆 ROAD TO CHAMPION', badgeLivePot: '⚡ STAGE POOLS', badgeCrypto: '🏷️ OFFICIAL SPONSORED', closeLabel: 'CERRAR', pressureMeter: 'Medidor de presión', paymentHint: 'Recomendado: usa USDT TRC20 para la confirmación más rápida. Los créditos llegan como saldo BF tras la confirmación de la pasarela.', gatewayLabel: 'Pasarela', creditMode: 'Modo de crédito', paymentKeepOpen: 'Mantén esta página abierta tras el pago; el estado de la orden se actualiza solo hasta confirmar.', refStepCopy: '1 · Copiar', refStepShare: '2 · Compartir en grupos', refStepEarn: '3 · Ganar comisión', refHint: 'Promueve durante la euforia del partido: grupos de Telegram, canales de fútbol y comunidades cripto convierten más rápido.', championBoard: 'Tablero de Campeones', champBoardSub: 'Mejores compradores de la temporada', rankColPlayer: 'Jugador', rankColPrize: 'Ganancias', emptyRanking: 'Aún no hay campeones', emptyRankingSub: 'Los mejores compradores aparecerán aquí al liquidarse las rondas', loadingRanking: 'Cargando clasificación…', payStatusPending: 'PENDIENTE', payStatusPaid: 'PAGADO', payStatusFailed: 'FALLIDO', payAmountLabel: 'Cantidad', orderCardTitle: 'Orden de pago', payFailedHint: 'El pago falló o expiró. Ajusta la cantidad y crea una nueva orden.', copyOrderId: 'Copiar ID de orden' },
+      pt: { season: 'Edição Copa do Mundo 2026', me: 'EU', arenaKicker: 'Road to Champion', heroTitle: 'World Cup Champion Path', heroNote: 'Compre chaves por etapa e ganhe dividendos pendientes de compras posteriores.', account: 'Conta', balance: 'Saldo', gameStatus: 'Pools de etapa', currentPrize: 'Prêmio atual', buyAmount: 'Valor da compra', buyButton: 'Comprar Road Key', round: 'Pool', fans: 'Chaves vendidas', withdrawn: 'Patrocinado oficial', liveBuys: 'Compras ao vivo', liveBuysSub: 'Novas entradas de fãs', matchCenter: 'Centro de partidas', roundMonitor: 'Monitor de Road em vivo', telemetry: 'Telemetria de pool', minBuy: 'Atraso de liberação', closeAt: 'Fechamento em', winnerSplit: 'Tarifa (h)', platformSplit: 'Dividendo (d)', settlementLog: 'Registro de liquidações', settledRounds: 'Eventos liquidados', leaderboard: 'Ranking', eliteRanking: 'Ranking de elite', today: 'Hoje', weekly: 'Semanal', allTime: 'Histórico', rankingDetails: 'Detalhes do ranking', winnerDriven: 'Regras de Stage Key', wallet: 'Carteira', cashFlow: 'Saldo e fluxo de caixa', deposit: 'Depositar', depositSub: 'Ordem de gateway e crédito da conta', depositAmount: 'Valor do depósito', paymentOrder: 'Ordem', paymentGateway: 'Gateway', paymentStatus: 'Status', openInvoice: 'Abrir fatura', withdraw: 'Sacar', withdrawSub: 'Solicitações enviadas entram em revisão', withdrawAddress: 'Endereço de saque', withdrawAmount: 'Valor do saque', submit: 'Enviar', transactions: 'Transações', referral: 'Convites', fanNetwork: 'Construa sua rede de fãs', inviteLink: 'Link de convite', copyInvite: 'Copiar link de convite', invites: 'Convites', commission: 'Comissão', verifiedPro: 'Pro verificado', totalBought: 'Total comprado', totalWon: 'Total ganho', vipProgress: 'Progresso VIP', achievements: 'Conquistas', morePages: 'Mais páginas', rules: 'Regras de jogo limpo', editProfile: 'Editar perfil', bracket: 'Chave da Copa do Mundo', nickname: 'Apelido', saveProfile: 'Salvar perfil', backProfile: 'Voltar ao perfil', rulesTitle: 'Regras e distribuição de Road', ruleLast: 'Regras de Road Key', ruleLastSub: 'As recompensas vêm de pools netos e cronograma de liberação.', ruleSplit: 'Divisão do prêmio', ruleRisk: 'Verificações de risco de saque', ruleRiskSub: 'Regras de histórico de compras e período de resfriamento se aplicam.', tournamentMap: 'Mapa do torneio', navArena: 'Arena', navRank: 'Ranking', navWallet: 'Carteira', navInvite: 'Convidar', navMe: 'Eu', emptyPurchases: 'Ainda não há compras', emptyPurchasesSub: 'Aguardando a entrada de abertura', emptyWinners: 'Ainda não há vencedores', emptyWinnersSub: 'Rodadas liquidadas aparecem aqui', emptyTx: 'Ainda não há transações', emptyTxSub: 'Depósitos, compras e saques aparecem aqui', buySuccess: 'Compra confirmada.', buyFail: 'Compra falhou. Verifique o saldo ou tente novamente.', depositSubmitted: 'Ordem de depósito enviada.', depositConfirmed: 'Depósito confirmado.', depositFail: 'Depósito falhou. Tente novamente.', withdrawSubmitted: 'Solicitação de saque enviada.', withdrawFail: 'Saque falhou. Verifique o saldo e as regras de risco.', copied: 'Copiado.', copyFail: 'Cópia falhou.', saveOk: 'Perfil salvo.', saveFail: 'Salvamento falhou.', nicknameEmpty: 'O apelido não pode estar vazio.', serviceFail: 'Falha na conexão do serviço. Verifique os contêineres Docker.', badgeWorldCup: '🏆 ROAD TO CHAMPION', badgeLivePot: '⚡ STAGE POOLS', badgeCrypto: '🏷️ OFFICIAL SPONSORED', closeLabel: 'FECHAR', pressureMeter: 'Medidor de pressão', paymentHint: 'Recomendado: use USDT TRC20 para confirmação mais rápida. Os créditos chegam como saldo BF após a confirmação do gateway.', gatewayLabel: 'Gateway', creditMode: 'Modo de crédito', paymentKeepOpen: 'Mantenha esta página aberta após o pagamento; o status da ordem atualiza sozinho até confirmar.', refStepCopy: '1 · Copiar', refStepShare: '2 · Compartilhar em grupos', refStepEarn: '3 · Ganhar comissão', refHint: 'Divulgue durante a empolgação do jogo: grupos do Telegram, canais de futebol e comunidades cripto convertem mais rápido.', championBoard: 'Quadro de Campeões', champBoardSub: 'Maiores compradores da temporada', rankColPlayer: 'Jogador', rankColPrize: 'Ganhos', emptyRanking: 'Ainda não há campeões', emptyRankingSub: 'Os maiores compradores aparecerão aqui quando as rodadas forem liquidadas', loadingRanking: 'Carregando ranking…', payStatusPending: 'PENDENTE', payStatusPaid: 'PAGO', payStatusFailed: 'FALHOU', payAmountLabel: 'Valor', orderCardTitle: 'Ordem de pagamento', payFailedHint: 'O pagamento falhou ou expirou. Ajuste o valor e crie uma nova ordem.', copyOrderId: 'Copiar ID da ordem' },
+      fr: { season: 'Édition Coupe du Monde 2026', me: 'MOI', arenaKicker: 'Road to Champion', heroTitle: 'World Cup Champion Path', heroNote: 'Achetez des clés par étape et gagnez des dividendes en attente d\'achats ultérieurs.', account: 'Compte', balance: 'Solde', gameStatus: 'Pools d\'étape', currentPrize: 'Cagnotte actuelle', buyAmount: 'Montant d\'achat', buyButton: 'Acheter Road Key', round: 'Pool', fans: 'Clés vendues', withdrawn: 'Officiellement sponsorisé', liveBuys: 'Achats en direct', liveBuysSub: 'Nouvelles entrées de fans', matchCenter: 'Centre des matchs', roundMonitor: 'Moniteur Road en direct', telemetry: 'Télémétrie de pool', minBuy: 'Délai de libération', closeAt: 'Fermeture à', winnerSplit: 'Tarif (h)', platformSplit: 'Dividende (d)', settlementLog: 'Journal de règlement', settledRounds: 'Événements réglés', leaderboard: 'Classement', eliteRanking: 'Classement élite', today: 'Aujourd\'hui', weekly: 'Hebdomadaire', allTime: 'Historique', rankingDetails: 'Détails du classement', winnerDriven: 'Règles de Stage Key', wallet: 'Portefeuille', cashFlow: 'Solde et flux de trésorerie', deposit: 'Dépôt', depositSub: 'Commande de passerelle et crédit de compte', depositAmount: 'Montant du dépôt', paymentOrder: 'Commande', paymentGateway: 'Passerelle', paymentStatus: 'Statut', openInvoice: 'Ouvrir la facture', withdraw: 'Retrait', withdrawSub: 'Les demandes soumises entrent en révision', withdrawAddress: 'Adresse de retrait', withdrawAmount: 'Montant du retrait', submit: 'Soumettre', transactions: 'Transactions', referral: 'Parrainage', fanNetwork: 'Construisez votre réseau de fans', inviteLink: 'Lien d\'invitation', copyInvite: 'Copier le lien d\'invitation', invites: 'Invitations', commission: 'Commission', verifiedPro: 'Pro vérifié', totalBought: 'Total acheté', totalWon: 'Total gagné', vipProgress: 'Progrès VIP', achievements: 'Réalisations', morePages: 'Plus de pages', rules: 'Règles du jeu équitable', editProfile: 'Modifier le profil', bracket: 'Tableau de la Coupe du Monde', nickname: 'Pseudo', saveProfile: 'Enregistrer le profil', backProfile: 'Retour au profil', rulesTitle: 'Règles de Road et partage', ruleLast: 'Règles de Road Key', ruleLastSub: 'Les récompenses viennent de pools nets et calendrier de libération.', ruleSplit: 'Partage du prix', ruleRisk: 'Vérifications des risques de retrait', ruleRiskSub: 'Les règles d\'historique d\'achat et de période de refroidissement s\'appliquent.', tournamentMap: 'Carte du tournoi', navArena: 'Arène', navRank: 'Rang', navWallet: 'Portefeuille', navInvite: 'Inviter', navMe: 'Moi', emptyPurchases: 'Pas encore d\'achats', emptyPurchasesSub: 'En attente de l\'entrée d\'ouverture', emptyWinners: 'Pas encore de règlements', emptyWinnersSub: 'Les événements d\'étape réglés apparaissent ici', emptyTx: 'Pas encore de transactions', emptyTxSub: 'Les dépôts, achats et retraits apparaissent ici', buySuccess: 'Road Key acheté.', buyFail: 'Achat échoué. Vérifiez le solde ou réessayez.', depositSubmitted: 'Commande de dépôt soumise.', depositConfirmed: 'Dépôt confirmé.', depositFail: 'Dépôt échoué. Réessayez.', withdrawSubmitted: 'Demande de retrait soumise.', withdrawFail: 'Retrait échoué. Vérifiez le solde et les règles de risque.', copied: 'Copié.', copyFail: 'Échec de la copie.', saveOk: 'Profil enregistré.', saveFail: 'Échec de l\'enregistrement.', nicknameEmpty: 'Le pseudo ne peut pas être vide.', serviceFail: 'Échec de la connexion au service. Vérifiez les conteneurs Docker.', badgeWorldCup: '🏆 ROAD TO CHAMPION', badgeLivePot: '⚡ STAGE POOLS', badgeCrypto: '🏷️ OFFICIAL SPONSORED', closeLabel: 'FERMER', pressureMeter: 'Jauge de pression', paymentHint: 'Recommandé : utilisez USDT TRC20 pour la confirmation la plus rapide. Les crédits arrivent en solde BF après confirmation de la passerelle.', gatewayLabel: 'Passerelle', creditMode: 'Mode de crédit', paymentKeepOpen: 'Gardez cette page ouverte après le paiement ; le statut de la commande se rafraîchit automatiquement jusqu\'à confirmation.', refStepCopy: '1 · Copier', refStepShare: '2 · Partager en groupes', refStepEarn: '3 · Gagner une commission', refHint: 'Diffusez pendant la ferveur du match : groupes Telegram, chaînes de football et communautés crypto convertissent le plus vite.', championBoard: 'Tableau des Champions', champBoardSub: 'Meilleurs acheteurs de la saison', rankColPlayer: 'Joueur', rankColPrize: 'Gains', emptyRanking: 'Pas encore de champions', emptyRankingSub: 'Les meilleurs acheteurs apparaîtront ici', loadingRanking: 'Chargement du classement…', payStatusPending: 'EN ATTENTE', payStatusPaid: 'PAYÉ', payStatusFailed: 'ÉCHEC', payAmountLabel: 'Montant', orderCardTitle: 'Commande de paiement', payFailedHint: 'Le paiement a échoué ou expiré. Ajustez le montant et créez une nouvelle commande.', copyOrderId: 'Copier l\'ID de commande' },
+      ar: { season: 'نسخة كأس العالم 2026', me: 'انا', arenaKicker: 'Road to Champion', heroTitle: 'World Cup Champion Path', heroNote: 'اشترِ مفاتيح المرحلة مبكرًا للحصول على سعر أفضل واحصل على أرباح معلقة من المشتريات لاحقة.', account: 'الحساب', balance: 'الرصيد', gameStatus: 'مجاميع المرحلة', currentPrize: 'الجائزة الحالية', buyAmount: 'مبلغ الشراء', buyButton: 'اشترِ Road Key', round: 'مجمع', fans: 'المفاتيح المباعة', withdrawn: 'رعاية رسمية', liveBuys: 'المشتريات المباشرة', liveBuysSub: 'دخول مشجعين جدد', matchCenter: 'مركز المباريات', roundMonitor: 'مراقب Road المباشر', telemetry: 'قياس المجمع', minBuy: 'تأخير الإصدار', closeAt: 'إغلاق في', winnerSplit: 'الرسوم (س)', platformSplit: 'الأرباح (د)', settlementLog: 'سجل التسوية', settledRounds: 'الأحداث المسوية', leaderboard: 'الترتيب', eliteRanking: 'ترتيب النخبة', today: 'اليوم', weekly: 'اسبوعي', allTime: 'تاريخي', rankingDetails: 'تفاصيل الترتيب', winnerDriven: 'قواعد Stage Key', wallet: 'المحفظة', cashFlow: 'الرصيد والتدفق النقدي', deposit: 'ايداع', depositSub: 'طلب البوابة ورصيد الحساب', depositAmount: 'مبلغ الايداع', paymentOrder: 'الطلب', paymentGateway: 'البوابة', paymentStatus: 'الحالة', openInvoice: 'فتح الفاتورة', withdraw: 'سحب', withdrawSub: 'الطلبات المقدمة تدخل المراجعة', withdrawAddress: 'عنوان السحب', withdrawAmount: 'مبلغ السحب', submit: 'ارسال', transactions: 'المعاملات', referral: 'دعوات', fanNetwork: 'بناء شبكة المشجعين', inviteLink: 'رابط الدعوة', copyInvite: 'نسخ رابط الدعوة', invites: 'الدعوات', commission: 'العمولة', verifiedPro: 'محترف موثق', totalBought: 'اجمالي المشتريات', totalWon: 'اجمالي الفوز', vipProgress: 'تقدم VIP', achievements: 'الانجازات', morePages: 'المزيد من الصفحات', rules: 'قواعد اللعب النظيف', editProfile: 'تعديل الملف الشخصي', bracket: 'جدول كأس العالم', nickname: 'اللقب', saveProfile: 'حفظ الملف الشخصي', backProfile: 'العودة للملف الشخصي', rulesTitle: 'قواعد Road والتقسيم', ruleLast: 'قواعد Road Key', ruleLastSub: 'تأتي المكافآت من المجموعات الصافية وجدول الإصدار.', ruleSplit: 'تقسيم الجائزة', ruleRisk: 'فحوصات مخاطر السحب', ruleRiskSub: 'تطبق قواعد سجل الشراء وفترة التهدئة.', tournamentMap: 'خريطة البطولة', navArena: 'الملعب', navRank: 'ترتيب', navWallet: 'محفظة', navInvite: 'دعوة', navMe: 'انا', emptyPurchases: 'لا توجد مشتريات بعد', emptyPurchasesSub: 'في انتظار الدخول الافتتاحي', emptyWinners: 'لا توجد تسويات بعد', emptyWinnersSub: 'تظهر أحداث المرحلة المسوية هنا', emptyTx: 'لا توجد معاملات بعد', emptyTxSub: 'تظهر الايداعات والمشتريات والسحوبات هنا', buySuccess: 'تم شراء Road Key.', buyFail: 'فشل الشراء. تحقق من الرصيد او حاول مرة اخرى.', depositSubmitted: 'تم ارسال طلب الايداع.', depositConfirmed: 'تم تأكيد الايداع.', depositFail: 'فشل الايداع. حاول مرة اخرى.', withdrawSubmitted: 'تم ارسال طلب السحب.', withdrawFail: 'فشل السحب. تحقق من الرصيد وقواعد المخاطر.', copied: 'تم النسخ.', copyFail: 'فشل النسخ.', saveOk: 'تم حفظ الملف الشخصي.', saveFail: 'فشل الحفظ.', nicknameEmpty: 'لا يمكن ان يكون اللقب فارغا.', serviceFail: 'فشل الاتصال بالخدمة. تحقق من حاويات Docker.', badgeWorldCup: '🏆 ROAD TO CHAMPION', badgeLivePot: '⚡ STAGE POOLS', badgeCrypto: '🏷️ OFFICIAL SPONSORED', closeLabel: 'إغلاق', pressureMeter: 'مقياس الضغط', paymentHint: 'يوصى باستخدام USDT TRC20 لأسرع تأكيد. تُضاف الأرصدة كرصيد BF بعد تأكيد البوابة.', gatewayLabel: 'البوابة', creditMode: 'وضع الإضافة', paymentKeepOpen: 'أبقِ هذه الصفحة مفتوحة بعد الدفع؛ تتحدث حالة الطلب تلقائيًا حتى التأكيد.', refStepCopy: '1 · نسخ', refStepShare: '2 · المشاركة في المجموعات', refStepEarn: '3 · كسب العمولة', refHint: 'روّج أثناء حماس المباراة: مجموعات تيليجرام وقنوات كرة القدم ومجتمعات العملات المشفرة تحقق أسرع تحويل.', championBoard: 'لوحة الأبطال', champBoardSub: 'أكبر المشترين هذا الموسم', rankColPlayer: 'اللاعب', rankColPrize: 'الأرباح', emptyRanking: 'لا يوجد أبطال بعد', emptyRankingSub: 'سيظهر أكبر المشترين هنا', loadingRanking: 'جارٍ تحميل الترتيب…', payStatusPending: 'قيد الانتظار', payStatusPaid: 'مدفوع', payStatusFailed: 'فشل', payAmountLabel: 'المبلغ', orderCardTitle: 'طلب الدفع', payFailedHint: 'فشل الدفع أو انتهت صلاحيته. عدّل المبلغ وأنشئ طلبًا جديدًا.', copyOrderId: 'نسخ رقم الطلب' }
+    };
+
+    Object.assign(I18N.en, {
+      gameStatus: 'Stage pools',
+      round: 'Pool',
+      fans: 'Sold Keys',
+      withdrawn: 'Official Sponsored',
+      roundMonitor: 'Live road monitor',
+      telemetry: 'Pool telemetry',
+      minBuy: 'Release delay',
+      closeAt: 'Close at',
+      winnerSplit: 'Fee (h)',
+      platformSplit: 'Dividend (d)',
+      settlementLog: 'Settlement log',
+      settledRounds: 'Settled events',
+      rulesTitle: 'Road rules and split',
+      ruleLast: 'Road Key rules',
+      ruleLastSub: 'Rewards come from net pools and release schedule.',
+      emptyWinners: 'No settlements yet',
+      emptyWinnersSub: 'Settled stage events appear here',
+      buySuccess: 'Road Key purchased. Pending rewards update later.',
+      buyFail: 'Purchase failed. Check balance or try again.',
+      emptyRankingSub: 'Top buyers will appear here',
+      badgeWorldCup: '🏆 ROAD TO CHAMPION',
+      badgeLivePot: '⚡ STAGE POOLS',
+      badgeCrypto: '🏷️ OFFICIAL SPONSORED',
+      superJackpot: 'Super Champion Pool',
+      stagePools: 'Stage Pools',
+      officialSponsored: 'Official Sponsored',
+      pendingRewards: 'Pending Rewards',
+      roadTitle: 'Road to Champion',
+      roadSub: 'Buy team keys · Earn dividends · Chase the Super Pool',
+      statusOpen: 'OPEN',
+      statusClosed: 'CLOSED',
+      statusSettled: 'SETTLED',
+      statusCancelled: 'CANCELLED',
+      prizePool: 'Prize Pool',
+      soldKeys: 'Sold Keys',
+      dividendsPaid: 'Dividends Paid',
+      closeAt: 'Close At',
+      keyPrice: 'Key Price',
+      buyRoadKey: 'BUY',
+      emptyPools: 'No pools',
+      emptyPoolsSub: 'Ask admin to open pools',
+      playerPool: 'Player pool',
+      referralStats: 'Referral stats',
+      myRoadKeys: 'My Road Keys',
+      holdingsPending: 'Holdings · Pending rewards',
+      pending: 'Pending',
+      released: 'Released',
+      noRoadKeys: 'No Road Keys',
+      noRoadKeysSub: 'Buy a team stage key to start earning',
+      riskNote1: function(data) { return `Rewards are pending and released over time (~${data.hours}h).`; },
+      riskNote2: 'Route can be eliminated.',
+    });
+
+    Object.assign(I18N.zh, {
+      arenaKicker: '世界杯冠军之路',
+      heroTitle: 'Road to Champion',
+      heroNote: '尽早买入球队阶段 Key，获得后续买入的待释放奖励。存活晋级追逐超级冠军池。',
+      gameStatus: '阶段池',
+      round: '池',
+      fans: '已售 Keys',
+      withdrawn: '官方赞助',
+      roundMonitor: '实时路监控',
+      telemetry: '池数据',
+      minBuy: '释放延迟',
+      closeAt: '关闭时间',
+      winnerSplit: '费用 (h)',
+      platformSplit: '分红 (d)',
+      settlementLog: '结算日志',
+      settledRounds: '已结算事件',
+      rulesTitle: 'Road 规则与分成',
+      ruleLast: '阶段 Key 规则',
+      ruleLastSub: '奖励来自净池和释放时间表。',
+      emptyWinners: '暂无结算',
+      emptyWinnersSub: '已结算的阶段事件会显示在这里',
+      buySuccess: 'Road Key 已购买。待释放奖励稍后更新。',
+      badgeWorldCup: '🏆 ROAD TO CHAMPION',
+      badgeLivePot: '⚡ STAGE POOLS',
+      badgeCrypto: '🏷️ OFFICIAL SPONSORED',
+      superJackpot: '超级冠军池',
+      stagePools: '阶段池',
+      officialSponsored: '官方赞助',
+      pendingRewards: '待释放奖励',
+      roadTitle: '世界杯冠军之路',
+      roadSub: '购买球队 Key · 赚取分红 · 追逐超级池',
+      statusOpen: '开放',
+      statusClosed: '已关闭',
+      statusSettled: '已结算',
+      statusCancelled: '已取消',
+      prizePool: '奖池',
+      soldKeys: '已售 Key',
+      dividendsPaid: '已发放分红',
+      closeAt: '截止时间',
+      keyPrice: 'Key 价格',
+      buyRoadKey: '购买',
+      emptyPools: '暂无池子',
+      emptyPoolsSub: '请联系管理员开启池子',
+      playerPool: '玩家池',
+      referralStats: '邀请数据',
+      myRoadKeys: '我的 Road Keys',
+      holdingsPending: '持仓 · 待释放奖励',
+      pending: '待释放',
+      released: '已释放',
+      noRoadKeys: '暂无 Road Keys',
+      noRoadKeysSub: '购买球队阶段 Key 后开始累计奖励',
+      riskNote1: function(data) { return `奖励处于待释放状态，将随时间逐步发放 (~${data.hours}小时)。`; },
+      riskNote2: '球队可能被淘汰。',
+    });
+
+    Object.assign(I18N.es, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'World Cup Champion Path',
+      heroNote: 'Compra llaves por etapa y gana dividendos pendientes de compras posteriores.',
+      buyButton: 'Comprar Road Key',
+      gameStatus: 'Pools de etapa',
+      round: 'Pool',
+      fans: 'Llaves vendidas',
+      withdrawn: 'Patrocinado oficial',
+      roundMonitor: 'Monitor de Road en vivo',
+      telemetry: 'Telemetría de pool',
+      minBuy: 'Retraso de liberación',
+      closeAt: 'Cierre en',
+      winnerSplit: 'Tarifa (h)',
+      platformSplit: 'Dividendo (d)',
+      settlementLog: 'Registro de liquidaciones',
+      settledRounds: 'Eventos liquidados',
+      rulesTitle: 'Reglas y distribución de Road',
+      ruleLast: 'Reglas de Road Key',
+      ruleLastSub: 'Las recompensas provienen de pools netos y calendario de liberación.',
+      badgeWorldCup: '🏆 ROAD TO CHAMPION',
+      badgeLivePot: '⚡ STAGE POOLS',
+      badgeCrypto: '🏷️ OFFICIAL SPONSORED',
+    });
+
+    Object.assign(I18N.pt, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'World Cup Champion Path',
+      heroNote: 'Compre chaves por etapa e ganhe dividendos pendentes de compras posteriores.',
+      buyButton: 'Comprar Road Key',
+      gameStatus: 'Pools de etapa',
+      round: 'Pool',
+      fans: 'Chaves vendidas',
+      withdrawn: 'Patrocinado oficial',
+      roundMonitor: 'Monitor de Road em vivo',
+      telemetry: 'Telemetria de pool',
+      minBuy: 'Atraso de liberação',
+      closeAt: 'Fechamento em',
+      winnerSplit: 'Tarifa (h)',
+      platformSplit: 'Dividendo (d)',
+      settlementLog: 'Registro de liquidações',
+      settledRounds: 'Eventos liquidados',
+      rulesTitle: 'Regras e distribuição de Road',
+      ruleLast: 'Regras de Road Key',
+      ruleLastSub: 'As recompensas vêm de pools netos e cronograma de liberação.',
+      badgeWorldCup: '🏆 ROAD TO CHAMPION',
+      badgeLivePot: '⚡ STAGE POOLS',
+      badgeCrypto: '🏷️ OFFICIAL SPONSORED',
+    });
+
+    Object.assign(I18N.fr, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'World Cup Champion Path',
+      heroNote: 'Achetez des clés par étape et gagnez des dividendes en attente d\'achats ultérieurs.',
+      buyButton: 'Acheter Road Key',
+      gameStatus: 'Pools d\'étape',
+      round: 'Pool',
+      fans: 'Clés vendues',
+      withdrawn: 'Officiellement sponsorisé',
+      roundMonitor: 'Monitor Road en direct',
+      telemetry: 'Télémétrie de pool',
+      minBuy: 'Délai de libération',
+      closeAt: 'Fermeture à',
+      winnerSplit: 'Tarif (h)',
+      platformSplit: 'Dividende (d)',
+      settlementLog: 'Journal de règlement',
+      settledRounds: 'Événements réglés',
+      rulesTitle: 'Règles et répartition Road',
+      ruleLast: 'Règles de Road Key',
+      ruleLastSub: 'Les récompenses proviennent de pools nets et d\'un calendrier de libération.',
+      badgeWorldCup: '🏆 ROAD TO CHAMPION',
+      badgeLivePot: '⚡ STAGE POOLS',
+      badgeCrypto: '🏷️ OFFICIAL SPONSORED',
+    });
+
+    Object.assign(I18N.ar, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'World Cup Champion Path',
+      heroNote: 'اشترِ مفاتيح المرحلة واكسب أرباحًا معلقة من المشتريات اللاحقة.',
+      buyButton: 'اشترِ Road Key',
+      gameStatus: 'بولات المرحلة',
+      round: 'بول',
+      fans: 'المفاتيح المباعة',
+      withdrawn: 'برعاية رسمية',
+      roundMonitor: 'مراقب Road المباشر',
+      telemetry: 'قياسات البول',
+      minBuy: 'تأخير الإصدار',
+      closeAt: 'إغلاق في',
+      winnerSplit: 'الرسوم (h)',
+      platformSplit: 'الأرباح (d)',
+      settlementLog: 'سجل التسوية',
+      settledRounds: 'الأحداث المسوية',
+      rulesTitle: 'قواعد وتوزيع Road',
+      ruleLast: 'قواعد Road Key',
+      ruleLastSub: 'تأتي المكافآت من البولات الصافية وجدول الإصدار.',
+      badgeWorldCup: '🏆 ROAD TO CHAMPION',
+      badgeLivePot: '⚡ STAGE POOLS',
+      badgeCrypto: '🏷️ OFFICIAL SPONSORED',
+    });
+
+    Object.assign(I18N.zh, {
+      gameStatus: '阶段池状态',
+      round: '阶段池',
+      fans: '已售 Key',
+      withdrawn: '官方赞助',
+      roundMonitor: '路线上实时监控',
+      telemetry: '池子数据',
+      minBuy: '释放周期',
+      closeAt: '封盘时间',
+      winnerSplit: '动态费率',
+      platformSplit: '分红比例',
+      settlementLog: '结算记录',
+      settledRounds: '已结算事件',
+      rulesTitle: '冠军之路规则与分配',
+      ruleLast: '阶段 Key 规则',
+      ruleLastSub: '收益来自净池与释放规则。',
+      emptyWinners: '暂无结算记录',
+      emptyWinnersSub: '晋级/淘汰结算会显示在这里',
+      emptyRankingSub: '买入榜首将显示在这里',
+    });
+
+    Object.assign(I18N.es, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'Road to Champion',
+      heroNote: 'Compra llaves por etapa y gana dividendos pendientes de compras posteriores.',
+      buyButton: 'Comprar Road Key',
+      gameStatus: 'Pools por etapa',
+      round: 'Pool',
+      fans: 'Keys vendidas',
+      withdrawn: 'Patrocinio oficial',
+      roundMonitor: 'Monitor en vivo',
+      telemetry: 'Telemetría del pool',
+      minBuy: 'Liberación',
+      closeAt: 'Cierre',
+      winnerSplit: 'Tarifa (h)',
+      platformSplit: 'Dividendos (d)',
+      settlementLog: 'Registro de liquidación',
+      settledRounds: 'Eventos liquidados',
+      rulesTitle: 'Reglas y reparto',
+      ruleLast: 'Reglas de Road Key',
+      ruleLastSub: 'Las recompensas provienen del pool neto y del calendario de liberación.',
+      emptyWinners: 'Sin liquidaciones',
+      emptyWinnersSub: 'Las liquidaciones aparecerán aquí',
+      buySuccess: 'Road key comprada.',
+      emptyRankingSub: 'Los top compradores aparecerán aquí',
+    });
+
+    Object.assign(I18N.pt, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'Road to Champion',
+      heroNote: 'Compre chaves por etapa e ganhe dividendos pendentes de compras posteriores.',
+      buyButton: 'Comprar Road Key',
+      gameStatus: 'Pools por etapa',
+      round: 'Pool',
+      fans: 'Keys vendidas',
+      withdrawn: 'Patrocínio oficial',
+      roundMonitor: 'Monitor ao vivo',
+      telemetry: 'Telemetria do pool',
+      minBuy: 'Liberação',
+      closeAt: 'Fechamento',
+      winnerSplit: 'Taxa (h)',
+      platformSplit: 'Dividendos (d)',
+      settlementLog: 'Registro de liquidação',
+      settledRounds: 'Eventos liquidados',
+      rulesTitle: 'Regras e divisão',
+      ruleLast: 'Regras de Road Key',
+      ruleLastSub: 'As recompensas vêm do pool líquido e da liberação.',
+      emptyWinners: 'Sem liquidações',
+      emptyWinnersSub: 'Liquidações aparecerão aqui',
+      buySuccess: 'Road key comprada.',
+      emptyRankingSub: 'Os top compradores aparecerão aqui',
+    });
+
+    Object.assign(I18N.fr, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'Road to Champion',
+      heroNote: 'Achetez des keys par étape et gagnez des dividendes en attente.',
+      buyButton: 'Acheter Road Key',
+      gameStatus: 'Pools par étape',
+      round: 'Pool',
+      fans: 'Keys vendues',
+      withdrawn: 'Sponsor officiel',
+      roundMonitor: 'Moniteur en direct',
+      telemetry: 'Télémétrie du pool',
+      minBuy: 'Libération',
+      closeAt: 'Clôture',
+      winnerSplit: 'Frais (h)',
+      platformSplit: 'Dividendes (d)',
+      settlementLog: 'Journal de règlement',
+      settledRounds: 'Événements réglés',
+      rulesTitle: 'Règles et répartition',
+      ruleLast: 'Règles de Road Key',
+      ruleLastSub: 'Les récompenses viennent du pool net et du calendrier de libération.',
+      emptyWinners: 'Aucun règlement',
+      emptyWinnersSub: 'Les règlements apparaîtront ici',
+      buySuccess: 'Road key achetée.',
+      emptyRankingSub: 'Les top acheteurs apparaîtront ici',
+    });
+
+    Object.assign(I18N.ar, {
+      arenaKicker: 'Road to Champion',
+      heroTitle: 'Road to Champion',
+      heroNote: 'اشتر مفاتيح المراحل مبكراً لتحصل على سعر أفضل وأرباح معلّقة من مشتريات لاحقة.',
+      buyButton: 'شراء Road Key',
+      gameStatus: 'أحواض المراحل',
+      round: 'الحوض',
+      fans: 'الكمية المباعة',
+      withdrawn: 'رعاية رسمية',
+      roundMonitor: 'مراقبة مباشرة',
+      telemetry: 'بيانات الحوض',
+      minBuy: 'الإفراج',
+      closeAt: 'الإغلاق',
+      winnerSplit: 'رسوم (h)',
+      platformSplit: 'أرباح (d)',
+      settlementLog: 'سجل التسوية',
+      settledRounds: 'أحداث مسوّاة',
+      rulesTitle: 'القواعد والتوزيع',
+      ruleLast: 'قواعد Road Key',
+      ruleLastSub: 'الأرباح من الحوض الصافي وجدول الإفراج.',
+      emptyWinners: 'لا توجد تسويات',
+      emptyWinnersSub: 'ستظهر التسويات هنا',
+      buySuccess: 'تم شراء Road key.',
+      emptyRankingSub: 'سيظهر أفضل المشترين هنا',
+    });
+
+    let lang = localStorage.getItem('bf_lang') || 'en';
+    let token = localStorage.getItem('bf_token') || '';
+    let user = null;
+    let countdownTimer = null;
+    let paymentPollTimer = null;
+    let countdownMax = 60;
+    let activeView = 'arena';
+    let roadStage = 'TOP32';
+    let roadPoolsCache = [];
+    let roadAllPoolsCache = [];
+    let selectedRoadPool = null;
+    let roadModalPoolId = '';
+
+    function t(key) { return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key; }
+    function applyI18n() {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+      document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
+      document.querySelectorAll('[data-i18n-title]').forEach((el) => { el.title = t(el.dataset.i18nTitle); });
+      if ($('lang-select')) $('lang-select').value = lang;
+    }
+    function money(value) {
+      const n = Number(value) || 0;
+      return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    function shortName(value) {
+      const text = String(value || '').trim();
+      if (!text) return '-';
+      return text.length > 18 ? text.slice(0, 8) + '...' + text.slice(-6) : text;
+    }
+    function setToast(message, type = 'ok') {
+      const el = $('toast');
+      el.innerHTML = `<span class="${type}">●</span> ${message}`;
+      el.classList.add('show');
+      clearTimeout(el._timer);
+      el._timer = setTimeout(() => el.classList.remove('show'), 3200);
+    }
+    function authHeaders() { return token ? { Authorization: `Bearer ${token}` } : {}; }
+    async function api(path, options = {}) {
+      const res = await fetch(API + path, { ...options, headers: { ...(options.headers || {}), ...authHeaders() } });
+      if (!res.ok) throw new Error(await res.text());
+      return res.json();
+    }
+    function showView(name) {
+      activeView = name;
+      document.querySelectorAll('.view').forEach((view) => view.classList.toggle('active', view.dataset.view === name));
+      document.querySelectorAll('[data-tab]').forEach((btn) => btn.classList.toggle('active', btn.dataset.tab === name));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (['wallet', 'profile', 'profile-edit'].includes(name)) loadRichProfile();
+      if (name === 'profile') loadRoadHoldings();
+    }
+    async function ensureAuth() {
+      if (token) {
+        try {
+          user = await api('/user/profile');
+          renderUser();
+          return;
+        } catch {
+          localStorage.removeItem('bf_token');
+          token = '';
+        }
+      }
+
+      const tg = window.Telegram?.WebApp;
+      if (tg?.initData) {
+        const verify = await fetch(`${API}/auth/telegram`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ initData: tg.initData }),
+        });
+        if (!verify.ok) throw new Error(await verify.text());
+        const data = await verify.json();
+        token = data.token;
+        user = data.user;
+        localStorage.setItem('bf_token', token);
+        renderUser();
+        tg.ready?.();
+        tg.expand?.();
+        return;
+      }
+
+      const addr = '0x' + Array.from({ length: 40 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+      const nonceRes = await fetch(`${API}/auth/nonce?address=${addr}`);
+      const { nonce } = await nonceRes.json();
+      const verify = await fetch(`${API}/auth/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ address: addr, signature: 'demo-' + Date.now(), nonce }),
+      });
+      const data = await verify.json();
+      token = data.token;
+      user = data.user;
+      localStorage.setItem('bf_token', token);
+      renderUser();
+    }
+    function renderUser() {
+      if (!user) return;
+      const name = user.nickname || shortName(user.walletAddress) || 'Demo Player';
+      $('player-name').textContent = name;
+      $('profile-name').textContent = name;
+      const nicknameInput = $('profile-nickname-input');
+      if (nicknameInput) nicknameInput.value = name;
+      $('header-balance').textContent = money(user.balance) + ' BF';
+      $('total-purchased').textContent = money(user.totalPurchased || 0);
+      $('total-won').textContent = money(user.totalWon || 0);
+      const vipProgress = Math.min(100, Math.floor(Number(user.totalPurchased || 0) / 5000 * 100));
+      $('vip-progress').textContent = vipProgress + '%';
+      const refUrl = `${location.origin}/ref/${user.id || 'demo'}`;
+      $('ref-link').textContent = refUrl;
+      updateInviteQr(refUrl);
+    }
+
+    function updateInviteQr(url) {
+      const qr = $('invite-qr');
+      if (!qr || !url) return;
+      qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=156x156&margin=1&data=${encodeURIComponent(url)}`;
+      qr.title = url;
+    }
+    function startCountdown(seconds) {
+      clearInterval(countdownTimer);
+      let left = Math.max(0, Math.floor(Number(seconds) || 0));
+      countdownMax = Math.max(60, left);
+      const draw = () => {
+        const m = String(Math.floor(left / 60)).padStart(2, '0');
+        const s = String(left % 60).padStart(2, '0');
+        $('timer-display').textContent = `${m}:${s}`;
+        $('timer-bar').style.width = Math.max(0, Math.min(100, (left / countdownMax) * 100)) + '%';
+        left = Math.max(0, left - 1);
+      };
+      draw();
+      countdownTimer = setInterval(draw, 1000);
+    }
+    function renderState(next) {
+      $('main-prize').textContent = money(next.superJackpot || 0);
+
+      if (selectedRoadPool) {
+        const tag = `${selectedRoadPool.team?.code || '-'} · ${selectedRoadPool.stage}`;
+        $('round-number').textContent = tag;
+        $('active-fans').textContent = Number(selectedRoadPool.soldKeys || 0).toFixed(2);
+        $('total-withdrawn').textContent = money(next.officialSponsored || 0);
+
+        const closeAt = selectedRoadPool.closeAt ? new Date(selectedRoadPool.closeAt).getTime() : 0;
+        const leftSec = closeAt ? Math.max(0, Math.floor((closeAt - Date.now()) / 1000)) : 0;
+        startCountdown(leftSec);
+      } else {
+        $('round-number').textContent = '-';
+        $('active-fans').textContent = '-';
+        $('total-withdrawn').textContent = money(next.officialSponsored || 0);
+        startCountdown(0);
+      }
+
+      if (selectedRoadPool) {
+        const params = selectedRoadPool.params || {};
+        const releaseDelayHours = Number(params.releaseDelayHours ?? 0);
+        $('min-buy').textContent = releaseDelayHours ? `~${releaseDelayHours}h` : '-';
+
+        const closeLabel = selectedRoadPool.closeAt
+          ? new Date(selectedRoadPool.closeAt).toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-US')
+          : '-';
+        $('last-buyer').textContent = closeLabel;
+
+        const hMin = Number(params.hMinBps ?? 0) / 100;
+        const hMax = Number(params.hMaxBps ?? 0) / 100;
+        $('winner-percent').textContent = hMin && hMax ? `${hMin.toFixed(1)}%–${hMax.toFixed(1)}%` : '-';
+
+        const dBase = Number(params.dBaseBps ?? 0) / 100;
+        $('platform-percent').textContent = dBase ? `${dBase.toFixed(1)}%` : '-';
+      } else {
+        $('min-buy').textContent = '-';
+        $('last-buyer').textContent = '-';
+        $('winner-percent').textContent = '-';
+        $('platform-percent').textContent = '-';
+      }
+    }
+
+    function formatPoolName(pool) {
+      const code = pool.team?.code || '-';
+      return `${code}.${pool.stage}`;
+    }
+
+    function setSelectedPool(pool) {
+      selectedRoadPool = pool || null;
+      if ($('road-selected-pool')) {
+        $('road-selected-pool').textContent = pool ? `${formatPoolName(pool)} · ${money(pool.currentPrice)} BF` : '-';
+      }
+    }
+
+    function syncHeroStageNodes() {
+      document.querySelectorAll('[data-hero-stage]').forEach((node) => {
+        node.classList.toggle('active', node.dataset.heroStage === roadStage);
+      });
+    }
+
+    function bindHeroStageNodes() {
+      document.querySelectorAll('[data-hero-stage]').forEach((node) => {
+        if (node.dataset.bound === '1') return;
+        node.dataset.bound = '1';
+        node.addEventListener('click', () => setRoadStage(node.dataset.heroStage));
+      });
+      syncHeroStageNodes();
+    }
+
+    function setRoadStage(stage, shouldRefresh = true) {
+      if (!stage) return;
+      if (stage === roadStage) {
+        syncHeroStageNodes();
+        return;
+      }
+      roadStage = stage;
+      selectedRoadPool = null;
+      syncHeroStageNodes();
+      renderRoadStageTabs();
+      if (shouldRefresh) refreshAll().catch(() => {});
+    }
+
+    function renderRoadStageTabs() {
+      const el = $('road-stage-tabs');
+      if (!el) return;
+      const stages = ['TOP32', 'TOP16', 'TOP8', 'TOP4', 'FINAL', 'CHAMPION'];
+      const source = roadAllPoolsCache.length ? roadAllPoolsCache : roadPoolsCache;
+      const counts = stages.map(s => source.filter(p => p.stage === s).length);
+      el.innerHTML = stages.map((s, i) => `
+        <button type="button" data-road-stage="${s}" class="${s === roadStage ? 'active' : ''}">
+          ${s}
+          <span class="road-tab-count">${counts[i]}</span>
+        </button>
+      `).join('');
+      el.querySelectorAll('button[data-road-stage]').forEach((btn) => {
+        btn.addEventListener('click', () => setRoadStage(btn.dataset.roadStage));
+      });
+      syncHeroStageNodes();
+    }
+
+    function formatCountdown(closeAt) {
+      if (!closeAt) return '-';
+      const now = Date.now();
+      const diff = new Date(closeAt) - now;
+      if (diff <= 0) return 'CLOSED';
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      if (hours > 0) return `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+      return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function getStatusClass(status) {
+      switch(status) {
+        case 'OPEN': return 'status-open';
+        case 'CLOSED': return 'status-closed';
+        case 'SETTLED': return 'status-settled';
+        case 'CANCELLED': return 'status-cancelled';
+        default: return 'status-closed';
+      }
+    }
+
+    function getStatusLabel(status) {
+      switch(status) {
+        case 'OPEN': return t('statusOpen');
+        case 'CLOSED': return t('statusClosed');
+        case 'SETTLED': return t('statusSettled');
+        case 'CANCELLED': return t('statusCancelled');
+        default: return status;
+      }
+    }
+
+    function renderRoadCards(list) {
+      const box = $('road-cards');
+      if (!box) return;
+      if (!list.length) {
+        const isFutureStage = roadStage !== 'TOP32';
+        box.innerHTML = emptyState(
+          isFutureStage ? 'LOCK' : 'LIVE',
+          isFutureStage ? `${roadStage} ${lang === 'zh' ? '阶段暂未开放' : 'stage not open yet'}` : (t('emptyPools') || 'No pools yet'),
+          isFutureStage
+            ? (lang === 'zh' ? '当前上线策略只开放 TOP32；后台录入赛果并开池后，这里会自动显示。' : 'Launch strategy opens TOP32 first. This stage appears after admin unlocks the next results.')
+            : (t('emptyPoolsSub') || 'Waiting for stage pools')
+        );
+        return;
+      }
+      const maxSold = Math.max(...list.map(p => Number(p.soldKeys || 0)), 1);
+      box.innerHTML = list.map((p) => {
+        const flag = p.team?.flagUrl ? `<img src="${p.team.flagUrl}" alt="${p.team?.code}" class="road-card-flag">` : '🏳️';
+        const isSponsored = Number(p.sponsorAmount || 0) > 0;
+        const countdown = formatCountdown(p.closeAt);
+        const isHot = p.closeAt && new Date(p.closeAt) - Date.now() < 30 * 60 * 1000;
+        const hotPercent = (Number(p.soldKeys || 0) / maxSold) * 100;
+        return `
+          <div class="road-card ${isSponsored ? 'sponsored' : ''}">
+            <div class="road-card-main">
+              <div class="road-card-header">
+                <span class="road-card-flag">${flag}</span>
+                <div class="road-card-team">
+                  <div class="road-card-team-name">${p.team?.name || p.team?.code || '-'}</div>
+                  <div class="road-card-stage">${p.stage}</div>
+                </div>
+              </div>
+              <div class="road-card-badges">
+                ${isSponsored ? `<span class="road-card-badge sponsored">🏷️ ${t('officialSponsored')}</span>` : ''}
+                <span class="road-card-badge ${getStatusClass(p.status)}">${getStatusLabel(p.status)}</span>
+              </div>
+              <div class="road-card-stats">
+                <div class="road-card-stat">
+                  <div class="road-card-stat-label">${t('prizePool')}</div>
+                  <div class="road-card-stat-value gold">${money(p.prizePool)}</div>
+                </div>
+                <div class="road-card-stat">
+                  <div class="road-card-stat-label">${t('soldKeys')}</div>
+                  <div class="road-card-stat-value">${Number(p.soldKeys || 0).toLocaleString()}</div>
+                </div>
+                <div class="road-card-stat">
+                  <div class="road-card-stat-label">${t('dividendsPaid')}</div>
+                  <div class="road-card-stat-value green">${money(p.dividendPaid)}</div>
+                </div>
+                <div class="road-card-stat">
+                  <div class="road-card-stat-label">${t('closeAt')}</div>
+                  <div class="road-card-stat-value">${countdown}</div>
+                </div>
+              </div>
+              <div class="road-card-hot">
+                <div class="road-card-hot-bar" style="width:${hotPercent}%"></div>
+              </div>
+            </div>
+            <div class="road-card-right">
+              <div class="road-card-price">
+                <div class="road-card-price-label">${t('keyPrice')}</div>
+                <div class="road-card-price-value">${money(p.currentPrice)}</div>
+              </div>
+              <div class="road-card-timer ${isHot ? 'hot' : ''}">${countdown}</div>
+              <button class="road-card-button" type="button" data-road-buy="${p.id}" ${p.status !== 'OPEN' ? 'disabled' : ''}>${t('buyRoadKey')}</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      box.querySelectorAll('button[data-road-buy]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const pool = roadPoolsCache.find((p) => p.id === btn.dataset.roadBuy);
+          if (!pool) return;
+          setSelectedPool(pool);
+          openRoadModal(pool);
+        });
+      });
+    }
+
+    function updateRoadModalSplit() {
+      const pool = roadPoolsCache.find(p => p.id === roadModalPoolId);
+      if (!pool) return;
+      const amount = Number($('road-modal-amount').value || 0);
+      const params = pool.params || {};
+      const currentPrice = Number(pool.currentPrice || 0);
+      const estKeys = amount > 0 && currentPrice > 0 ? (amount / currentPrice).toFixed(4) : '0';
+      $('road-modal-keys').textContent = estKeys;
+      
+      const hMin = Number(params.hMinBps ?? 500) / 100;
+      const hMax = Number(params.hMaxBps ?? 2000) / 100;
+      const dBase = Number(params.dBaseBps ?? 2800) / 100;
+      const pBase = Number(params.pBaseBps ?? 3200) / 100;
+      const sBase = Number(params.sBaseBps ?? 1500) / 100;
+      const rBase = Number(params.rBaseBps ?? 1000) / 100;
+      const kBase = Number(params.kBaseBps ?? 1000) / 100;
+      const zBase = Number(params.zBaseBps ?? 500) / 100;
+      
+      const soldKeys = Number(pool.soldKeys || 0);
+      const hFactor = soldKeys > 0 ? Math.min(hMax, hMin + (hMax - hMin) * (soldKeys / 1000)) : hMin;
+      const feeAmount = (amount * hFactor / 100).toFixed(2);
+      const netAmount = amount - Number(feeAmount);
+      
+      const prizeAmount = (netAmount * pBase / 100).toFixed(2);
+      const divAmount = (netAmount * dBase / 100).toFixed(2);
+      const superAmount = (netAmount * sBase / 100).toFixed(2);
+      const agentAmount = ((netAmount * kBase / 100) + (netAmount * zBase / 100)).toFixed(2);
+      
+      $('split-fee').textContent = `$${feeAmount} (${hFactor.toFixed(1)}%)`;
+      $('split-prize').textContent = `$${prizeAmount}`;
+      $('split-dividend').textContent = `$${divAmount}`;
+      $('split-super').textContent = `$${superAmount}`;
+      $('split-agent').textContent = `$${agentAmount}`;
+    }
+
+    function openRoadModal(pool) {
+      roadModalPoolId = pool.id;
+      const params = pool.params || {};
+      $('road-modal-title').textContent = `${pool.team?.name || pool.team?.code || '-'} · ${pool.stage}`;
+      $('road-modal-sub').textContent = Number(p.sponsorAmount || 0) > 0 ? t('officialSponsored') : t('playerPool');
+      $('road-modal-price').textContent = money(pool.currentPrice) + ' BF';
+      $('road-modal-amount').value = String($('buy-amount')?.value || '50');
+      
+      const releaseDelayHours = Number(params.releaseDelayHours ?? 24);
+      $('risk-note-1').textContent = t('riskNote1', { hours: releaseDelayHours });
+      $('risk-note-2').textContent = t('riskNote2');
+      
+      updateRoadModalSplit();
+      $('road-modal').style.display = 'grid';
+    }
+
+    function closeRoadModal() {
+      $('road-modal').style.display = 'none';
+      roadModalPoolId = '';
+    }
+
+    async function buyRoadFromModal() {
+      const btn = $('road-modal-buy');
+      const amount = Number($('road-modal-amount').value || 0);
+      if (!roadModalPoolId) return;
+      if (amount < 1) return setToast(t('buyFail'), 'error');
+      btn.disabled = true;
+      try {
+        const result = await api(`/road/pools/${roadModalPoolId}/purchase`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount, idempotencyKey: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() }),
+        });
+        setToast(t('buySuccess'));
+        closeRoadModal();
+        await refreshAll();
+        if (activeView === 'profile') loadRoadHoldings();
+        return result;
+      } catch {
+        setToast(t('buyFail'), 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    function renderRoadHoldings(items) {
+      const box = $('road-holdings-list');
+      if (!box) return;
+      if (!items.length) {
+        box.innerHTML = emptyState('💎', t('noRoadKeys'), t('noRoadKeysSub'));
+        return;
+      }
+      box.innerHTML = items.map((h) => {
+        const pool = h.pool || {};
+        const team = pool.team || {};
+        return `<div class="item"><div><div class="item-title">${team.code || '-'} · ${pool.stage} · Key ${Number(h.keyAmount || 0).toFixed(4)}</div><div class="item-meta">${t('pending')} ${money(h.pendingReward)} BF · ${t('released')} ${money(h.releasedReward)} BF</div></div><div class="item-amount">${money(pool.currentPrice || 0)} BF</div></div>`;
+      }).join('');
+    }
+
+    async function loadRoadHoldings() {
+      if (!token) return;
+      try {
+        const items = await api('/road/me/holdings');
+        const pending = (items || []).reduce((sum, h) => sum + (Number(h.pendingReward) || 0), 0);
+        const released = (items || []).reduce((sum, h) => sum + (Number(h.releasedReward) || 0), 0);
+        if ($('road-pending-total')) $('road-pending-total').textContent = money(pending);
+        if ($('road-released-total')) $('road-released-total').textContent = money(released);
+        renderRoadHoldings(Array.isArray(items) ? items : []);
+      } catch {
+        renderRoadHoldings([]);
+      }
+    }
+    function renderActivity(list) {
+      const feed = $('activity-feed');
+      if (!feed) return;
+      const rows = Array.isArray(list) ? list : [];
+      if (!rows.length) {
+        feed.innerHTML = emptyState(
+          '??',
+          lang === 'zh' ? '暂无实时动态' : 'No live events yet',
+          lang === 'zh' ? '真实购买、分红释放、官方赞助会在这里滚动显示。' : 'Real purchases, reward releases, and official sponsor events will appear here.'
+        );
+        return;
+      }
+      feed.innerHTML = rows.slice(0, 12).map((p) => {
+        const amount = Number(p.amount || 0);
+        const name = p.user?.nickname || p.userNickname || p.nickname || 'Player';
+        const time = new Date(p.createdAt || Date.now()).toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-US');
+        const tag = p.team && p.stage ? ` · ${p.team}.${p.stage}` : '';
+        const prefix = p.type === 'sponsor' ? '[SPONSOR]' : '[BUY]';
+        const title = p.type === 'sponsor' ? (lang === 'zh' ? '官方赞助' : 'Official Sponsored') : name;
+        return `<div class="item"><div><div class="item-title">${prefix} ${title}${tag}</div><div class="item-meta">${time}</div></div><div class="item-amount">+${money(amount)}</div></div>`;
+      }).join('');
+    }
+    function emptyState(icon, title, sub) {
+      return `<div class="list-empty"><div class="empty-mark">${icon}</div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
+    }
+    function skeletonRows(count) {
+      const row = '<div class="skeleton-row"><i class="sk-badge"></i><div class="sk-main"><i></i><i class="sk-line2"></i></div><i></i></div>';
+      return row.repeat(count);
+    }
+    function renderWinners(list, purchases = []) {
+      const wall = $('winner-wall');
+      const rows = list.length ? list : purchases.slice(0, 8).map((p, index) => ({ roundNumber: index + 1, winnerNickname: p.user?.nickname || p.userNickname || p.nickname || 'Player', winnerAmount: p.amount }));
+      if (!rows.length) {
+        wall.innerHTML = emptyState('🏆', t('emptyWinners'), t('emptyWinnersSub'));
+      } else {
+        wall.innerHTML = rows.slice(0, 12).map((w, index) => `<div class="item"><div><div class="item-title">#${index + 1} ${w.winnerNickname || w.nickname || 'Winner'}</div><div class="item-meta">Round #${w.roundNumber || '-'}</div></div><div class="item-amount">${money(Number(w.winnerAmount || w.amount || 0) / 100)}</div></div>`).join('');
+      }
+      renderLeaderboard(rows);
+    }
+    function compactAmount(value) {
+      const n = Number(value) || 0;
+      if (n >= 1000) return (n / 1000).toLocaleString('en-US', { maximumFractionDigits: 1 }) + 'K BF';
+      return n.toLocaleString('en-US', { maximumFractionDigits: 0 }) + ' BF';
+    }
+    function renderPodium(rows) {
+      const podium = $('rank-podium');
+      if (!podium || rows.length < 3) return;
+      const order = [1, 0, 2]; // visual: 2nd, 1st (center), 3rd
+      const tier = ['gold', 'silver', 'bronze'];
+      const visual = [
+        { src: '/media/champion-trophy.png', cls: 'trophy', medal: '1' },
+        { src: '/media/winner-medal.png', cls: 'medal', medal: '2' },
+        { src: '/media/champion-bust.png', cls: '', medal: '3' }
+      ];
+      podium.innerHTML = order.map((idx) => {
+        const w = rows[idx];
+        const name = w.winnerNickname || w.nickname || 'Champion';
+        const amount = Number(w.winnerAmount || w.amount || 0) / 100;
+        const topCls = idx === 0 ? ' top' : '';
+        const v = visual[idx];
+        return `<div class="podium-card ${tier[idx]}${topCls}"><span class="podium-rank">${idx + 1}</span><span class="podium-crest"><img class="podium-visual ${v.cls}" src="${v.src}" alt=""><span class="podium-medal">${v.medal}</span></span><span class="podium-name">${name}</span><span class="podium-score">${compactAmount(amount)}</span></div>`;
+      }).join('');
+    }
+    function renderLeaderboard(rows) {
+      const leader = $('leader-list');
+      if (!leader) return;
+      if (!rows.length) {
+        leader.innerHTML = emptyState('🏆', t('emptyRanking'), t('emptyRankingSub'));
+        const podium = $('rank-podium');
+        if (podium) podium.style.display = 'none';
+        return;
+      }
+      const podium = $('rank-podium');
+      if (podium) podium.style.display = '';
+      renderPodium(rows);
+      const medal = ['gold', 'silver', 'bronze'];
+      leader.innerHTML = rows.slice(0, 12).map((w, index) => {
+        const rank = index + 1;
+        const name = w.winnerNickname || w.nickname || 'Champion';
+        const cls = index === 0 ? ' is-leader' : index < 3 ? ' is-top' : '';
+        const badgeCls = medal[index] || '';
+        const badge = index < 3 ? ['🥇', '🥈', '🥉'][index] : rank;
+        const round = w.roundNumber ? `${t('round')} #${w.roundNumber}` : t('winnerDriven');
+        return `<div class="rank-row${cls}"><span class="rank-badge ${badgeCls}">${badge}</span><div class="rank-main"><div class="rank-name">${name}</div><div class="rank-meta">🏁 ${round}</div></div><div class="rank-prize"><b>${money(Number(w.winnerAmount || w.amount || 0) / 100)}</b><span>${t('rankColPrize')}</span></div></div>`;
+      }).join('');
+    }
+    function renderTransactions(rich) {
+      const tx = $('tx-list');
+      const activity = rich?.recentActivity;
+      if (!activity) {
+        tx.innerHTML = emptyState('💸', t('emptyTx'), t('emptyTxSub'));
+        return;
+      }
+      const rows = [
+        ...(activity.purchases || []).map((p) => ({ type: t('buyAmount'), amount: -Number(p.amount || 0), date: p.date })),
+        ...(activity.withdrawals || []).map((w) => ({ type: `${t('withdraw')} ${w.status || ''}`, amount: -Number(w.amount || 0), date: w.date })),
+      ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 12);
+      if (!rows.length) {
+        tx.innerHTML = emptyState('💸', t('emptyTx'), t('emptyTxSub'));
+        return;
+      }
+      tx.innerHTML = rows.map((row) => `<div class="item"><div><div class="item-title">${row.type}</div><div class="item-meta">${new Date(row.date || Date.now()).toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-US')}</div></div><div class="item-amount">${money(row.amount)}</div></div>`).join('');
+    }
+    async function loadRichProfile() {
+      if (!token) return;
+      try {
+        const rich = await api('/user/profile/rich');
+        if (rich) {
+          user = { ...user, ...rich };
+          renderUser();
+          renderTransactions(rich);
+          const referralCount = rich.referralCount || 0;
+          $('ref-count').textContent = referralCount;
+          $('ref-commission').textContent = money(referralCount * 5);
+        }
+      } catch {
+        renderTransactions(null);
+      }
+    }
+    async function refreshAll() {
+      const [roadState, pools, feed, allPools] = await Promise.all([
+        api('/road/state'),
+        api(`/road/pools?stage=${encodeURIComponent(roadStage)}`),
+        api('/road/feed'),
+        api('/road/pools'),
+      ]);
+
+      roadPoolsCache = Array.isArray(pools) ? pools : [];
+      roadAllPoolsCache = Array.isArray(allPools) ? allPools : [];
+      
+      const allPoolList = roadAllPoolsCache;
+      const top32OpenCount = allPoolList.filter(p => p.stage === 'TOP32' && p.status === 'OPEN').length;
+      $('connection-status').textContent = top32OpenCount > 0 ? `${top32OpenCount} LIVE` : 'OFFLINE';
+      
+      renderRoadStageTabs();
+      renderRoadCards(roadPoolsCache);
+
+      if (!selectedRoadPool || !roadPoolsCache.some((p) => p.id === selectedRoadPool.id)) {
+        setSelectedPool(roadPoolsCache[0] || null);
+      } else {
+        setSelectedPool(roadPoolsCache.find((p) => p.id === selectedRoadPool.id));
+      }
+
+      renderState(roadState);
+      renderActivity(Array.isArray(feed) ? feed : []);
+
+      if (token) {
+        user = await api('/user/profile');
+        renderUser();
+      }
+      if (activeView === 'wallet' || activeView === 'profile') loadRichProfile();
+      if (activeView === 'profile') loadRoadHoldings();
+    }
+    function openPayUrl(payUrl) {
+      if (!payUrl) return;
+      if (window.Telegram?.WebApp?.openLink) {
+        window.Telegram.WebApp.openLink(payUrl);
+      } else {
+        window.open(payUrl, '_blank', 'noopener,noreferrer');
+      }
+    }
+    let currentOrderId = '';
+    function renderPaymentBox(payment, payUrl) {
+      const box = $('payment-box');
+      box.classList.add('show');
+      box.closest('.view')?.classList.add('order-active');
+      const status = String(payment.status || 'PENDING').toUpperCase();
+      currentOrderId = payment.orderId || payment.id || '';
+      $('payment-order-id').textContent = currentOrderId || '-';
+      $('payment-order-id').title = currentOrderId || '';
+      $('payment-gateway').textContent = payment.gateway || 'Plisio';
+      $('copy-order').style.visibility = currentOrderId ? 'visible' : 'hidden';
+      if (payment.amountUsdt != null || payment.amount != null) {
+        $('payment-amount').textContent = money(payment.amountUsdt != null ? payment.amountUsdt : Number(payment.amount || 0) / 100);
+      }
+      const statusKey = status === 'PAID' ? 'payStatusPaid' : status === 'FAILED' ? 'payStatusFailed' : 'payStatusPending';
+      const statusCls = status === 'PAID' ? 'paid' : status === 'FAILED' ? 'failed' : 'pending';
+      const statusEl = $('payment-status');
+      statusEl.textContent = t(statusKey);
+      statusEl.dataset.i18n = statusKey;
+      $('payment-badge').className = `pay-badge ${statusCls}`;
+      box.classList.remove('is-pending', 'is-paid', 'is-failed');
+      box.classList.add(`is-${statusCls}`);
+      const link = $('payment-link');
+      link.disabled = !payUrl || status === 'PAID';
+      link.onclick = () => openPayUrl(payUrl);
+    }
+    function pollPaymentStatus(orderId) {
+      clearInterval(paymentPollTimer);
+      let attempts = 0;
+      paymentPollTimer = setInterval(async () => {
+        attempts += 1;
+        try {
+          const order = await api(`/payment/${orderId}`);
+          // GET /payment/:id returns amountUsdt in minor units (cents); normalize to whole USDT for display.
+          renderPaymentBox({ ...order, orderId, amountUsdt: order.amountUsdt != null ? Number(order.amountUsdt) / 100 : undefined }, null);
+          if (order.status === 'PAID') {
+            clearInterval(paymentPollTimer);
+            setToast(t('depositConfirmed'));
+            await refreshAll();
+          } else if (order.status === 'FAILED' || attempts > 120) {
+            clearInterval(paymentPollTimer);
+          }
+        } catch {
+          if (attempts > 120) clearInterval(paymentPollTimer);
+        }
+      }, 5000);
+    }
+    async function buy() {
+      if (!selectedRoadPool) return setToast('Select a pool', 'warn');
+      openRoadModal(selectedRoadPool);
+    }
+    async function recharge() {
+      const btn = $('recharge-button');
+      const amountUsdt = Number($('recharge-amount').value || 0);
+      if (amountUsdt < 10) return setToast(t('depositFail'), 'error');
+      btn.disabled = true;
+      try {
+        const COIN_TO_PSYS = { 'USDT TRC20': 'USDT_TRX', 'USDT TON': 'USDT_TON', 'TON': 'TON', 'TRX': 'TRX' };
+        const activeCoinBtn = document.querySelector('[data-pay-coin].active');
+        const coinLabel = (activeCoinBtn && activeCoinBtn.dataset.payCoin) || localStorage.getItem('bf_pay_coin') || 'USDT TRC20';
+        const psysCid = COIN_TO_PSYS[coinLabel] || 'USDT_TRX';
+        const payment = await api('/payment/create', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amountUsdt, psysCid }) });
+        setToast(t('depositSubmitted'));
+        const payUrl = payment.redirectUrl || payment.payUrl || payment.extra?.invoiceUrl;
+        renderPaymentBox({ ...payment, amountUsdt }, payUrl);
+        openPayUrl(payUrl);
+        pollPaymentStatus(payment.orderId);
+        setTimeout(refreshAll, 2800);
+      } catch {
+        setToast(t('depositFail'), 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+    async function withdraw() {
+      const btn = $('withdraw-button');
+      const amountUsdt = Number($('withdraw-amount').value || 0);
+      const toAddress = $('withdraw-address').value.trim();
+      if (amountUsdt < 10 || !toAddress) return setToast(t('withdrawFail'), 'error');
+      btn.disabled = true;
+      try {
+        await api('/withdraw', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ amountUsdt, toAddress, chain: 'TON' }) });
+        setToast(t('withdrawSubmitted'));
+        await refreshAll();
+      } catch {
+        setToast(t('withdrawFail'), 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    }
+    document.querySelectorAll('[data-tab]').forEach((btn) => btn.addEventListener('click', () => showView(btn.dataset.tab)));
+    document.querySelectorAll('[data-go]').forEach((btn) => btn.addEventListener('click', () => showView(btn.dataset.go)));
+    document.querySelectorAll('[data-buy]').forEach((btn) => btn.addEventListener('click', () => { $('buy-amount').value = btn.dataset.buy; }));
+    document.querySelectorAll('[data-pay-coin]').forEach((btn) => btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-pay-coin]').forEach((item) => item.classList.remove('active'));
+      btn.classList.add('active');
+      localStorage.setItem('bf_pay_coin', btn.dataset.payCoin || '');
+    }));
+    const savedPayCoin = localStorage.getItem('bf_pay_coin');
+    if (savedPayCoin) {
+      const coinBtn = document.querySelector(`[data-pay-coin="${savedPayCoin}"]`);
+      if (coinBtn) coinBtn.click();
+    }
+    document.querySelectorAll('.view[data-view="leader"] .segmented button').forEach((btn) => btn.addEventListener('click', () => {
+      document.querySelectorAll('.view[data-view="leader"] .segmented button').forEach((item) => item.classList.remove('active'));
+      btn.classList.add('active');
+    }));
+    $('buy-button').addEventListener('click', buy);
+    $('recharge-button').addEventListener('click', recharge);
+    $('withdraw-button').addEventListener('click', withdraw);
+    if ($('road-modal-close')) $('road-modal-close').addEventListener('click', closeRoadModal);
+    if ($('road-modal')) $('road-modal').addEventListener('click', (e) => { if (e.target && e.target.id === 'road-modal') closeRoadModal(); });
+    if ($('road-modal-buy')) $('road-modal-buy').addEventListener('click', buyRoadFromModal);
+    if ($('road-modal-amount')) $('road-modal-amount').addEventListener('input', updateRoadModalSplit);
+    $('copy-ref').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText($('ref-link').textContent); setToast(t('copied')); } catch { setToast(t('copyFail'), 'error'); }
+    });
+    $('copy-order').addEventListener('click', async () => {
+      if (!currentOrderId) return;
+      const chip = $('copy-order');
+      try {
+        await navigator.clipboard.writeText(currentOrderId);
+        chip.classList.add('copied');
+        chip.textContent = 'Copied';
+        setToast(t('copied'));
+        setTimeout(() => { chip.classList.remove('copied'); chip.textContent = 'Copy'; }, 1600);
+      } catch { setToast(t('copyFail'), 'error'); }
+    });
+    const profileSave = $('save-nickname');
+    if (profileSave) {
+      profileSave.addEventListener('click', async () => {
+        const nickname = $('profile-nickname-input').value.trim();
+        if (!nickname) return setToast(t('nicknameEmpty'), 'error');
+        try {
+          user = await api('/user/profile', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ nickname }) });
+          renderUser();
+          setToast(t('saveOk'));
+          showView('profile');
+        } catch {
+          setToast(t('saveFail'), 'error');
+        }
+      });
+    }
+    $('lang-select').addEventListener('change', (event) => {
+      const next = LANGS.includes(event.target.value) ? event.target.value : 'en';
+      lang = next;
+      localStorage.setItem('bf_lang', lang);
+      applyI18n();
+      renderActivity([]);
+      renderTransactions(null);
+    });
+    // 后台入口仅在明确开启 ADMIN_DEBUG 时显示（localStorage.bf_admin_debug='true' 或 URL ?admin_debug=1）
+    (function revealAdminEntry() {
+      try {
+        const params = new URLSearchParams(location.search);
+        if (params.get('admin_debug') === '1') localStorage.setItem('bf_admin_debug', 'true');
+        if (localStorage.getItem('bf_admin_debug') === 'true') {
+          const btn = document.getElementById('admin-entry');
+          if (btn) btn.style.display = '';
+        }
+      } catch {}
+    })();
+    (async function boot() {
+      try {
+        applyI18n();
+        bindHeroStageNodes();
+        renderLeaderboard([]);
+        renderActivity([]);
+        await ensureAuth();
+        await refreshAll();
+        await loadRichProfile();
+        setInterval(() => refreshAll().catch(() => {}), 5000);
+      } catch {
+        const currentStatus = $('connection-status').textContent;
+        if ((!roadPoolsCache || roadPoolsCache.length === 0) && currentStatus !== '32 LIVE') {
+          $('connection-status').textContent = 'OFFLINE';
+        }
+        renderActivity([]);
+        setToast(t('serviceFail'), 'error');
+      }
+    })();
+  </script>
+</body>
+</html>
