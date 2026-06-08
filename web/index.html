@@ -1566,7 +1566,7 @@
             </div>
             <div class="form-stack">
               <div>
-                <span class="label">Select Pool</span>
+                <span class="label" data-i18n="selectPool">Select Pool</span>
                 <div id="road-selected-pool" class="ref-link">-</div>
               </div>
               <div>
@@ -1725,21 +1725,21 @@
                   <span data-i18n="paymentOrder">Order</span>
                   <span class="payment-id-wrap">
                     <strong id="payment-order-id" class="payment-id">-</strong>
-                    <button id="copy-order" class="copy-chip" type="button" data-i18n-title="copyOrderId" aria-label="Copy order ID">Copy</button>
+                <button id="copy-order" class="copy-chip" type="button" data-i18n-title="copyOrderId" aria-label="Copy order ID" data-i18n="copyLabel">Copy</button>
                   </span>
                 </div>
                 <div class="payment-row" id="payment-address-row" style="display:none">
-                  <span data-i18n="withdrawAddress">Address</span>
+                  <span data-i18n="paymentAddress">Address</span>
                   <span class="payment-id-wrap">
                     <strong id="payment-address" class="payment-id">-</strong>
-                    <button id="copy-address" class="copy-chip" type="button">Copy</button>
+                    <button id="copy-address" class="copy-chip" type="button" data-i18n="copyLabel">Copy</button>
                   </span>
                 </div>
               </div>
               <div id="payment-qr-wrap" class="qr-card" style="display:none"><img id="payment-qr" alt="Payment QR code" src="" loading="lazy"></div>
               <div id="payment-fail-hint" class="payment-fail-hint" data-i18n="payFailedHint">Payment failed or expired. Adjust the amount and create a new order.</div>
               <div class="payment-actions">
-                <button id="payment-link" class="btn ghost" type="button"><span>Pay now</span></button>
+                <button id="payment-link" class="btn ghost" type="button"><span data-i18n="payNow">Pay now</span></button>
               </div>
             </div>
             <div class="payment-hint" data-i18n="paymentKeepOpen">Keep this page open after payment; the order status auto-refreshes until confirmed.</div>
@@ -1892,7 +1892,7 @@
           <div class="modal-title" id="auth-modal-title" data-i18n="openInTelegram">Open in Telegram</div>
           <div class="modal-sub" id="auth-modal-sub" data-i18n="authModalSub">Use the Telegram Mini App to continue.</div>
         </div>
-        <button id="auth-modal-close" class="copy-chip" type="button">Close</button>
+        <button id="auth-modal-close" class="copy-chip" type="button" data-i18n="closeLabelPlain">Close</button>
       </div>
       <div class="modal-body form-stack">
         <div class="item">
@@ -1916,36 +1916,36 @@
       </div>
       <div class="modal-body form-stack">
         <div class="tile-grid">
-          <div class="tile icon-tile"><span class="ui-icon">💎</span><span class="tile-copy"><span class="label">Current Price</span><strong id="road-modal-price">$0.00 BF</strong></span></div>
-          <div class="tile icon-tile"><span class="ui-icon">🔑</span><span class="tile-copy"><span class="label">Est. Keys</span><strong id="road-modal-keys">0</strong></span></div>
+          <div class="tile icon-tile"><span class="ui-icon">💎</span><span class="tile-copy"><span class="label" data-i18n="currentPrice">Current Price</span><strong id="road-modal-price">$0.00 BF</strong></span></div>
+          <div class="tile icon-tile"><span class="ui-icon">🔑</span><span class="tile-copy"><span class="label" data-i18n="estimatedKeys">Est. Keys</span><strong id="road-modal-keys">0</strong></span></div>
         </div>
         <div>
-          <label class="label" for="road-modal-amount">Buy Amount (BF)</label>
+          <label class="label" for="road-modal-amount" data-i18n="buyAmountBf">Buy Amount (BF)</label>
           <input id="road-modal-amount" class="input" type="number" min="1" step="1" value="50" inputmode="decimal">
         </div>
         <div class="split-box">
           <div class="split-header">
-            <span class="split-title">💰 Split Preview</span>
+            <span class="split-title" data-i18n="splitPreview">💰 Split Preview</span>
           </div>
           <div class="split-list">
             <div class="split-row">
-              <span class="split-label">Dynamic Fee</span>
+              <span class="split-label" data-i18n="dynamicFee">Dynamic Fee</span>
               <span id="split-fee" class="split-value">-</span>
             </div>
             <div class="split-row">
-              <span class="split-label">Stage Prize</span>
+              <span class="split-label" data-i18n="stagePrize">Stage Prize</span>
               <span id="split-prize" class="split-value gold">-</span>
             </div>
             <div class="split-row">
-              <span class="split-label">Pending Dividend</span>
+              <span class="split-label" data-i18n="pendingDividend">Pending Dividend</span>
               <span id="split-dividend" class="split-value green">-</span>
             </div>
             <div class="split-row">
-              <span class="split-label">Super Pool</span>
+              <span class="split-label" data-i18n="superPoolLabel">Super Pool</span>
               <span id="split-super" class="split-value">-</span>
             </div>
             <div class="split-row">
-              <span class="split-label">Agent/Reserve</span>
+              <span class="split-label" data-i18n="agentReserve">Agent/Reserve</span>
               <span id="split-agent" class="split-value">-</span>
             </div>
           </div>
@@ -1953,14 +1953,14 @@
         <div class="risk-box">
           <div class="risk-header">
             <span class="risk-icon">⚠️</span>
-            <span class="risk-title">Risk Notes</span>
+            <span class="risk-title" data-i18n="riskNotes">Risk Notes</span>
           </div>
           <ul class="risk-list">
             <li id="risk-note-1">Rewards are pending and released over time.</li>
             <li id="risk-note-2">Route can be eliminated.</li>
           </ul>
         </div>
-        <button id="road-modal-buy" class="btn" type="button">Buy Road Key</button>
+        <button id="road-modal-buy" class="btn" type="button" data-i18n="buyButton">Buy Road Key</button>
       </div>
     </div>
   </div>
@@ -2063,6 +2063,21 @@
       authModalLine1: 'Please open BlitzFomo inside Telegram first.',
       authModalLine2: 'After Telegram login finishes, deposit, buy, and withdraw will be available.',
       authModalOk: 'I understand',
+      selectPool: 'Select Pool',
+      copyLabel: 'Copy',
+      paymentAddress: 'Address',
+      payNow: 'Pay now',
+      closeLabelPlain: 'Close',
+      currentPrice: 'Current Price',
+      estimatedKeys: 'Est. Keys',
+      buyAmountBf: 'Buy Amount (BF)',
+      splitPreview: '💰 Split Preview',
+      dynamicFee: 'Dynamic Fee',
+      stagePrize: 'Stage Prize',
+      pendingDividend: 'Pending Dividend',
+      superPoolLabel: 'Super Pool',
+      agentReserve: 'Agent/Reserve',
+      riskNotes: 'Risk Notes',
       riskNote1: function(data) { return `Rewards are pending and released over time (~${data.hours}h).`; },
       riskNote2: 'Route can be eliminated.',
     });
@@ -2151,6 +2166,21 @@
       authModalLine1: '请先在 Telegram 中打开 BlitzFomo。',
       authModalLine2: 'Telegram 登录完成后，充值、购买和提现功能才会开放。',
       authModalOk: '我知道了',
+      selectPool: '选择池子',
+      copyLabel: '复制',
+      paymentAddress: '支付地址',
+      payNow: '立即支付',
+      closeLabelPlain: '关闭',
+      currentPrice: '当前价格',
+      estimatedKeys: '预计 Key',
+      buyAmountBf: '购买金额 (BF)',
+      splitPreview: '💰 分配预览',
+      dynamicFee: '动态费率',
+      stagePrize: '阶段奖池',
+      pendingDividend: '待释放分红',
+      superPoolLabel: '超级池',
+      agentReserve: '代理/储备',
+      riskNotes: '风险提示',
       riskNote1: function(data) { return `奖励处于待释放状态，将随时间逐步发放 (~${data.hours}小时)。`; },
       riskNote2: '球队可能被淘汰。',
     });
@@ -2211,6 +2241,21 @@
       authModalLine1: 'Abre BlitzFomo dentro de Telegram primero.',
       authModalLine2: 'Cuando Telegram termine el login, depósito, compra y retiro estarán disponibles.',
       authModalOk: 'Entendido',
+      selectPool: 'Seleccionar pool',
+      copyLabel: 'Copiar',
+      paymentAddress: 'Dirección de pago',
+      payNow: 'Pagar ahora',
+      closeLabelPlain: 'Cerrar',
+      currentPrice: 'Precio actual',
+      estimatedKeys: 'Keys estimadas',
+      buyAmountBf: 'Monto de compra (BF)',
+      splitPreview: '💰 Vista previa de reparto',
+      dynamicFee: 'Tarifa dinámica',
+      stagePrize: 'Premio de etapa',
+      pendingDividend: 'Dividendo pendiente',
+      superPoolLabel: 'Super pool',
+      agentReserve: 'Agente/Reserva',
+      riskNotes: 'Notas de riesgo',
     });
 
     Object.assign(I18N.pt, {
@@ -2269,6 +2314,21 @@
       authModalLine1: 'Abra o BlitzFomo dentro do Telegram primeiro.',
       authModalLine2: 'Depois que o login do Telegram terminar, depósito, compra e saque ficarão disponíveis.',
       authModalOk: 'Entendi',
+      selectPool: 'Selecionar pool',
+      copyLabel: 'Copiar',
+      paymentAddress: 'Endereço de pagamento',
+      payNow: 'Pagar agora',
+      closeLabelPlain: 'Fechar',
+      currentPrice: 'Preço atual',
+      estimatedKeys: 'Keys estimadas',
+      buyAmountBf: 'Valor de compra (BF)',
+      splitPreview: '💰 Prévia da divisão',
+      dynamicFee: 'Taxa dinâmica',
+      stagePrize: 'Prêmio da etapa',
+      pendingDividend: 'Dividendo pendente',
+      superPoolLabel: 'Super pool',
+      agentReserve: 'Agente/Reserva',
+      riskNotes: 'Notas de risco',
     });
 
     Object.assign(I18N.fr, {
@@ -2327,6 +2387,21 @@
       authModalLine1: 'Ouvrez d\'abord BlitzFomo dans Telegram.',
       authModalLine2: 'Une fois le login Telegram terminé, dépôt, achat et retrait seront disponibles.',
       authModalOk: 'J\'ai compris',
+      selectPool: 'Sélectionner un pool',
+      copyLabel: 'Copier',
+      paymentAddress: 'Adresse de paiement',
+      payNow: 'Payer maintenant',
+      closeLabelPlain: 'Fermer',
+      currentPrice: 'Prix actuel',
+      estimatedKeys: 'Keys estimées',
+      buyAmountBf: 'Montant d\'achat (BF)',
+      splitPreview: '💰 Aperçu de répartition',
+      dynamicFee: 'Frais dynamiques',
+      stagePrize: 'Prix d\'étape',
+      pendingDividend: 'Dividende en attente',
+      superPoolLabel: 'Super pool',
+      agentReserve: 'Agent/Réserve',
+      riskNotes: 'Notes de risque',
     });
 
     Object.assign(I18N.ar, {
@@ -2385,6 +2460,21 @@
       authModalLine1: 'افتح BlitzFomo داخل Telegram أولاً.',
       authModalLine2: 'بعد اكتمال تسجيل الدخول في Telegram ستصبح الإيداعات والمشتريات والسحوبات متاحة.',
       authModalOk: 'فهمت',
+      selectPool: 'اختر الحوض',
+      copyLabel: 'نسخ',
+      paymentAddress: 'عنوان الدفع',
+      payNow: 'ادفع الآن',
+      closeLabelPlain: 'إغلاق',
+      currentPrice: 'السعر الحالي',
+      estimatedKeys: 'المفاتيح المتوقعة',
+      buyAmountBf: 'مبلغ الشراء (BF)',
+      splitPreview: '💰 معاينة التوزيع',
+      dynamicFee: 'الرسوم المتغيرة',
+      stagePrize: 'جائزة المرحلة',
+      pendingDividend: 'توزيع معلق',
+      superPoolLabel: 'السوبر بول',
+      agentReserve: 'الوكيل/الاحتياطي',
+      riskNotes: 'ملاحظات المخاطر',
     });
 
     Object.assign(I18N.zh, {
