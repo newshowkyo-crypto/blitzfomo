@@ -4,11 +4,15 @@ const crypto = require('crypto');
 const ROOT = process.env.SMOKE_BASE_URL || 'https://blitzfomo.com';
 
 function readEnv(file = '.env.production') {
-  const env = {};
+  const env = {
+    ADMIN_USERNAME: process.env.ADMIN_USERNAME || '',
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD || '',
+    BOT_TOKEN: process.env.BOT_TOKEN || '',
+  };
   if (!fs.existsSync(file)) return env;
   for (const line of fs.readFileSync(file, 'utf8').split(/\r?\n/)) {
     const match = line.match(/^([^#=]+)=(.*)$/);
-    if (match) env[match[1]] = match[2];
+    if (match && !env[match[1]]) env[match[1]] = match[2];
   }
   return env;
 }
