@@ -10,7 +10,15 @@ www.{$DOMAIN} {
 		-Server
 	}
 
-	handle /admin* {
+	handle /admin {
+		redir /admin/ 308
+	}
+
+	handle /admin/ {
+		reverse_proxy nginx:80
+	}
+
+	handle /admin/* {
 		reverse_proxy nginx:80
 	}
 
