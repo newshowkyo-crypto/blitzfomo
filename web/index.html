@@ -1490,7 +1490,7 @@
       </div>
       <div class="appbar-actions">
         <div class="lang-select-wrap">
-          <select id="lang-select" class="lang-select" aria-label="Language">
+          <select id="lang-select" class="lang-select" aria-label="Language" data-i18n-aria-label="languageLabel">
             <option value="en">🇺🇸 English</option>
             <option value="zh">🇨🇳 中文</option>
             <option value="es">🇪🇸 Español</option>
@@ -1499,7 +1499,7 @@
             <option value="ar">🇸🇦 العربية</option>
           </select>
         </div>
-        <button class="icon-btn profile-btn" type="button" data-go="profile" aria-label="Profile">👤</button>
+        <button class="icon-btn profile-btn" type="button" data-go="profile" aria-label="Profile" data-i18n-aria-label="profileLabel">👤</button>
       </div>
     </header>
 
@@ -1892,7 +1892,7 @@
           <div class="modal-title" id="auth-modal-title" data-i18n="openInTelegram">Open in Telegram</div>
           <div class="modal-sub" id="auth-modal-sub" data-i18n="authModalSub">Use the Telegram Mini App to continue.</div>
         </div>
-        <button id="auth-modal-close" class="copy-chip" type="button" data-i18n="closeLabelPlain">Close</button>
+        <button id="auth-modal-close" class="copy-chip" type="button" data-i18n="closeLabelPlain" data-i18n-aria-label="closeLabelPlain">Close</button>
       </div>
       <div class="modal-body form-stack">
         <div class="item">
@@ -1912,7 +1912,7 @@
           <div class="modal-title" id="road-modal-title">Road Key</div>
           <div class="modal-sub" id="road-modal-sub">-</div>
         </div>
-        <button id="road-modal-close" class="icon-btn" type="button" aria-label="Close">✕</button>
+        <button id="road-modal-close" class="icon-btn" type="button" aria-label="Close" data-i18n-aria-label="closeLabelPlain">✕</button>
       </div>
       <div class="modal-body form-stack">
         <div class="tile-grid">
@@ -2067,6 +2067,8 @@
       authConnectingSub: 'Telegram login is still initializing.',
       authConnectingLine1: 'Your Telegram session is still loading. Please wait a moment and try again.',
       authModalOk: 'I understand',
+      languageLabel: 'Language',
+      profileLabel: 'Profile',
       guestProfileTitle: 'Telegram Login Required',
       guestInviteLink: 'Open in Telegram to unlock your invite link',
       rulesItem1Title: '1. Telegram-only access',
@@ -2225,6 +2227,8 @@
       authConnectingSub: 'Telegram 登录还在初始化中。',
       authConnectingLine1: '你的 Telegram 会话仍在加载，请稍等片刻后重试。',
       authModalOk: '我知道了',
+      languageLabel: '语言',
+      profileLabel: '个人资料',
       guestProfileTitle: '需要 Telegram 登录',
       guestInviteLink: '请在 Telegram 中打开以解锁邀请链接',
       rulesItem1Title: '1. 仅限 Telegram 进入',
@@ -2355,6 +2359,8 @@
       authConnectingSub: 'El login de Telegram aún se está inicializando.',
       authConnectingLine1: 'Tu sesión de Telegram aún se está cargando. Espera un momento e inténtalo de nuevo.',
       authModalOk: 'Entendido',
+      languageLabel: 'Idioma',
+      profileLabel: 'Perfil',
       guestProfileTitle: 'Se requiere login de Telegram',
       guestInviteLink: 'Abre en Telegram para desbloquear tu enlace de invitación',
       rulesItem1Title: '1. Acceso solo por Telegram',
@@ -2483,6 +2489,8 @@
       authConnectingSub: 'O login do Telegram ainda está inicializando.',
       authConnectingLine1: 'Sua sessão do Telegram ainda está carregando. Espere um momento e tente novamente.',
       authModalOk: 'Entendi',
+      languageLabel: 'Idioma',
+      profileLabel: 'Perfil',
       guestProfileTitle: 'Login do Telegram necessário',
       guestInviteLink: 'Abra no Telegram para desbloquear seu link de convite',
       rulesItem1Title: '1. Acesso somente pelo Telegram',
@@ -2611,6 +2619,8 @@
       authConnectingSub: 'Le login Telegram est encore en cours d\'initialisation.',
       authConnectingLine1: 'Votre session Telegram est encore en chargement. Veuillez patienter puis réessayer.',
       authModalOk: 'J\'ai compris',
+      languageLabel: 'Langue',
+      profileLabel: 'Profil',
       guestProfileTitle: 'Connexion Telegram requise',
       guestInviteLink: 'Ouvrez dans Telegram pour débloquer votre lien d\'invitation',
       rulesItem1Title: '1. Accès uniquement via Telegram',
@@ -2739,6 +2749,8 @@
       authConnectingSub: 'تسجيل دخول Telegram ما زال قيد التهيئة.',
       authConnectingLine1: 'جلسة Telegram ما زالت قيد التحميل. انتظر قليلًا ثم أعد المحاولة.',
       authModalOk: 'فهمت',
+      languageLabel: 'اللغة',
+      profileLabel: 'الملف الشخصي',
       guestProfileTitle: 'مطلوب تسجيل دخول Telegram',
       guestInviteLink: 'افتح في Telegram لتفعيل رابط الدعوة الخاص بك',
       rulesItem1Title: '1. الدخول فقط عبر Telegram',
@@ -2953,6 +2965,7 @@
       document.querySelectorAll('[data-i18n]').forEach((el) => { el.textContent = t(el.dataset.i18n); });
       document.querySelectorAll('[data-i18n-title]').forEach((el) => { el.title = t(el.dataset.i18nTitle); });
       document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => { el.placeholder = t(el.dataset.i18nPlaceholder); });
+      document.querySelectorAll('[data-i18n-aria-label]').forEach((el) => { el.setAttribute('aria-label', t(el.dataset.i18nAriaLabel)); });
       if ($('lang-select')) $('lang-select').value = lang;
     }
     function money(value) {
