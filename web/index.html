@@ -1635,6 +1635,15 @@
           </div>
         </div>
         <div class="panel">
+          <div class="panel-head"><div><div class="panel-title">How to use this page</div><div class="panel-sub">This page explains the current pool you selected on Arena.</div></div></div>
+          <div class="panel-body"><div class="list">
+            <div class="item"><div><div class="item-title">Release delay</div><div class="item-meta">How long pending rewards must wait before becoming released balance.</div></div></div>
+            <div class="item"><div><div class="item-title">Close time</div><div class="item-meta">When this stage pool stops accepting new buys.</div></div></div>
+            <div class="item"><div><div class="item-title">Fee and dividend range</div><div class="item-meta">The market uses dynamic fee and reward allocation, so percentages can change with stage conditions.</div></div></div>
+            <div class="item"><div><div class="item-title">Settlement events</div><div class="item-meta">Sponsor injections, stage outcomes, and released rewards appear below after admin actions or automated events.</div></div></div>
+          </div></div>
+        </div>
+        <div class="panel">
           <div class="panel-head"><div><div class="panel-title" data-i18n="settlementLog">Settlement log</div><div class="panel-sub">Stage results, sponsor moves, and reward events settle here.</div></div></div>
           <div class="panel-body"><div id="winner-wall" class="list"></div></div>
         </div>
@@ -1862,6 +1871,7 @@
           <div class="item"><div><div class="item-title">Progression narrows the market</div><div class="item-meta">When results are entered in admin, pools move forward, close, or settle based on stage outcomes.</div></div></div>
           <div class="item"><div><div class="item-title">Use Arena for action</div><div class="item-meta">Actual buying and pool comparison should happen on the Arena page, not from a static bracket image.</div></div></div>
         </div></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Live stage list</div><div class="panel-sub">Readable team and pool breakdown by stage.</div></div></div><div class="panel-body"><div id="bracket-stage-list" class="list"></div></div></div>
       </section>
     </main>
 
@@ -2606,6 +2616,33 @@
       syncHeroStageNodes();
     }
 
+    function renderBracketStageList() {
+      const box = $('bracket-stage-list');
+      if (!box) return;
+      const pools = Array.isArray(roadAllPoolsCache) ? roadAllPoolsCache : [];
+      if (!pools.length) {
+        box.innerHTML = emptyState('🗺️', 'No stage data yet', 'Stage pools will appear here after the market data loads.');
+        return;
+      }
+
+      const stages = ['TOP32', 'TOP16', 'TOP8', 'TOP4', 'FINAL', 'CHAMPION'];
+      const grouped = stages.map((stage) => ({
+        stage,
+        items: pools.filter((pool) => pool.stage === stage),
+      })).filter((group) => group.items.length > 0);
+
+      box.innerHTML = grouped.map((group) => {
+        const rows = group.items.map((pool) => {
+          const teamName = pool.team?.name || pool.team?.code || '-';
+          const status = getStatusLabel(pool.status);
+          const price = money(pool.currentPrice || 0);
+          const sponsored = Number(pool.sponsorAmount || 0) > 0 ? ' · Sponsored' : '';
+          return `<div class="item"><div><div class="item-title">${teamName}</div><div class="item-meta">${status}${sponsored} · ${price}</div></div><div class="item-amount">${Number(pool.soldKeys || 0).toLocaleString()} keys</div></div>`;
+        }).join('');
+        return `<div class="item"><div><div class="item-title">${group.stage}</div><div class="item-meta">${group.items.length} live or tracked pools in this stage</div></div></div>${rows}`;
+      }).join('');
+    }
+
     function formatCountdown(closeAt) {
       if (!closeAt) return '-';
       const now = Date.now();
@@ -2965,6 +3002,7 @@
       
       renderRoadStageTabs();
       renderRoadCards(roadPoolsCache);
+      renderBracketStageList();
 
       if (!selectedRoadPool || !roadPoolsCache.some((p) => p.id === selectedRoadPool.id)) {
         setSelectedPool(roadPoolsCache[0] || null);
