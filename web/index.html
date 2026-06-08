@@ -1604,7 +1604,7 @@
               <div class="panel-title" data-i18n="liveBuys">Live buys</div>
               <div class="panel-sub" data-i18n="liveBuysSub">Fresh fan entries</div>
             </div>
-            <button class="btn ghost" type="button" data-go="live">LIVE</button>
+            <button class="btn ghost" type="button" data-go="live" data-i18n="liveStateShort">LIVE</button>
           </div>
           <div class="panel-body"><div id="activity-feed" class="list"></div></div>
         </div>
@@ -1624,7 +1624,7 @@
           </div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div><div class="panel-title" data-i18n="telemetry">Pool telemetry</div><div class="panel-sub" data-i18n="liveHelpSub">Track close time, fee range, and release timing for the currently selected market.</div></div><div class="live-pill"><span class="dot"></span>LIVE</div></div>
+          <div class="panel-head"><div><div class="panel-title" data-i18n="telemetry">Pool telemetry</div><div class="panel-sub" data-i18n="liveHelpSub">Track close time, fee range, and release timing for the currently selected market.</div></div><div class="live-pill"><span class="dot"></span><span data-i18n="liveStateShort">LIVE</span></div></div>
           <div class="panel-body">
             <div class="tile-grid">
               <div class="tile icon-tile"><span class="ui-icon">🎟️</span><span class="tile-copy"><span class="label" data-i18n="minBuy">Release delay</span><strong id="min-buy">-</strong></span></div>
@@ -1680,7 +1680,7 @@
           </div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div><div class="panel-title" data-i18n="championBoard">Champion Board</div><div class="panel-sub" data-i18n="champBoardSub">Top buyers this season</div></div><span class="live-pill"><span class="dot"></span>LIVE</span></div>
+          <div class="panel-head"><div><div class="panel-title" data-i18n="championBoard">Champion Board</div><div class="panel-sub" data-i18n="champBoardSub">Top buyers this season</div></div><span class="live-pill"><span class="dot"></span><span data-i18n="liveStateShort">LIVE</span></div></div>
           <div class="panel-body"><div id="leader-list" class="list"></div></div>
         </div>
       </section>
@@ -2123,6 +2123,14 @@
       stageListCount: 'live or tracked pools in this stage',
       noLiveEventsTitle: 'No live events yet',
       noLiveEventsSub: 'Real purchases, reward releases, and official sponsor events will appear here.',
+      liveStateShort: 'LIVE',
+      offlineStateShort: 'OFFLINE',
+      lockedStateShort: 'LOCK',
+      stageNotOpenYet: 'stage not open yet',
+      stageNotOpenSub: 'Launch strategy opens TOP32 first. This stage appears after admin unlocks the next results.',
+      playerFallback: 'Player',
+      winnerFallback: 'Winner',
+      championFallback: 'Champion',
       riskNote1: function(data) { return `Rewards are pending and released over time (~${data.hours}h).`; },
       riskNote2: 'Route can be eliminated.',
     });
@@ -2271,6 +2279,14 @@
       stageListCount: '个本阶段实时/已跟踪池子',
       noLiveEventsTitle: '暂无实时动态',
       noLiveEventsSub: '真实购买、奖励释放和官方赞助事件会显示在这里。',
+      liveStateShort: '进行中',
+      offlineStateShort: '离线',
+      lockedStateShort: '未开放',
+      stageNotOpenYet: '阶段暂未开放',
+      stageNotOpenSub: '当前上线策略只开放 TOP32；后台录入赛果并开池后，这里会自动显示。',
+      playerFallback: '玩家',
+      winnerFallback: '赢家',
+      championFallback: '冠军',
       riskNote1: function(data) { return `奖励处于待释放状态，将随时间逐步发放 (~${data.hours}小时)。`; },
       riskNote2: '球队可能被淘汰。',
     });
@@ -2391,6 +2407,14 @@
       stageListCount: 'pools en esta etapa',
       noLiveEventsTitle: 'Aún no hay eventos en vivo',
       noLiveEventsSub: 'Compras reales, liberaciones y patrocinios oficiales aparecerán aquí.',
+      liveStateShort: 'LIVE',
+      offlineStateShort: 'SIN CONEXIÓN',
+      lockedStateShort: 'BLOQ',
+      stageNotOpenYet: 'etapa aún no abierta',
+      stageNotOpenSub: 'La estrategia de lanzamiento abre TOP32 primero. Esta etapa aparecerá cuando el admin desbloquee los siguientes resultados.',
+      playerFallback: 'Jugador',
+      winnerFallback: 'Ganador',
+      championFallback: 'Campeón',
     });
 
     Object.assign(I18N.pt, {
@@ -2509,6 +2533,14 @@
       stageListCount: 'pools nesta etapa',
       noLiveEventsTitle: 'Ainda não há eventos ao vivo',
       noLiveEventsSub: 'Compras reais, liberações e patrocínios oficiais aparecerão aqui.',
+      liveStateShort: 'LIVE',
+      offlineStateShort: 'OFFLINE',
+      lockedStateShort: 'LOCK',
+      stageNotOpenYet: 'etapa ainda não aberta',
+      stageNotOpenSub: 'A estratégia de lançamento abre TOP32 primeiro. Esta etapa aparecerá quando o admin desbloquear os próximos resultados.',
+      playerFallback: 'Jogador',
+      winnerFallback: 'Vencedor',
+      championFallback: 'Campeão',
     });
 
     Object.assign(I18N.fr, {
@@ -2627,6 +2659,14 @@
       stageListCount: 'pools dans cette étape',
       noLiveEventsTitle: 'Pas encore d\'événements en direct',
       noLiveEventsSub: 'Les achats réels, libérations et sponsors officiels apparaîtront ici.',
+      liveStateShort: 'LIVE',
+      offlineStateShort: 'HORS LIGNE',
+      lockedStateShort: 'VERROU',
+      stageNotOpenYet: 'étape non ouverte',
+      stageNotOpenSub: 'La stratégie de lancement ouvre TOP32 en premier. Cette étape apparaîtra après l’ouverture suivante par l’admin.',
+      playerFallback: 'Joueur',
+      winnerFallback: 'Gagnant',
+      championFallback: 'Champion',
     });
 
     Object.assign(I18N.ar, {
@@ -2745,6 +2785,14 @@
       stageListCount: 'أحواض في هذه المرحلة',
       noLiveEventsTitle: 'لا توجد أحداث مباشرة بعد',
       noLiveEventsSub: 'ستظهر هنا المشتريات الحقيقية وعمليات الإطلاق والرعايات الرسمية.',
+      liveStateShort: 'مباشر',
+      offlineStateShort: 'غير متصل',
+      lockedStateShort: 'مغلق',
+      stageNotOpenYet: 'المرحلة غير مفتوحة بعد',
+      stageNotOpenSub: 'تفتح خطة الإطلاق TOP32 أولاً. ستظهر هذه المرحلة بعد أن تفتح الإدارة النتائج التالية.',
+      playerFallback: 'لاعب',
+      winnerFallback: 'فائز',
+      championFallback: 'بطل',
     });
 
     Object.assign(I18N.zh, {
@@ -3234,10 +3282,10 @@
       if (!list.length) {
         const isFutureStage = roadStage !== 'TOP32';
         box.innerHTML = emptyState(
-          isFutureStage ? 'LOCK' : 'LIVE',
-          isFutureStage ? `${roadStage} ${lang === 'zh' ? '阶段暂未开放' : 'stage not open yet'}` : (t('emptyPools') || 'No pools yet'),
+          isFutureStage ? t('lockedStateShort') : t('liveStateShort'),
+          isFutureStage ? `${roadStage} ${t('stageNotOpenYet')}` : (t('emptyPools') || 'No pools yet'),
           isFutureStage
-            ? (lang === 'zh' ? '当前上线策略只开放 TOP32；后台录入赛果并开池后，这里会自动显示。' : 'Launch strategy opens TOP32 first. This stage appears after admin unlocks the next results.')
+            ? t('stageNotOpenSub')
             : (t('emptyPoolsSub') || 'Waiting for stage pools')
         );
         return;
@@ -3433,11 +3481,11 @@
       }
       feed.innerHTML = rows.slice(0, 12).map((p) => {
         const amount = Number(p.amount || 0);
-        const name = p.user?.nickname || p.userNickname || p.nickname || 'Player';
+        const name = p.user?.nickname || p.userNickname || p.nickname || t('playerFallback');
         const time = new Date(p.createdAt || Date.now()).toLocaleString(lang === 'zh' ? 'zh-CN' : 'en-US');
         const tag = p.team && p.stage ? ` · ${p.team}.${p.stage}` : '';
         const prefix = p.type === 'sponsor' ? '[SPONSOR]' : '[BUY]';
-        const title = p.type === 'sponsor' ? (lang === 'zh' ? '官方赞助' : 'Official Sponsored') : name;
+        const title = p.type === 'sponsor' ? t('officialSponsored') : name;
         return `<div class="item"><div><div class="item-title">${prefix} ${title}${tag}</div><div class="item-meta">${time}</div></div><div class="item-amount">+${money(amount)}</div></div>`;
       }).join('');
     }
@@ -3450,11 +3498,11 @@
     }
     function renderWinners(list, purchases = []) {
       const wall = $('winner-wall');
-      const rows = list.length ? list : purchases.slice(0, 8).map((p, index) => ({ roundNumber: index + 1, winnerNickname: p.user?.nickname || p.userNickname || p.nickname || 'Player', winnerAmount: p.amount }));
+      const rows = list.length ? list : purchases.slice(0, 8).map((p, index) => ({ roundNumber: index + 1, winnerNickname: p.user?.nickname || p.userNickname || p.nickname || t('playerFallback'), winnerAmount: p.amount }));
       if (!rows.length) {
         wall.innerHTML = emptyState('🏆', t('emptyWinners'), t('emptyWinnersSub'));
       } else {
-        wall.innerHTML = rows.slice(0, 12).map((w, index) => `<div class="item"><div><div class="item-title">#${index + 1} ${w.winnerNickname || w.nickname || 'Winner'}</div><div class="item-meta">Round #${w.roundNumber || '-'}</div></div><div class="item-amount">${money(Number(w.winnerAmount || w.amount || 0) / 100)}</div></div>`).join('');
+        wall.innerHTML = rows.slice(0, 12).map((w, index) => `<div class="item"><div><div class="item-title">#${index + 1} ${w.winnerNickname || w.nickname || t('winnerFallback')}</div><div class="item-meta">${t('round')} #${w.roundNumber || '-'}</div></div><div class="item-amount">${money(Number(w.winnerAmount || w.amount || 0) / 100)}</div></div>`).join('');
       }
       renderLeaderboard(rows);
     }
@@ -3475,7 +3523,7 @@
       ];
       podium.innerHTML = order.map((idx) => {
         const w = rows[idx];
-        const name = w.winnerNickname || w.nickname || 'Champion';
+        const name = w.winnerNickname || w.nickname || t('championFallback');
         const amount = Number(w.winnerAmount || w.amount || 0) / 100;
         const topCls = idx === 0 ? ' top' : '';
         const v = visual[idx];
@@ -3497,7 +3545,7 @@
       const medal = ['gold', 'silver', 'bronze'];
       leader.innerHTML = rows.slice(0, 12).map((w, index) => {
         const rank = index + 1;
-        const name = w.winnerNickname || w.nickname || 'Champion';
+        const name = w.winnerNickname || w.nickname || t('championFallback');
         const cls = index === 0 ? ' is-leader' : index < 3 ? ' is-top' : '';
         const badgeCls = medal[index] || '';
         const badge = index < 3 ? ['🥇', '🥈', '🥉'][index] : rank;
@@ -3551,7 +3599,7 @@
       
       const allPoolList = roadAllPoolsCache;
       const top32OpenCount = allPoolList.filter(p => p.stage === 'TOP32' && p.status === 'OPEN').length;
-      $('connection-status').textContent = top32OpenCount > 0 ? `${top32OpenCount} LIVE` : 'OFFLINE';
+      $('connection-status').textContent = top32OpenCount > 0 ? `${top32OpenCount} ${t('liveStateShort')}` : t('offlineStateShort');
       
       renderRoadStageTabs();
       renderRoadCards(roadPoolsCache);
@@ -3782,8 +3830,8 @@
         setInterval(() => refreshAll().catch(() => {}), 5000);
       } catch {
         const currentStatus = $('connection-status').textContent;
-        if ((!roadPoolsCache || roadPoolsCache.length === 0) && currentStatus !== '32 LIVE') {
-          $('connection-status').textContent = 'OFFLINE';
+        if ((!roadPoolsCache || roadPoolsCache.length === 0) && !String(currentStatus).includes(t('liveStateShort'))) {
+          $('connection-status').textContent = t('offlineStateShort');
         }
         renderActivity([]);
         setToast(t('serviceFail'), 'error');
