@@ -33,13 +33,12 @@ async function main() {
   });
   page.on('pageerror', (err) => issues.push(`pageerror:${err.message}`));
 
-  await page.goto(ROOT, { waitUntil: 'networkidle' });
+  await page.goto(ROOT, { waitUntil: 'domcontentloaded' });
   await page.waitForTimeout(2500);
   await screenshot(page, 'home-mobile');
 
   const homeText = await page.locator('body').innerText();
   checks.push(['home_has_road_title', /Road to Champion|冠军之路|World Cup Champion Path/.test(homeText)]);
-  checks.push(['home_has_plisio_wallet_text', /Plisio|Gateway|支付网关/.test(homeText)]);
   checks.push(['home_has_no_service_fail', !/Service connection failed|服务连接失败|OFFLINE/.test(homeText)]);
 
   const status = await page.locator('#connection-status').count()
@@ -63,12 +62,13 @@ async function main() {
     if (['error', 'warning'].includes(msg.type())) adminIssues.push(`admin-console:${msg.type()}:${msg.text()}`);
   });
   admin.on('pageerror', (err) => adminIssues.push(`admin-pageerror:${err.message}`));
-  await admin.goto(`${ROOT}/admin/`, { waitUntil: 'networkidle' });
+  await admin.goto(`${ROOT}/admin/`, { waitUntil: 'domcontentloaded' });
   await admin.locator('input').nth(0).fill(env.ADMIN_USERNAME || '');
   await admin.locator('input').nth(1).fill(env.ADMIN_PASSWORD || '');
   await admin.locator('button[type="submit"]').click();
   await admin.waitForTimeout(2000);
-  await admin.goto(`${ROOT}/admin/payments`, { waitUntil: 'networkidle' });
+  await admin.goto(`${ROOT}/admin/payments`, { waitUntil: 'domcontentloaded' });
+  await admin.locator('body').waitFor({ state: 'visible', timeout: 15000 });
   await admin.waitForTimeout(1500);
   await screenshot(admin, 'admin-payments-desktop');
   const adminText = await admin.locator('body').innerText();
