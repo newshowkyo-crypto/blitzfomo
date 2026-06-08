@@ -2320,6 +2320,14 @@
       return false;
     }
     function authHeaders() { return token ? { Authorization: `Bearer ${token}` } : {}; }
+    function syncGuestActionState(isGuest) {
+      if ($('buy-button')) $('buy-button').textContent = isGuest ? 'Open in Telegram' : t('buyButton');
+      if ($('recharge-button')) $('recharge-button').textContent = isGuest ? 'Login to Deposit' : t('deposit');
+      if ($('withdraw-button')) $('withdraw-button').textContent = isGuest ? 'Login to Withdraw' : t('submit');
+      if ($('payment-gateway') && isGuest) $('payment-gateway').textContent = 'Telegram login first';
+      if ($('payment-order-id') && isGuest) $('payment-order-id').textContent = '-';
+      if ($('payment-amount') && isGuest) $('payment-amount').textContent = '$0.00';
+    }
     function renderGuestState() {
       $('player-name').textContent = 'Open in Telegram';
       $('profile-name').textContent = 'Telegram Login Required';
@@ -2330,6 +2338,7 @@
       $('ref-link').textContent = 'Open in Telegram to unlock your invite link';
       $('ref-count').textContent = '-';
       $('ref-commission').textContent = '--';
+      syncGuestActionState(true);
       updateInviteQr(`${location.origin}/ref/demo`);
     }
     async function api(path, options = {}) {
@@ -2417,6 +2426,7 @@
       $('total-won').textContent = money(user.totalWon || 0);
       const vipProgress = Math.min(100, Math.floor(Number(user.totalPurchased || 0) / 5000 * 100));
       $('vip-progress').textContent = vipProgress + '%';
+      syncGuestActionState(false);
       const referralCode = user.referralCode || user.id || 'demo';
       const refUrl = `${location.origin}/ref/${referralCode}`;
       $('ref-link').textContent = refUrl;
