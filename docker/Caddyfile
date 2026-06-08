@@ -10,7 +10,7 @@ www.{$DOMAIN} {
 		-Server
 	}
 
-	@proxied path /api/* /socket.io/* /admin/* /assets/*
+	@proxied path /api /api/* /socket.io /socket.io/* /admin /admin/ /admin/* /assets /assets/*
 	reverse_proxy @proxied nginx:80
 
 	handle /stitch_blitz_finale_world_cup_edition/blitz_finale_world_cup_2026_edition/code.html {
