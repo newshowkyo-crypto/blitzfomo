@@ -1702,11 +1702,18 @@
                     <button id="copy-order" class="copy-chip" type="button" data-i18n-title="copyOrderId" aria-label="Copy order ID">Copy</button>
                   </span>
                 </div>
-                <div class="payment-row"><span data-i18n="paymentGateway">Channel</span><strong id="payment-gateway">-</strong></div>
+                <div class="payment-row" id="payment-address-row" style="display:none">
+                  <span data-i18n="withdrawAddress">Address</span>
+                  <span class="payment-id-wrap">
+                    <strong id="payment-address" class="payment-id">-</strong>
+                    <button id="copy-address" class="copy-chip" type="button">Copy</button>
+                  </span>
+                </div>
               </div>
+              <div id="payment-qr-wrap" class="qr-card" style="display:none"><img id="payment-qr" alt="Payment QR code" src="" loading="lazy"></div>
               <div id="payment-fail-hint" class="payment-fail-hint" data-i18n="payFailedHint">Payment failed or expired. Adjust the amount and create a new order.</div>
               <div class="payment-actions">
-                <button id="payment-link" class="btn ghost" type="button"><span data-i18n="openInvoice">Open invoice</span></button>
+                <button id="payment-link" class="btn ghost" type="button"><span data-i18n="openInvoice">Pay now</span></button>
               </div>
             </div>
             <div class="payment-hint" data-i18n="paymentKeepOpen">Keep this page open after payment; the order status auto-refreshes until confirmed.</div>
@@ -2324,9 +2331,11 @@
       if ($('buy-button')) $('buy-button').textContent = isGuest ? 'Open in Telegram' : t('buyButton');
       if ($('recharge-button')) $('recharge-button').textContent = isGuest ? 'Login to Deposit' : t('deposit');
       if ($('withdraw-button')) $('withdraw-button').textContent = isGuest ? 'Login to Withdraw' : t('submit');
-      if ($('payment-gateway') && isGuest) $('payment-gateway').textContent = 'Telegram login first';
       if ($('payment-order-id') && isGuest) $('payment-order-id').textContent = '-';
       if ($('payment-amount') && isGuest) $('payment-amount').textContent = '$0.00';
+      if ($('payment-address')) $('payment-address').textContent = '-';
+      if ($('payment-address-row')) $('payment-address-row').style.display = 'none';
+      if ($('payment-qr-wrap')) $('payment-qr-wrap').style.display = 'none';
     }
     function renderGuestState() {
       $('player-name').textContent = 'Open in Telegram';
@@ -2952,11 +2961,19 @@
       currentOrderId = payment.orderId || payment.id || '';
       $('payment-order-id').textContent = currentOrderId || '-';
       $('payment-order-id').title = currentOrderId || '';
-      $('payment-gateway').textContent = payment.gateway || 'Plisio';
       $('copy-order').style.visibility = currentOrderId ? 'visible' : 'hidden';
       if (payment.amountUsdt != null || payment.amount != null) {
         $('payment-amount').textContent = money(payment.amountUsdt != null ? payment.amountUsdt : Number(payment.amount || 0) / 100);
       }
+      const address = payment.address || payment.walletAddress || payment.extra?.raw?.wallet_hash || payment.extra?.raw?.address || '';
+      const qrCode = payment.qrCode || payment.extra?.qrCode || payment.extra?.raw?.qr_code || '';
+      if ($('payment-address-row')) $('payment-address-row').style.display = address ? 'flex' : 'none';
+      if ($('payment-address')) {
+        $('payment-address').textContent = address || '-';
+        $('payment-address').title = address || '';
+      }
+      if ($('payment-qr-wrap')) $('payment-qr-wrap').style.display = qrCode ? 'block' : 'none';
+      if ($('payment-qr') && qrCode) $('payment-qr').src = qrCode;
       const statusKey = status === 'PAID' ? 'payStatusPaid' : status === 'FAILED' ? 'payStatusFailed' : 'payStatusPending';
       const statusCls = status === 'PAID' ? 'paid' : status === 'FAILED' ? 'failed' : 'pending';
       const statusEl = $('payment-status');
@@ -3077,6 +3094,18 @@
         setTimeout(() => { chip.classList.remove('copied'); chip.textContent = 'Copy'; }, 1600);
       } catch { setToast(t('copyFail'), 'error'); }
     });
+    if ($('copy-address')) {
+      $('copy-address').addEventListener('click', async () => {
+        const address = $('payment-address')?.textContent || '';
+        if (!address || address === '-') return;
+        try {
+          await navigator.clipboard.writeText(address);
+          setToast(t('copied'));
+        } catch {
+          setToast(t('copyFail'), 'error');
+        }
+      });
+    }
     const profileSave = $('save-nickname');
     if (profileSave) {
       profileSave.addEventListener('click', async () => {
