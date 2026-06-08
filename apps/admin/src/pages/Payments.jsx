@@ -9,6 +9,12 @@ export default function Payments({ token }) {
   const [switching, setSwitching] = useState('')
   const [stats, setStats] = useState({ total: 0, pending: 0, paid: 0, failed: 0 })
 
+  const gatewayLabel = (name) => {
+    if (name === 'plisio') return 'Plisio (生产真实支付)'
+    if (name === 'mock') return 'Mock (仅应急回退)'
+    return name
+  }
+
   const fetchList = async () => {
     setLoading(true)
     try {
@@ -69,7 +75,7 @@ export default function Payments({ token }) {
   const handleActivateGateway = async (name) => {
     if (name === gateways?.active) return
     if (name === 'plisio' && !confirm('切换到 Plisio 后，用户充值会生成真实加密货币发票。确认切换？')) return
-    if (name === 'mock' && !confirm('切回 mock 后，充值会自动模拟到账，仅适合测试。确认切换？')) return
+    if (name === 'mock' && !confirm('Mock 只允许紧急回退或本地测试使用。生产切到 Mock 后，真实充值会被暂停。确认继续？')) return
 
     setSwitching(name)
     try {
@@ -78,7 +84,7 @@ export default function Payments({ token }) {
       })
       if (!res.ok) throw new Error('switch failed')
       await fetchList()
-      alert(`已切换到 ${name}`)
+      alert(`已切换到 ${gatewayLabel(name)}`)
     } catch {
       alert('切换失败，请确认当前账号是 SUPER_ADMIN')
     } finally {
@@ -126,9 +132,9 @@ export default function Payments({ token }) {
           <div>
             <div className="text-sm font-black text-gray-900">💳 支付网关</div>
             <div className="text-xs text-gray-500 mt-1">
-              当前：<span className="font-bold text-emerald-700">{gateways?.active || 'mock'}</span>
+              当前：<span className="font-bold text-emerald-700">{gatewayLabel(gateways?.active || 'plisio')}</span>
               <span className="mx-2">·</span>
-              上线前用 mock 测流程，真实小额测试再切 Plisio。
+              生产充值正在使用真实 Plisio 网关；Mock 仅保留为故障应急回退。
             </div>
             {gateways?.active === 'plisio' && (
               <div className="text-xs text-blue-600 mt-2 font-mono bg-blue-50 p-2 rounded">
@@ -137,7 +143,7 @@ export default function Payments({ token }) {
             )}
           </div>
           <div className="flex flex-wrap gap-2">
-            {(gateways?.available || ['mock', 'plisio']).filter(name => ['mock', 'plisio'].includes(name)).map(name => (
+            {['plisio'].map(name => (
               <button
                 key={name}
                 onClick={() => handleActivateGateway(name)}
@@ -148,9 +154,26 @@ export default function Payments({ token }) {
                     : 'bg-gray-900 text-white hover:bg-black disabled:opacity-50'
                 }`}
               >
-                {switching === name ? '切换中...' : name === gateways?.active ? `✅ ${name}` : `切到 ${name}`}
+                {switching === name ? '切换中...' : name === gateways?.active ? `✅ ${gatewayLabel(name)}` : `切到 ${gatewayLabel(name)}`}
               </button>
             ))}
+            {gateways?.active === 'mock' && (
+              <button
+                onClick={() => handleActivateGateway('plisio')}
+                disabled={switching}
+                className="px-4 py-2 rounded-xl text-sm font-bold bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+              >
+                恢复 Plisio 生产支付
+              </button>
+            )}
+            <button
+              onClick={() => handleActivateGateway('mock')}
+              disabled={switching || gateways?.active === 'mock'}
+              className="px-4 py-2 rounded-xl text-sm font-bold bg-white text-red-700 border border-red-200 hover:bg-red-50 disabled:opacity-50"
+              title="仅在 Plisio 故障时使用"
+            >
+              应急切 Mock
+            </button>
           </div>
         </div>
       </div>
