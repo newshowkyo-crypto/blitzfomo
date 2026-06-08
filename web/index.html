@@ -3099,7 +3099,7 @@
     }
     function renderUser() {
       if (!user) return;
-      const name = user.nickname || shortName(user.walletAddress) || 'Player';
+      const name = user.nickname || shortName(user.walletAddress) || t('playerFallback');
       $('player-name').textContent = name;
       $('profile-name').textContent = name;
       const nicknameInput = $('profile-nickname-input');
@@ -3308,10 +3308,10 @@
         const isFutureStage = roadStage !== 'TOP32';
         box.innerHTML = emptyState(
           isFutureStage ? t('lockedStateShort') : t('liveStateShort'),
-          isFutureStage ? `${roadStage} ${t('stageNotOpenYet')}` : (t('emptyPools') || 'No pools yet'),
+          isFutureStage ? `${roadStage} ${t('stageNotOpenYet')}` : t('emptyPools'),
           isFutureStage
             ? t('stageNotOpenSub')
-            : (t('emptyPoolsSub') || 'Waiting for stage pools')
+            : t('emptyPoolsSub')
         );
         return;
       }
