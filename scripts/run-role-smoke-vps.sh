@@ -13,7 +13,7 @@ ADMIN_PASSWORD="$(read_env ADMIN_PASSWORD)"
 BOT_TOKEN="$(read_env BOT_TOKEN)"
 
 docker exec \
-  -e SMOKE_BASE_URL=http://nginx \
+  -e SMOKE_BASE_URL=http://127.0.0.1:3000 \
   -e ADMIN_USERNAME="$ADMIN_USERNAME" \
   -e ADMIN_PASSWORD="$ADMIN_PASSWORD" \
   -e BOT_TOKEN="$BOT_TOKEN" \
