@@ -104,6 +104,8 @@ services:
       DOMAIN: ${DOMAIN:?DOMAIN is required}
     volumes:
       - ./docker/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./web:/var/www/web:ro
+      - ./stitch_blitz_finale_world_cup_edition:/var/www/stitch:ro
       - caddy_data:/data
       - caddy_config:/config
 

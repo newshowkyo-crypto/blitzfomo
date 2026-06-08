@@ -3,8 +3,6 @@ www.{$DOMAIN} {
 }
 
 {$DOMAIN} {
-	encode gzip
-
 	header {
 		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 		X-Content-Type-Options "nosniff"
@@ -12,5 +10,24 @@ www.{$DOMAIN} {
 		-Server
 	}
 
-	reverse_proxy nginx:80
+	@proxied path /api/* /socket.io/* /admin/* /assets/*
+	reverse_proxy @proxied nginx:80
+
+	handle /stitch_blitz_finale_world_cup_edition/blitz_finale_world_cup_2026_edition/code.html {
+		root * /var/www/web
+		rewrite * /index.html
+		file_server
+	}
+
+	handle_path /stitch_blitz_finale_world_cup_edition/* {
+		root * /var/www/stitch
+		try_files {path} {path}/code.html {path}/index.html
+		file_server {
+			index code.html index.html
+		}
+	}
+
+	root * /var/www/web
+	try_files {path} {path}/ /index.html
+	file_server
 }
