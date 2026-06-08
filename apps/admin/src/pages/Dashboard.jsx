@@ -96,7 +96,7 @@ export default function Dashboard({ token }) {
     { icon: '🏆', title: '当前轮次', value: `#${stats?.currentRound?.roundNumber || '1'}`, sub: `奖池 ${(stats?.currentRound?.prizePool || 0).toFixed(2)} BF`, palette: 'from-amber-50 to-amber-100 border-amber-200 text-amber-900', trend: null },
     { icon: '📥', title: '今日充值', value: `$${stats?.todayRecharged?.toFixed(2) || '0.00'}`, sub: '今日入金表现', palette: 'from-emerald-50 to-emerald-100 border-emerald-200 text-emerald-900', trend: null },
     { icon: '📤', title: '今日提现', value: `$${stats?.todayWithdrawn?.toFixed(2) || '0.00'}`, sub: `待审 ${stats?.pendingWithdrawals || 0} 笔`, palette: 'from-rose-50 to-rose-100 border-rose-200 text-rose-900', trend: null },
-    { icon: '⚡', title: '净流入', value: `$${stats?.todayNetInflow?.toFixed(2) || '0.00'}`, sub: `网关 ${stats?.activePaymentGateway || 'mock'} · 机器人${stats?.botEnabled ? '开' : '关'}`, palette: 'from-slate-50 to-slate-100 border-slate-200 text-slate-900', trend: null },
+    { icon: '⚡', title: '净流入', value: `$${stats?.todayNetInflow?.toFixed(2) || '0.00'}`, sub: `支付通道 ${stats?.activePaymentGateway || 'mock'} · 机器人${stats?.botEnabled ? '开' : '关'}`, palette: 'from-slate-50 to-slate-100 border-slate-200 text-slate-900', trend: null },
   ]
 
   return (

@@ -130,7 +130,7 @@ export default function Payments({ token }) {
       <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-5">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <div className="text-sm font-black text-gray-900">💳 支付网关</div>
+            <div className="text-sm font-black text-gray-900">💳 当前支付通道</div>
             <div className="text-xs text-gray-500 mt-1">
               当前：<span className="font-bold text-emerald-700">{gatewayLabel(gateways?.active || 'plisio')}</span>
               <span className="mx-2">·</span>
@@ -204,7 +204,7 @@ export default function Payments({ token }) {
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">订单ID</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">用户</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">金额</th>
-                <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">支付网关</th>
+                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">支付通道</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">状态</th>
                 <th className="px-6 py-4 text-left text-sm font-bold text-gray-900">创建时间</th>
                 <th className="px-6 py-4 text-center text-sm font-bold text-gray-900">操作</th>

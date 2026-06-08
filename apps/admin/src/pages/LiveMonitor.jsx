@@ -130,7 +130,7 @@ export default function LiveMonitor({ token }) {
       {/* 支付 / 提现状态 */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white rounded-2xl shadow-lg border border-indigo-200 p-5">
-          <div className="text-xs font-bold text-indigo-700 mb-1">💳 支付网关</div>
+          <div className="text-xs font-bold text-indigo-700 mb-1">💳 支付通道</div>
           <div className="text-2xl font-black text-indigo-600 uppercase">{stats?.activePaymentGateway || 'mock'}</div>
           <div className="text-xs text-indigo-600 mt-1">当前启用</div>
         </div>
