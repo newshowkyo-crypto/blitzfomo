@@ -2,9 +2,15 @@
 set -eu
 
 cd /opt/blitzfomo
-set -a
-. ./.env.production
-set +a
+
+read_env() {
+  key="$1"
+  grep -E "^${key}=" .env.production | head -n 1 | sed -E "s/^${key}=//" | tr -d '\r'
+}
+
+ADMIN_USERNAME="$(read_env ADMIN_USERNAME)"
+ADMIN_PASSWORD="$(read_env ADMIN_PASSWORD)"
+BOT_TOKEN="$(read_env BOT_TOKEN)"
 
 docker exec \
   -e SMOKE_BASE_URL=http://nginx \
