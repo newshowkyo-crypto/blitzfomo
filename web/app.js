@@ -405,7 +405,10 @@
       } catch (_) {}
     }
 
-    // 演示模式（真实环境请替换为钱包签名流程）
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      return false;
+    }
+
     const addr = '0x' + Array.from({length:40},()=>Math.floor(Math.random()*16).toString(16)).join('');
     const { nonce } = await (await fetch(`${API_BASE}/auth/nonce?address=${addr}`)).json();
     const v = await fetch(`${API_BASE}/auth/verify`, {
@@ -417,10 +420,10 @@
       localStorage.setItem('bf_token', data.token);
       currentUser = data.user;
       updateAllBalances();
-      showToast('演示登录成功（生产请接入钱包签名）');
+      showToast('Demo login (dev only)');
       return true;
     }
-    showToast('登录失败', 'error');
+    showToast('Login failed', 'error');
     return false;
   }
 
@@ -499,7 +502,8 @@
       list.forEach(it => {
         const d = document.createElement('div');
         d.className = 'flex items-center gap-2 text-xs';
-        d.innerHTML = `<span class="text-primary font-bold">${it.nickname||'Player'}</span> <span class="text-on-surface-variant">won</span> <span class="text-secondary font-bold">$${it.amount}</span>`;
+        d.innerHTML = `<span class="text-primary font-bold"></span> <span class="text-on-surface-variant">won</span> <span class="text-secondary font-bold">$${it.amount}</span>`;
+        d.querySelector('span').textContent = it.nickname || 'Player';
         m.appendChild(d);
       });
     } catch(_) {}
@@ -613,7 +617,8 @@
         purchases.forEach((it, i) => {
           const row = document.createElement('div');
           row.className = 'flex justify-between p-2 border-b border-white/10 text-sm';
-          row.innerHTML = `<span>#${i+1} ${it.nickname}</span><span class="text-secondary">${formatMoney(it.amount)}</span>`;
+          row.innerHTML = `<span>#${i+1} </span><span class="text-secondary">${formatMoney(it.amount)}</span>`;
+          row.querySelector('span').textContent += it.nickname || 'Player';
           lb.appendChild(row);
         });
       });
@@ -623,8 +628,8 @@
     const ref = document.querySelector('#copy-ref, [data-copy-ref]');
     if (ref && currentUser) {
       ref.onclick = () => {
-        navigator.clipboard.writeText(`https://blitzfinale.com/ref/${currentUser.id}`);
-        showToast('推荐链接已复制');
+        navigator.clipboard.writeText(`https://blitzfomo.com/ref/${currentUser.id}`);
+        showToast('Referral link copied');
       };
     }
 
@@ -667,9 +672,15 @@
           txs.forEach(tx => {
             const d = document.createElement('div');
             d.className = 'flex justify-between p-2 text-sm border-b border-white/10';
-            const label = tx.amount ? '购买' : `提现 (${tx.status || ''})`;
+            const label = tx.amount ? 'Purchase' : `Withdraw (${tx.status || ''})`;
             const amt = tx.amount || (tx.amountUsdt / 100);
-            d.innerHTML = `<span>${label}</span><span class="text-secondary">-$${amt}</span>`;
+            const s1 = document.createElement('span');
+            s1.textContent = label;
+            const s2 = document.createElement('span');
+            s2.className = 'text-secondary';
+            s2.textContent = `-$${amt}`;
+            d.appendChild(s1);
+            d.appendChild(s2);
             walletTx.appendChild(d);
           });
         }).catch(() => {});
@@ -707,13 +718,13 @@
 
     // Referral
     const refLink = document.querySelector('#ref-link, [data-ref-link]');
-    if (refLink && currentUser) refLink.textContent = `https://blitzfinale.com/ref/${currentUser.id}`;
+    if (refLink && currentUser) refLink.textContent = `https://blitzfomo.com/ref/${currentUser.id}`;
 
     const copyRef = document.querySelector('#copy-ref, [data-copy-ref]');
     if (copyRef && currentUser) {
       copyRef.onclick = () => {
-        navigator.clipboard.writeText(`https://blitzfinale.com/ref/${currentUser.id}`);
-        showToast('推荐链接已复制');
+        navigator.clipboard.writeText(`https://blitzfomo.com/ref/${currentUser.id}`);
+        showToast('Referral link copied');
       };
     }
 
@@ -762,13 +773,13 @@
     applyIconFallbacks();
     applyImageFallbacks();
     await ensureAuth();
-    bindInteractiveElements();
-    bindLang();
-    await applyLanguage(localStorage.getItem('bf_lang') || 'en');
+    if (typeof bindInteractiveElements === 'function') bindInteractiveElements();
+    if (typeof bindLang === 'function') bindLang();
+    if (typeof applyLanguage === 'function') await applyLanguage(localStorage.getItem('bf_lang') || 'en');
     await syncState();
     refreshWinnerWall();
     initSocket();
-    initOtherPages();
+    if (typeof initOtherPages === 'function') initOtherPages();
     if (!pollTimer) pollTimer = setInterval(syncState, 8000);
     setInterval(refreshWinnerWall, 28000);
   }

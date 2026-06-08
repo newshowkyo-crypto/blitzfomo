@@ -7,6 +7,7 @@ import { AdminRbacGuard } from './admin-rbac.guard';
 import { RequireSuperAdmin } from './decorators/require-super-admin.decorator';
 
 @Controller('admin/api/locales')
+@UseGuards(AdminRbacGuard)
 export class AdminLocaleController {
   constructor(private readonly adminService: AdminService) {}
 

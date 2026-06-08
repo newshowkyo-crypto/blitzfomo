@@ -8,6 +8,7 @@ import { RequireSuperAdmin } from './decorators/require-super-admin.decorator';
 import { UpdateRiskConfigDto } from '@blitz/shared/dto/config.dto';
 
 @Controller('admin/api/config/risk')
+@UseGuards(AdminRbacGuard)
 export class AdminRiskController {
   constructor(private readonly adminService: AdminService) {}
 

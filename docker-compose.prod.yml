@@ -59,6 +59,7 @@ services:
       TMA_PUBLIC_URL: ${TMA_PUBLIC_URL:?TMA_PUBLIC_URL is required}
       PLISIO_SUCCESS_URL: ${PLISIO_SUCCESS_URL:-${TMA_PUBLIC_URL}}
       PLISIO_FAIL_URL: ${PLISIO_FAIL_URL:-${TMA_PUBLIC_URL}}
+      CORS_ORIGINS: https://blitzfomo.com,https://www.blitzfomo.com
     command: >
       sh -c "
         npx prisma migrate deploy --schema=prisma/schema.prisma &&

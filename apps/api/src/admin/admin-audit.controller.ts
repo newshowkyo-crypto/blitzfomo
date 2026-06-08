@@ -8,6 +8,7 @@ import { AdminRbacGuard } from './admin-rbac.guard';
 import { RequireSuperAdmin } from './decorators/require-super-admin.decorator';
 
 @Controller('admin/api/audit-logs')
+@UseGuards(AdminRbacGuard)
 export class AdminAuditController {
   constructor(private readonly adminService: AdminService) {}
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { createHmac } from 'crypto';
+import { createHmac, timingSafeEqual } from 'crypto';
 import { PaymentGateway } from './payment-gateway.interface';
 
 @Injectable()
@@ -87,7 +87,10 @@ export class PlisioGateway implements PaymentGateway {
     delete ordered.verify_hash;
 
     const expected = createHmac('sha1', apiKey).update(JSON.stringify(ordered)).digest('hex');
-    return expected === verifyHash;
+    const expectedBuf = Buffer.from(expected, 'hex');
+    const verifyBuf = Buffer.from(verifyHash, 'hex');
+    if (expectedBuf.length !== verifyBuf.length) return false;
+    return timingSafeEqual(expectedBuf, verifyBuf);
   }
 
   async parseCallback(rawBody: any) {

@@ -1,7 +1,9 @@
 import { Link, useLocation } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function Layout({ children, onLogout }) {
   const location = useLocation()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navItems = [
     { path: '/', label: '仪表盘', icon: '📊' },
@@ -104,20 +106,33 @@ export default function Layout({ children, onLogout }) {
         </header>
         
         {/* Mobile Nav */}
-        <div className="md:hidden bg-slate-950/95 backdrop-blur-md px-3 py-2 flex gap-2 overflow-x-auto border-b border-slate-700/50">
-          {navItems.map(item => (
-            <Link 
-              key={item.path} 
-              to={item.path} 
-              className={`shrink-0 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
-                isActive(item.path) 
-                  ? 'bg-gradient-to-r from-yellow-500 to-amber-500 text-white shadow-lg' 
-                  : 'bg-white/10 text-slate-300 hover:bg-white/20'
-              }`}
-            >
-              <span className="mr-1">{item.icon}</span>
-            </Link>
-          ))}
+        <div className="md:hidden bg-slate-950/95 backdrop-blur-md px-3 py-2 border-b border-slate-700/50">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-xl bg-white/10 text-white text-sm font-bold"
+          >
+            <span>☰ Menu</span>
+            <span>{mobileMenuOpen ? '▲' : '▼'}</span>
+          </button>
+          {mobileMenuOpen && (
+            <div className="mt-2 grid grid-cols-3 gap-1 max-h-64 overflow-y-auto">
+              {navItems.map(item => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-2 py-2 rounded-lg text-xs font-bold transition-all text-center ${
+                    isActive(item.path)
+                      ? 'bg-gradient-to-r from-yellow-500 to-amber-500 text-white shadow-lg'
+                      : 'bg-white/10 text-slate-300 hover:bg-white/20'
+                  }`}
+                >
+                  <span className="block text-base">{item.icon}</span>
+                  <span className="block truncate mt-0.5">{item.label}</span>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
         
         <main className="flex-1 overflow-auto p-4 md:p-6 lg:p-8">

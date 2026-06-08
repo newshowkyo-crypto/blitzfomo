@@ -41,7 +41,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
         message = res.message || exception.message;
       }
     } else if (exception instanceof Error) {
-      message = exception.message;
+      message = process.env.NODE_ENV === 'production' ? 'Internal server error' : exception.message;
     }
 
     // 记录错误日志

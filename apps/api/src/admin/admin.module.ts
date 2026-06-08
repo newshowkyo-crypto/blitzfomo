@@ -19,8 +19,8 @@ import { GameModule } from '../game/game.module';
 import { QueueModule } from '../queue/queue.module';
 
 const jwtSecret = process.env.JWT_SECRET;
-if (!jwtSecret && process.env.NODE_ENV === 'production') {
-  throw new Error('JWT_SECRET must be configured in production');
+if (!jwtSecret) {
+  throw new Error('FATAL: JWT_SECRET environment variable is required');
 }
 
 @Module({
@@ -29,7 +29,7 @@ if (!jwtSecret && process.env.NODE_ENV === 'production') {
     GameModule,
     QueueModule,
     JwtModule.register({
-      secret: jwtSecret || 'blitz_dev_jwt_secret_change_before_deploy',
+      secret: jwtSecret,
       signOptions: { expiresIn: '8h' },
     }),
   ],

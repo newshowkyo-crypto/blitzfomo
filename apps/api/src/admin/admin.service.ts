@@ -270,8 +270,7 @@ export class AdminService {
   }
 
   async updatePaymentGatewayConfig(name: string, config: any) {
-    console.log(`[Admin] Updating gateway ${name} config (encryption TODO)`);
-    return { success: true, name, config };
+    throw new Error('Gateway config update is not yet implemented. Use .env.production to configure payment gateways.');
   }
 
   // 用户管理

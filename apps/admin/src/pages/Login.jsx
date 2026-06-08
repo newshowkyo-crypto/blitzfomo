@@ -97,8 +97,7 @@ export default function Login({ onLogin }) {
 
           <div className="mt-6 text-center">
             <p className="text-xs text-white/50">
-              默认账号: <span className="text-white/70 font-mono">super_admin</span> | 
-              默认密码: <span className="text-white/70 font-mono">Admin@2026!</span>
+              Contact your system administrator for credentials.
             </p>
           </div>
         </div>

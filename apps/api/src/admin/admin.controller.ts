@@ -29,7 +29,16 @@ export class AdminController {
   @Patch('config/game')
   @UseGuards(AdminRbacGuard)
   @RequireSuperAdmin()
-  async updateGameConfig(@Body() body: any) {
-    return this.adminService.updateGameConfig(body);
+  async updateGameConfig(@Body() body: Record<string, number | string | boolean>) {
+    const allowed = [
+      'bfToUsdtRate', 'initialPrizePool', 'winnerPercent', 'platformPercent',
+      'countdownSeconds', 'minBuyAmount', 'tournamentMapUrl', 'botEnabled',
+      'botPurchaseIntervalMs', 'botMinAmount', 'botMaxAmount',
+    ];
+    const sanitized: Record<string, any> = {};
+    for (const key of allowed) {
+      if (body[key] !== undefined) sanitized[key] = body[key];
+    }
+    return this.adminService.updateGameConfig(sanitized);
   }
 }

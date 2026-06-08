@@ -5,13 +5,10 @@ import { RedisService } from '../redis/redis.service';
 import { ConfigService } from '../config/config.service';
 import { GameGateway } from '../socket/game.gateway';
 import { RiskService } from '../risk/risk.service';
-import { readFileSync } from 'fs';
-import { join, resolve } from 'path';
 import { LedgerType } from '@prisma/client';
 
 @Injectable()
 export class PurchaseService {
-  private purchaseLuaSha: string | null = null;
   private readonly logger = new Logger(PurchaseService.name);
 
   constructor(
@@ -21,23 +18,7 @@ export class PurchaseService {
     private readonly config: ConfigService,
     private readonly gameGateway: GameGateway,
     private readonly riskService: RiskService,
-  ) {
-    this.loadLuaScript();
-  }
-
-  private async loadLuaScript() {
-    try {
-      // 使用 __dirname 相对路径，兼容编译后的 dist/ 目录
-      const luaPath = resolve(__dirname, 'lua', 'purchase.lua');
-      const lua = readFileSync(luaPath, 'utf8');
-      this.purchaseLuaSha = await this.redis.getClient().script('LOAD', lua) as string;
-      this.logger.log('Purchase Lua script loaded successfully');
-    } catch (err: any) {
-      // Lua 脚本加载失败不应阻止启动，但需记录告警
-      this.logger.warn(`Failed to load Lua script: ${err.message}. Purchase will use DB transaction only.`);
-      this.purchaseLuaSha = null;
-    }
-  }
+  ) {}
 
   private async getPlayableRound() {
     const gameConfig = await this.config.getGameConfig();
@@ -51,17 +32,33 @@ export class PurchaseService {
     });
 
     if (!round) {
-      const latest = await this.prisma.round.findFirst({ orderBy: { roundNumber: 'desc' } });
-      round = await this.prisma.round.create({
-        data: {
-          roundNumber: (latest?.roundNumber ?? 0) + 1,
-          prizePool: gameConfig?.initialPrizePool ?? 100000n,
-          initialPool: gameConfig?.initialPrizePool ?? 100000n,
-          status: 'OPEN',
-          startedAt: new Date(now),
-          deadlineAt: freshDeadline,
-        },
-      });
+      const redis = this.redis.getClient();
+      const lockKey = 'round:create:lock';
+      const acquired = await redis.set(lockKey, '1', 'EX', 5, 'NX');
+      if (acquired) {
+        try {
+          round = await this.prisma.round.findFirst({ where: { status: 'OPEN' }, orderBy: { startedAt: 'desc' } });
+          if (!round) {
+            const latest = await this.prisma.round.findFirst({ orderBy: { roundNumber: 'desc' } });
+            round = await this.prisma.round.create({
+              data: {
+                roundNumber: (latest?.roundNumber ?? 0) + 1,
+                prizePool: gameConfig?.initialPrizePool ?? 100000n,
+                initialPool: gameConfig?.initialPrizePool ?? 100000n,
+                status: 'OPEN',
+                startedAt: new Date(now),
+                deadlineAt: freshDeadline,
+              },
+            });
+          }
+        } finally {
+          await redis.del(lockKey).catch(() => {});
+        }
+      } else {
+        await new Promise(r => setTimeout(r, 200));
+        round = await this.prisma.round.findFirst({ where: { status: 'OPEN' }, orderBy: { startedAt: 'desc' } });
+        if (!round) throw new BadRequestException('Game round not available, please retry');
+      }
     }
 
     const redis = this.redis.getClient();

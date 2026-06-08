@@ -24,13 +24,12 @@ async function bootstrap() {
   // CORS 配置
   const allowedOrigins = process.env.CORS_ORIGINS
     ? process.env.CORS_ORIGINS.split(',').map(s => s.trim())
-    : ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:80'];
+    : ['https://blitzfomo.com', 'https://www.blitzfomo.com', 'http://localhost:5173', 'http://localhost:3000', 'http://localhost:80'];
 
   app.enableCors({
     origin: (origin, callback) => {
-      // 允许无 origin 的请求（如服务端调用、Postman）
       if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin) || process.env.NODE_ENV !== 'production') {
+      if (allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new Error('Not allowed by CORS'), false);

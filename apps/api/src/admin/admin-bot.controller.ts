@@ -7,6 +7,7 @@ import { AdminRbacGuard } from './admin-rbac.guard';
 import { RequireSuperAdmin } from './decorators/require-super-admin.decorator';
 
 @Controller('admin/api/config/bot')
+@UseGuards(AdminRbacGuard)
 export class AdminBotController {
   constructor(private readonly adminService: AdminService) {}
 

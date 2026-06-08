@@ -15,10 +15,7 @@ export class StripeGateway implements PaymentGateway {
   }
 
   async verifyCallback(rawBody: any, headers: any): Promise<boolean> {
-    // TODO: 使用 Stripe webhook 签名验证
-    // const sig = headers['stripe-signature'];
-    // Stripe.webhooks.constructEvent(rawBody, sig, process.env.STRIPE_WEBHOOK_SECRET);
-    return true; // 占位：实际必须验证
+    throw new Error('Stripe gateway is not implemented. Configure a supported gateway.');
   }
 
   async parseCallback(rawBody: any) {

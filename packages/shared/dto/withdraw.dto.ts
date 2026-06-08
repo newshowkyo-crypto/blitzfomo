@@ -1,6 +1,6 @@
 // packages/shared/dto/withdraw.dto.ts
 
-import { IsNumber, IsString, IsEnum, Min } from 'class-validator';
+import { IsNumber, IsString, IsEnum, Min, MaxLength, Matches } from 'class-validator';
 
 export enum ChainType {
   TON = 'TON',
@@ -14,6 +14,8 @@ export class CreateWithdrawDto {
   amountUsdt: number; // USDT 面值（服务端 *100 转 bigint）
 
   @IsString()
+  @MaxLength(256)
+  @Matches(/^[a-zA-Z0-9_.:-]+$/, { message: 'Invalid wallet address format' })
   toAddress: string;
 
   @IsEnum(ChainType)

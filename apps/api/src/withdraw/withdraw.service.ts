@@ -19,20 +19,20 @@ export class WithdrawService {
   async createWithdraw(userId: string, dto: CreateWithdrawDto) {
     const amount = BigInt(Math.floor(dto.amountUsdt * 100));
 
-    const user = await this.prisma.user.findUnique({ where: { id: userId } });
-    if (!user || user.balance < amount) {
-      throw new BadRequestException('INSUFFICIENT_BALANCE');
-    }
-    if (user.isFrozen) {
-      throw new BadRequestException('USER_FROZEN');
-    }
-
     const riskCheck = await this.riskService.checkWithdrawRisk(userId, amount);
     if (!riskCheck.allowed) {
       throw new BadRequestException({ code: 42201, message: riskCheck.reason });
     }
 
     const withdraw = await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({ where: { id: userId } });
+      if (!user || user.balance < amount) {
+        throw new BadRequestException('INSUFFICIENT_BALANCE');
+      }
+      if (user.isFrozen) {
+        throw new BadRequestException('USER_FROZEN');
+      }
+
       const created = await tx.withdrawal.create({
         data: {
           userId,

@@ -26,6 +26,15 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(GameGateway.name);
 
   handleConnection(client: Socket) {
+    const origin = client.handshake.headers.origin || '';
+    const allowed = process.env.CORS_ORIGINS
+      ? process.env.CORS_ORIGINS.split(',').map(s => s.trim())
+      : ['https://blitzfomo.com', 'https://www.blitzfomo.com', 'http://localhost:5173', 'http://localhost:3000', 'http://localhost:80'];
+    if (origin && !allowed.some(a => origin.startsWith(a))) {
+      this.logger.warn(`Rejected connection from origin: ${origin}`);
+      client.disconnect(true);
+      return;
+    }
     this.logger.log(`Client connected: ${client.id}`);
   }
 

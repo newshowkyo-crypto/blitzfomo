@@ -7,6 +7,7 @@ import { AdminRbacGuard } from './admin-rbac.guard';
 import { RequireSuperAdmin } from './decorators/require-super-admin.decorator';
 
 @Controller('admin/api/payment')
+@UseGuards(AdminRbacGuard)
 export class AdminPaymentController {
   constructor(private readonly adminService: AdminService) {}
 

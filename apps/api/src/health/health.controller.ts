@@ -19,8 +19,6 @@ export class HealthController {
 
     return {
       status: dbOk && redisOk ? 'ok' : 'degraded',
-      database: dbOk ? 'connected' : 'disconnected',
-      redis: redisOk ? 'connected' : 'disconnected',
       timestamp: new Date(),
     };
   }

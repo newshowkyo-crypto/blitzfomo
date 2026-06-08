@@ -24,17 +24,33 @@ export class GameService {
     });
 
     if (!round) {
-      const latest = await this.prisma.round.findFirst({ orderBy: { roundNumber: 'desc' } });
-      round = await this.prisma.round.create({
-        data: {
-          roundNumber: (latest?.roundNumber ?? 0) + 1,
-          prizePool: gameConfig?.initialPrizePool ?? 100000n,
-          initialPool: gameConfig?.initialPrizePool ?? 100000n,
-          status: 'OPEN',
-          startedAt: new Date(now),
-          deadlineAt: freshDeadline,
-        },
-      });
+      const redis = this.redis.getClient();
+      const lockKey = 'round:create:lock';
+      const acquired = await redis.set(lockKey, '1', 'EX', 5, 'NX');
+      if (acquired) {
+        try {
+          round = await this.prisma.round.findFirst({ where: { status: 'OPEN' }, orderBy: { startedAt: 'desc' } });
+          if (!round) {
+            const latest = await this.prisma.round.findFirst({ orderBy: { roundNumber: 'desc' } });
+            round = await this.prisma.round.create({
+              data: {
+                roundNumber: (latest?.roundNumber ?? 0) + 1,
+                prizePool: gameConfig?.initialPrizePool ?? 100000n,
+                initialPool: gameConfig?.initialPrizePool ?? 100000n,
+                status: 'OPEN',
+                startedAt: new Date(now),
+                deadlineAt: freshDeadline,
+              },
+            });
+          }
+        } finally {
+          await redis.del(lockKey).catch(() => {});
+        }
+      } else {
+        await new Promise(r => setTimeout(r, 200));
+        round = await this.prisma.round.findFirst({ where: { status: 'OPEN' }, orderBy: { startedAt: 'desc' } });
+        if (!round) throw new Error('Failed to acquire round creation lock');
+      }
     }
 
     const redis = this.redis.getClient();

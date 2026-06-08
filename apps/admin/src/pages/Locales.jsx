@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
+import { adminFetch } from '../lib/api'
 
-export default function Locales({ token }) {
+export default function Locales() {
   const [locales, setLocales] = useState([])
   const [loading, setLoading] = useState(true)
   const [selectedLang, setSelectedLang] = useState(null)
@@ -9,9 +10,7 @@ export default function Locales({ token }) {
 
   const fetchLocales = async () => {
     setLoading(true)
-    const res = await fetch('/admin/api/locales', {
-      headers: { Authorization: `Bearer ${token}` }
-    })
+    const res = await adminFetch('/admin/api/locales')
     const data = await res.json()
     setLocales(data || [])
     if (data.length > 0) {
@@ -21,7 +20,7 @@ export default function Locales({ token }) {
     setLoading(false)
   }
 
-  useEffect(() => { fetchLocales() }, [token])
+  useEffect(() => { fetchLocales() }, [])
 
   const handleSelectLang = (lang) => {
     const locale = locales.find(l => l.lang === lang)
@@ -45,11 +44,10 @@ export default function Locales({ token }) {
     setSaving(true)
     try {
       const parsed = JSON.parse(content)
-      const res = await fetch(`/admin/api/locales/${selectedLang}`, {
+      const res = await adminFetch(`/admin/api/locales/${selectedLang}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(parsed)
       })
@@ -64,9 +62,8 @@ export default function Locales({ token }) {
 
   const handleSetDefault = async (lang) => {
     try {
-      await fetch(`/admin/api/locales/${lang}/set-default`, {
+      await adminFetch(`/admin/api/locales/${lang}/set-default`, {
         method: 'POST',
-        headers: { Authorization: `Bearer ${token}` }
       })
       alert('默认语言已设置')
       fetchLocales()
