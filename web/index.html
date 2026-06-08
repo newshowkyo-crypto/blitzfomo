@@ -2251,6 +2251,7 @@
     let roadAllPoolsCache = [];
     let selectedRoadPool = null;
     let roadModalPoolId = '';
+    let activeReferralCode = '';
 
     function t(key) { return (I18N[lang] && I18N[lang][key]) || I18N.en[key] || key; }
     function applyI18n() {
@@ -2297,6 +2298,17 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
       if (['wallet', 'profile', 'profile-edit'].includes(name)) loadRichProfile();
       if (name === 'profile') loadRoadHoldings();
+    }
+    function syncReferralCodeFromLocation() {
+      const pathMatch = location.pathname.match(/^\/ref\/([A-Za-z0-9_-]+)$/);
+      const queryRef = new URLSearchParams(location.search).get('ref');
+      const nextRef = (pathMatch && pathMatch[1]) || queryRef || '';
+      if (!nextRef) return;
+      activeReferralCode = nextRef;
+      localStorage.setItem('bf_referral_code', nextRef);
+      if (location.pathname.startsWith('/ref/')) {
+        history.replaceState({}, '', '/');
+      }
     }
     async function ensureAuth() {
       if (token) {
@@ -2358,7 +2370,8 @@
       $('total-won').textContent = money(user.totalWon || 0);
       const vipProgress = Math.min(100, Math.floor(Number(user.totalPurchased || 0) / 5000 * 100));
       $('vip-progress').textContent = vipProgress + '%';
-      const refUrl = `${location.origin}/ref/${user.id || 'demo'}`;
+      const referralCode = user.referralCode || user.id || 'demo';
+      const refUrl = `${location.origin}/ref/${referralCode}`;
       $('ref-link').textContent = refUrl;
       updateInviteQr(refUrl);
     }
@@ -2667,7 +2680,11 @@
         const result = await api(`/road/pools/${roadModalPoolId}/purchase`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount, idempotencyKey: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() }),
+          body: JSON.stringify({
+            amount,
+            idempotencyKey: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(),
+            referralCode: activeReferralCode || localStorage.getItem('bf_referral_code') || undefined,
+          }),
         });
         setToast(t('buySuccess'));
         closeRoadModal();
@@ -2821,7 +2838,7 @@
           renderTransactions(rich);
           const referralCount = rich.referralCount || 0;
           $('ref-count').textContent = referralCount;
-          $('ref-commission').textContent = money(referralCount * 5);
+          $('ref-commission').textContent = money(rich.referralCommission || 0);
         }
       } catch {
         renderTransactions(null);
@@ -3034,6 +3051,7 @@
     (async function boot() {
       try {
         applyI18n();
+        syncReferralCodeFromLocation();
         bindHeroStageNodes();
         renderLeaderboard([]);
         renderActivity([]);
