@@ -1830,6 +1830,26 @@
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="auth-modal" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="auth-modal-title">Open in Telegram</div>
+          <div class="modal-sub" id="auth-modal-sub">Use the Telegram Mini App to continue.</div>
+        </div>
+        <button id="auth-modal-close" class="copy-chip" type="button">Close</button>
+      </div>
+      <div class="modal-body form-stack">
+        <div class="item">
+          <div>
+            <div class="item-title" id="auth-modal-line-1">Please open BlitzFomo inside Telegram first.</div>
+            <div class="item-meta" id="auth-modal-line-2">After Telegram login finishes, deposit, buy, and withdraw will be available.</div>
+          </div>
+        </div>
+        <button id="auth-modal-ok" class="btn" type="button">I understand</button>
+      </div>
+    </div>
+  </div>
   <div id="road-modal" class="modal-overlay" style="display:none" role="dialog" aria-modal="true">
     <div class="modal-card">
       <div class="modal-head">
@@ -2277,12 +2297,26 @@
       clearTimeout(el._timer);
       el._timer = setTimeout(() => el.classList.remove('show'), 3200);
     }
+    function openAuthModal(actionLabel = 'continue') {
+      const inTelegram = !!window.Telegram?.WebApp;
+      $('auth-modal-title').textContent = inTelegram ? 'Connecting Telegram' : 'Open in Telegram';
+      $('auth-modal-sub').textContent = inTelegram
+        ? 'Telegram login is still initializing.'
+        : 'This action requires Telegram Mini App login.';
+      $('auth-modal-line-1').textContent = inTelegram
+        ? 'Your Telegram session is still loading. Please wait a moment and try again.'
+        : `Please open BlitzFomo inside Telegram before ${actionLabel}.`;
+      $('auth-modal-line-2').textContent = inTelegram
+        ? 'Once Telegram finishes connecting, deposit, buy, and withdraw will work normally.'
+        : 'After Telegram login finishes, deposit, buy, and withdraw will be available.';
+      $('auth-modal').style.display = 'grid';
+    }
+    function closeAuthModal() {
+      $('auth-modal').style.display = 'none';
+    }
     function requireAuth(actionLabel = 'continue') {
       if (token) return true;
-      const msg = window.Telegram?.WebApp
-        ? 'Telegram login is still initializing. Please try again.'
-        : 'Please open BlitzFomo from the Telegram Mini App to login before ' + actionLabel + '.';
-      setToast(msg, 'error');
+      openAuthModal(actionLabel);
       return false;
     }
     function authHeaders() { return token ? { Authorization: `Bearer ${token}` } : {}; }
@@ -3003,6 +3037,9 @@
     if ($('road-modal')) $('road-modal').addEventListener('click', (e) => { if (e.target && e.target.id === 'road-modal') closeRoadModal(); });
     if ($('road-modal-buy')) $('road-modal-buy').addEventListener('click', buyRoadFromModal);
     if ($('road-modal-amount')) $('road-modal-amount').addEventListener('input', updateRoadModalSplit);
+    if ($('auth-modal-close')) $('auth-modal-close').addEventListener('click', closeAuthModal);
+    if ($('auth-modal-ok')) $('auth-modal-ok').addEventListener('click', closeAuthModal);
+    if ($('auth-modal')) $('auth-modal').addEventListener('click', (e) => { if (e.target && e.target.id === 'auth-modal') closeAuthModal(); });
     $('copy-ref').addEventListener('click', async () => {
       try { await navigator.clipboard.writeText($('ref-link').textContent); setToast(t('copied')); } catch { setToast(t('copyFail'), 'error'); }
     });
