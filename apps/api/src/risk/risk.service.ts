@@ -42,13 +42,19 @@ export class RiskService {
   async checkWithdrawRisk(userId: string, amount: bigint): Promise<{ allowed: boolean; reason?: string; score: number }> {
     const riskCfg = await this.config.getRiskConfig();
 
-    // 1. 检查购买次数（排除机器人购买）
-    const purchaseCount = await this.prisma.purchase.count({
-      where: {
-        userId,
-        isBot: false
-      }
-    });
+    // 1. 检查购买次数（旧版 purchase + Road purchase 均计入真实消费行为）
+    const [classicPurchaseCount, roadPurchaseCount] = await Promise.all([
+      this.prisma.purchase.count({
+        where: {
+          userId,
+          isBot: false,
+        },
+      }),
+      this.prisma.roadPurchase.count({
+        where: { userId },
+      }),
+    ]);
+    const purchaseCount = classicPurchaseCount + roadPurchaseCount;
 
     const requiredPurchases = riskCfg?.withdrawRequirePurchaseCount || 3;
     if (purchaseCount < requiredPurchases) {
