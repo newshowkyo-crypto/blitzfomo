@@ -1527,6 +1527,19 @@
           </div>
         </div>
 
+        <div class="panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Telegram Mini App Only</div>
+              <div class="panel-sub">Open BlitzFomo from Telegram to unlock deposit, buy, referral, and withdraw actions.</div>
+            </div>
+          </div>
+          <div class="panel-body form-stack">
+            <div class="item"><div><div class="item-title">How to enter</div><div class="item-meta">Use the official Telegram bot menu button to launch the game. Browser preview is for viewing only until Telegram login completes.</div></div></div>
+            <button class="btn secondary" type="button" data-open-auth="telegram">Open in Telegram</button>
+          </div>
+        </div>
+
         <div class="score-strip">
           <div>
             <span class="label" data-i18n="account">Account</span>
@@ -3105,6 +3118,7 @@
     if ($('auth-modal-close')) $('auth-modal-close').addEventListener('click', closeAuthModal);
     if ($('auth-modal-ok')) $('auth-modal-ok').addEventListener('click', closeAuthModal);
     if ($('auth-modal')) $('auth-modal').addEventListener('click', (e) => { if (e.target && e.target.id === 'auth-modal') closeAuthModal(); });
+    document.querySelectorAll('[data-open-auth="telegram"]').forEach((btn) => btn.addEventListener('click', () => openAuthModal('continuing')));
     $('copy-ref').addEventListener('click', async () => {
       try { await navigator.clipboard.writeText($('ref-link').textContent); setToast(t('copied')); } catch { setToast(t('copyFail'), 'error'); }
     });
