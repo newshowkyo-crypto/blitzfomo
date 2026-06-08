@@ -14,16 +14,16 @@ www.{$DOMAIN} {
 		@admin_root path /admin
 		redir @admin_root /admin/ 308
 
-		@admin path /admin/ /admin/*
+		@admin expression `{path}.startsWith('/admin/')`
 		reverse_proxy @admin nginx:80
 
-		@admin_assets path /assets /assets/*
+		@admin_assets expression `{path}.startsWith('/assets')`
 		reverse_proxy @admin_assets nginx:80
 
-		@api path /api /api/*
+		@api expression `{path}.startsWith('/api')`
 		reverse_proxy @api nginx:80
 
-		@socket path /socket.io /socket.io/*
+		@socket expression `{path}.startsWith('/socket.io')`
 		reverse_proxy @socket nginx:80
 
 		handle /stitch_blitz_finale_world_cup_edition/blitz_finale_world_cup_2026_edition/code.html {
