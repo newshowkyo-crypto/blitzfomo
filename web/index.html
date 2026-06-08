@@ -2276,6 +2276,14 @@
       clearTimeout(el._timer);
       el._timer = setTimeout(() => el.classList.remove('show'), 3200);
     }
+    function requireAuth(actionLabel = 'continue') {
+      if (token) return true;
+      const msg = window.Telegram?.WebApp
+        ? 'Telegram login is still initializing. Please try again.'
+        : 'Please open BlitzFomo from the Telegram Mini App to login before ' + actionLabel + '.';
+      setToast(msg, 'error');
+      return false;
+    }
     function authHeaders() { return token ? { Authorization: `Bearer ${token}` } : {}; }
     async function api(path, options = {}) {
       const res = await fetch(API + path, { ...options, headers: { ...(options.headers || {}), ...authHeaders() } });
@@ -2359,6 +2367,11 @@
       const qr = $('invite-qr');
       if (!qr || !url) return;
       qr.src = `https://api.qrserver.com/v1/create-qr-code/?size=156x156&margin=1&data=${encodeURIComponent(url)}`;
+      qr.onerror = () => {
+        qr.removeAttribute('src');
+        qr.alt = 'QR service unavailable. Copy the invite link below.';
+        qr.closest('.qr-card')?.classList.add('qr-fallback');
+      };
       qr.title = url;
     }
     function startCountdown(seconds) {
@@ -2626,7 +2639,7 @@
       roadModalPoolId = pool.id;
       const params = pool.params || {};
       $('road-modal-title').textContent = `${pool.team?.name || pool.team?.code || '-'} · ${pool.stage}`;
-      $('road-modal-sub').textContent = Number(p.sponsorAmount || 0) > 0 ? t('officialSponsored') : t('playerPool');
+      $('road-modal-sub').textContent = Number(pool.sponsorAmount || 0) > 0 ? t('officialSponsored') : t('playerPool');
       $('road-modal-price').textContent = money(pool.currentPrice) + ' BF';
       $('road-modal-amount').value = String($('buy-amount')?.value || '50');
       
@@ -2644,6 +2657,7 @@
     }
 
     async function buyRoadFromModal() {
+      if (!requireAuth('buying')) return;
       const btn = $('road-modal-buy');
       const amount = Number($('road-modal-amount').value || 0);
       if (!roadModalPoolId) return;
@@ -2903,10 +2917,12 @@
       }, 5000);
     }
     async function buy() {
+      if (!requireAuth('buying')) return;
       if (!selectedRoadPool) return setToast('Select a pool', 'warn');
       openRoadModal(selectedRoadPool);
     }
     async function recharge() {
+      if (!requireAuth('depositing')) return;
       const btn = $('recharge-button');
       const amountUsdt = Number($('recharge-amount').value || 0);
       if (amountUsdt < 10) return setToast(t('depositFail'), 'error');
@@ -2930,6 +2946,7 @@
       }
     }
     async function withdraw() {
+      if (!requireAuth('withdrawing')) return;
       const btn = $('withdraw-button');
       const amountUsdt = Number($('withdraw-amount').value || 0);
       const toAddress = $('withdraw-address').value.trim();
@@ -3020,6 +3037,7 @@
         bindHeroStageNodes();
         renderLeaderboard([]);
         renderActivity([]);
+        updateInviteQr($('ref-link')?.textContent || `${location.origin}/ref/demo`);
         await ensureAuth();
         await refreshAll();
         await loadRichProfile();
