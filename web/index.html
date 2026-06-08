@@ -1602,11 +1602,16 @@
           <img src="/media/world-cup-hero.png" alt="">
           <div class="hero-copy">
             <div class="kicker" data-i18n="matchCenter">Match center</div>
-            <h2 data-i18n="roundMonitor">Live road monitor</h2>
+            <h2>Stage Market Center</h2>
           </div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div><div class="panel-title" data-i18n="telemetry">Pool telemetry</div><div class="panel-sub">LIVE</div></div><div class="live-pill"><span class="dot"></span>LIVE</div></div>
+          <div class="panel-body">
+            <button class="btn secondary" type="button" data-go="arena">← Back to Arena</button>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><div class="panel-title" data-i18n="telemetry">Pool telemetry</div><div class="panel-sub">Track close time, fee range, and release timing for the currently selected market.</div></div><div class="live-pill"><span class="dot"></span>LIVE</div></div>
           <div class="panel-body">
             <div class="tile-grid">
               <div class="tile icon-tile"><span class="ui-icon">🎟️</span><span class="tile-copy"><span class="label" data-i18n="minBuy">Release delay</span><strong id="min-buy">-</strong></span></div>
@@ -1617,7 +1622,7 @@
           </div>
         </div>
         <div class="panel">
-          <div class="panel-head"><div><div class="panel-title" data-i18n="settlementLog">Settlement log</div><div class="panel-sub" data-i18n="settledRounds">Settled events</div></div></div>
+          <div class="panel-head"><div><div class="panel-title" data-i18n="settlementLog">Settlement log</div><div class="panel-sub">Stage results, sponsor moves, and reward events settle here.</div></div></div>
           <div class="panel-body"><div id="winner-wall" class="list"></div></div>
         </div>
       </section>
@@ -1813,16 +1818,37 @@
 
       <section class="view" data-view="rules">
         <div class="hero"><img src="/media/world-cup-hero.png" alt=""><div class="hero-copy"><div class="kicker" data-i18n="rules">Fair play rules</div><h2 data-i18n="rulesTitle">Road rules and split</h2></div></div>
+        <div class="panel"><div class="panel-body"><button class="btn secondary" type="button" data-go="profile">← Back to Profile</button></div></div>
         <div class="panel"><div class="panel-body"><div class="list">
-          <div class="item"><div><div class="item-title" data-i18n="ruleLast">No last-buyer rule</div><div class="item-meta" data-i18n="ruleLastSub">Rewards come from net pools and release schedule.</div></div></div>
-          <div class="item"><div><div class="item-title" data-i18n="ruleSplit">Prize split</div><div class="item-meta">Dynamic fee + net split (p/d/s/r/k/z)</div></div></div>
-          <div class="item"><div><div class="item-title" data-i18n="ruleRisk">Withdrawal risk checks</div><div class="item-meta" data-i18n="ruleRiskSub">Purchase history and cooldown rules apply.</div></div></div>
+          <div class="item"><div><div class="item-title">1. Telegram-only access</div><div class="item-meta">BlitzFomo is designed for Telegram Mini App access. Open the game from Telegram to unlock deposit, buy, and withdraw actions.</div></div></div>
+          <div class="item"><div><div class="item-title">2. How the game works</div><div class="item-meta">You buy team stage keys. Later buys add value to the stage pool, pending rewards, super pool, reserve, and agent buckets according to the current split.</div></div></div>
+          <div class="item"><div><div class="item-title">3. No last-buyer jackpot rule</div><div class="item-meta">This version is not a last-buyer FOMO game. Rewards come from stage pool allocation, pending releases, and tournament progression.</div></div></div>
+          <div class="item"><div><div class="item-title">4. Reward release</div><div class="item-meta">Pending rewards are not instantly withdrawable. They move into released rewards after the configured release delay, then become part of your withdrawable balance.</div></div></div>
+          <div class="item"><div><div class="item-title">5. Team progression risk</div><div class="item-meta">A team can be eliminated. Future upside depends on whether the team survives into the next stage. Buy size should match your risk tolerance.</div></div></div>
+          <div class="item"><div><div class="item-title">6. Deposit and crediting</div><div class="item-meta">Deposits are centralized. You pay through the hosted payment page, and your BF balance updates after gateway confirmation.</div></div></div>
+          <div class="item"><div><div class="item-title">7. Withdrawals</div><div class="item-meta">Withdrawals go through review. Purchase history, cooldown rules, and daily limits are checked before approval.</div></div></div>
+          <div class="item"><div><div class="item-title">8. Referral rewards</div><div class="item-meta">Referral commission is generated only when a valid referral code is used in a real Road purchase. Commission enters the release flow like other rewards.</div></div></div>
+          <div class="item"><div><div class="item-title">9. Official sponsor visibility</div><div class="item-meta">Pools marked as official sponsored have additional sponsor support. Sponsor funding is visible in the market and recorded in treasury reconciliation.</div></div></div>
+          <div class="item"><div><div class="item-title">10. Fairness and accounting</div><div class="item-meta">All balances, purchases, sponsor injections, and withdrawals are recorded server-side. Treasury reconciliation and admin logs are used to monitor consistency.</div></div></div>
         </div></div></div>
       </section>
 
       <section class="view" data-view="bracket">
         <div class="hero road-map-hero"><div class="hero-copy"><div class="kicker" data-i18n="bracket">World Cup bracket</div><h2 data-i18n="tournamentMap">Tournament map</h2></div></div>
-        <div class="panel"><div class="panel-body"><img id="bracket-img" class="bracket-img" src="/media/tournament-map.svg" alt="World Cup bracket" onerror="if(this.getAttribute('src')!=='/media/tournament-map.svg'){this.dataset.failed=this.getAttribute('src');this.src='/media/tournament-map.svg';}"></div></div>
+        <div class="panel"><div class="panel-body"><button class="btn secondary" type="button" data-go="profile">← Back to Profile</button></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">Stage roadmap</div><div class="panel-sub">A readable tournament structure replaces the hard-to-read image map.</div></div></div><div class="panel-body"><div class="list">
+          <div class="item"><div><div class="item-title">TOP32</div><div class="item-meta">All opening stage pools are listed here first. This is the initial live market.</div></div></div>
+          <div class="item"><div><div class="item-title">TOP16</div><div class="item-meta">Qualified teams continue and can inherit momentum from earlier stages.</div></div></div>
+          <div class="item"><div><div class="item-title">TOP8</div><div class="item-meta">Market pressure increases as surviving teams carry fewer paths forward.</div></div></div>
+          <div class="item"><div><div class="item-title">TOP4</div><div class="item-meta">Semi-final stage with concentrated attention and smaller field size.</div></div></div>
+          <div class="item"><div><div class="item-title">FINAL</div><div class="item-meta">Only final-stage teams remain active before the champion resolution.</div></div></div>
+          <div class="item"><div><div class="item-title">CHAMPION</div><div class="item-meta">The surviving winner path resolves into the Super Champion Pool outcome.</div></div></div>
+        </div></div></div>
+        <div class="panel"><div class="panel-head"><div><div class="panel-title">How to read this tournament</div><div class="panel-sub">Use the stage tabs on the Arena page for live pools. This page explains the structure only.</div></div></div><div class="panel-body"><div class="list">
+          <div class="item"><div><div class="item-title">Pool stage first</div><div class="item-meta">Buyers begin at TOP32 where the broadest selection of teams is open.</div></div></div>
+          <div class="item"><div><div class="item-title">Progression narrows the market</div><div class="item-meta">When results are entered in admin, pools move forward, close, or settle based on stage outcomes.</div></div></div>
+          <div class="item"><div><div class="item-title">Use Arena for action</div><div class="item-meta">Actual buying and pool comparison should happen on the Arena page, not from a static bracket image.</div></div></div>
+        </div></div></div>
       </section>
     </main>
 
